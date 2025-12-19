@@ -1,0 +1,938 @@
+﻿Media Owner,Site ID/Number,Suburb,City,Province,Country,Latitude,Longitude,Network:
+Alive Advertising,ALV 02,Balfour,Johannesburg,Gauteng,South Africa,-26.13941,28.08687,outdoor.billboards.roadside
+Alive Advertising,ALV 03,Benmore,Johannesburg,Gauteng,South Africa,-26.10084,28.04989,outdoor.billboards.roadside
+Alive Advertising,ALV 04,Braamfontein,Johannesburg,Gauteng,South Africa,-26.195944,28.029159,outdoor.billboards.roadside
+Alive Advertising,ALV 05,Bramley,Johannesburg,Gauteng,South Africa,-26.12694,28.079459,outdoor.billboards.roadside
+Alive Advertising,ALV 06,Bruma,Johannesburg,Gauteng,South Africa,-26.182438,28.111768,outdoor.billboards.roadside
+Alive Advertising,ALV 08,Cresta,Johannesburg,Gauteng,South Africa,-26.128339,27.969859,outdoor.billboards.roadside
+Alive Advertising,ALV 09,East Rand,Johannesburg,Gauteng,South Africa,-26.183074,28.237058,outdoor.billboards.roadside
+Alive Advertising,ALV 10,Fourways,Johannesburg,Gauteng,South Africa,-26.0427683,28.0155411,outdoor.billboards.roadside
+Alive Advertising,ALV 11,Grayston Drive,Johannesburg,Gauteng,South Africa,-26.1092404,28.0775395,outdoor.billboards.roadside
+Alive Advertising,ALV 13,Kempton Park,Johannesburg,Gauteng,South Africa,-26.100749,28.22431,outdoor.billboards.roadside
+Alive Advertising,ALV 14,Houghton,Johannesburg,Gauteng,South Africa,-26.1555286,28.0574761,outdoor.billboards.highway
+Alive Advertising,ALV 15,Houghton,Johannesburg,Gauteng,South Africa,-26.1560268,28.0572809,outdoor.billboards.highway
+Alive Advertising,ALV 16,Rosebank,Johannesburg,Gauteng,South Africa,-26.148834,28.034393,outdoor.billboards.roadside
+Alive Advertising,ALV 17,Randburg,Johannesburg,Gauteng,South Africa,-26.0991154,28.0102454,outdoor.billboards.roadside
+Alive Advertising,ALV 18,Soweto,Johannesburg,Gauteng,South Africa,-26.227218,27.931645,outdoor.billboards.roadside
+Alive Advertising,ALV 19,Struben Valley,Johannesburg,Gauteng,South Africa,-26.121132,27.90162,outdoor.billboards.roadside
+Alive Advertising,ALV 20,Thembisa,Johannesburg,Gauteng,South Africa,-26.003605,28.210789,outdoor.billboards.roadside
+Alive Advertising,ALV 21,The Glen,Johannesburg,Gauteng,South Africa,-26.2694726,28.0481466,outdoor.billboards.roadside
+Alive Advertising,ALV 22,Wynberg,Johannesburg,Gauteng,South Africa,-26.1161877,28.0844686,outdoor.billboards.roadside
+Alive Advertising,ALV 23,Hatfield,Tshwane,Gauteng,South Africa,-25.7453808,28.240768,outdoor.billboards.roadside
+Alive Advertising,ALV 28,Prinshof,Tshwane,Gauteng,South Africa,-25.7338193,28.2042278,outdoor.billboards.roadside
+Alive Advertising,ALV 58,Witbank,Nkangala,Mpumalanga,South Africa,-25.8746685,29.2383628,outdoor.billboards.roadside
+Alive Advertising,ALV 61,Claremont,Cape Town,Western Cape,South Africa,-33.979438,18.46508,outdoor.billboards.roadside
+Alive Advertising,ALV 63,Kyalami,Johannesburg,Gauteng,South Africa,-25.9816826,28.0760204,outdoor.billboards.roadside
+Blue Label,BLM M 01,Sandton,Overport,Gauteng,South Africa,-26.108449,28.053508,Mall interior
+Blue Label,BLM M 02,Alberton,Johannesburg,Gauteng,South Africa,-26.2581,28.1284,Mall interior
+Blue Label,BLM M 03,Cape Town,Cape Town,Western Cape,South Africa,-33.564,18.4877,Mall interior
+Blue Label,BLM M 04,Cape Town,Cape Town,Western Cape,South Africa,-33.8272,18.489,Mall interior
+Blue Label,BLM M 05,Beacon Bay,East London,Eastern Cape,South Africa,-32.9516,27.9413,Mall interior
+Blue Label,BLM M 06,Bloemfontein,Bloemfontein,Free State,South Africa,-29.1169,26.2192,Mall interior
+Blue Label,BLM M 07,Bloemfontein,Bloemfontein,Free State,South Africa,-29.1206,26.2201,Mall interior
+Blue Label,BLM M 08,Centurion,Centurion,Gauteng,South Africa,-25.8553,28.1901,Mall interior
+Blue Label,BLM M 10,Dobsonville,Dobsonville,Gauteng,South Africa,-26.2378,27.8742,Mall interior
+Blue Label,BLM M 11,Boksburg,Boksburg,Gauteng,South Africa,-26.1771,28.2297,Mall interior
+Blue Label,BLM M 12,Boksburg,Boksburg,Gauteng,South Africa,-26.1771,28.2297,Mall interior
+Blue Label,BLM M 13,Evaton,Mafatsana,Gauteng,South Africa,-26.5636,27.8506,Mall interior
+Blue Label,BLM M 14,Kempton Park,Kempton Park,Gauteng,South Africa,-26.1007,28.2273,Mall interior
+Blue Label,BLM M 15,Cape Town,Cape Town,Western Cape,South Africa,-33.9336,18.4153,Mall interior
+Blue Label,BLM M 16,Cape Town,Cape Town,Western Cape,South Africa,-33.9229,18.4241,Mall interior
+Blue Label,BLM M 17,Greenacres,Port Elizabeth,Eastern Cape,South Africa,-33.951,25.5875,Mall interior
+Blue Label,BLM M 18,Durban,Durban,Kwa-Zulu Natal,South Africa,-29.7795,30.6636,Mall interior
+Blue Label,BLM M 19,Hillcrest,Brackenfell,Kwa-Zulu Natal,South Africa,-29.7833,30.7628,Mall interior
+Blue Label,BLM M 20,Cape Town,Cape Town,Western Cape,South Africa,-33.937,18.5117,Mall interior
+Blue Label,BLM M 21,La Lucia,Umhlanga,Kwa-Zulu Natal,South Africa,-29.7556,31.0589,Mall interior
+Blue Label,BLM M 22,Benoni,Benoni,Gauteng,South Africa,-26.1891,28.3196,Mall interior
+Blue Label,BLM M 23,Sunnydale,Cape Town,Western Cape,South Africa,-34.1225,18.3812,Mall interior
+Blue Label,BLM M 24,Phuthaditjhaba,Phuthaditjhaba,Free State,South Africa,-28.526,28.8201,Mall interior
+Blue Label,BLM M 25,Bloemfontein,Bloemfontein,Free State,South Africa,-29.1192,26.2255,Mall interior
+Blue Label,BLM M 26,Ledig,Ledig,North West,South Africa,-25.1995,26.9671,Mall interior
+Blue Label,BLM M 27,Goodwood,Cape Town,Western Cape,South Africa,-33.8884,18.5435,Mall interior
+Blue Label,BLM M 28,Nelspruit,Nelspruit,Mpumalanga,South Africa,-25.4745,30.9695,Mall interior
+Blue Label,BLM M 29,Northgate,Johannesburg,Gauteng,South Africa,-26.0531,27.9517,Mall interior
+Blue Label,BLM M 30,Paarl,Paarl,Western Cape,South Africa,-33.7371,18.9758,Mall interior
+Blue Label,BLM M 31,Evaton,Mafatsana,Gauteng,South Africa,-26.5263,27.8547,Mall interior
+Blue Label,BLM M 32,Johannesburg,Johannesburg,Gauteng,South Africa,-26.2,28.0456,Mall interior
+Blue Label,BLM M 33,Pinetown,Pinetown,Kwa-Zulu Natal,South Africa,-29.8131,30.8526,Mall interior
+Blue Label,BLM M 34,Randburg,Randburg,Gauteng,South Africa,-26.0961,27.9985,Mall interior
+Blue Label,BLM M 35,Vereeniging,Vereeniging,Gauteng,South Africa,-26.6896,27.9224,Mall interior
+Blue Label,BLM M 36,Rustenburg,Rustenburg,North West,South Africa,-25.667,27.2416,Mall interior
+Blue Label,BLM M 37,Durban,Durban,Kwa-Zulu Natal,South Africa,-29.8568,31.027,Mall interior
+Blue Label,BLM M 38,Walmer,Port Elizabeth,Eastern Cape,South Africa,-33.9798,25.5701,Mall interior
+Blue Label,BLM M 39,Waterfall,Durban,Kwa-Zulu Natal,South Africa,-29.7402,30.839,Mall interior
+Blue Label,BLM M 40,Rustenburg,Rustenburg,North West,South Africa,-25.6814,27.2041,Mall interior
+Blue Label,BLM M 41,Westville,Durban,Kwa-Zulu Natal,South Africa,-29.8298,30.9326,Mall interior
+Blue Label,BLM PF 01,Brackenfell,Cape Town,Western Cape,South Africa,-33.54059826,18.62791061,Gym Interior
+Blue Label,BLM PF 02,Claremont,Cape Town,Western Cape,South Africa,-33.98084414,18.46382391,Gym Interior
+Blue Label,BLM PF 03,Umhlanga,Durban,Kwa-Zulu Natal,South Africa,-29.72548,31.0873892,Gym Interior
+Blue Label,BLM PF 04,Sandton,Sandton,Gauteng,South Africa,-26.13530918,28.05795802,Gym Interior
+Blue Label,BLM PF 05,Sandton,Johannesburg,Gauteng,South Africa,-26.07285817,28.06408831,Gym Interior
+Blue Label,BLO 001,Sandton,Johannesburg,Gauteng,South Africa,-26.100453,28.05064,outdoor.billboards.roadside
+Blue Label,BLO 002,Sandton,Johannesburg,Gauteng,South Africa,-26.1017837,28.0686536,outdoor.billboards.roadside
+Blue Label,BLO 004,Sandton,Johannesburg,Gauteng,South Africa,-26.258919,27.9308533,outdoor.billboards.roadside
+Blue Label,BLO 005,Sonheuwel Central,Nelspruit,Mpumalanga,South Africa,-25.47365,30.975686,outdoor.billboards.highway
+Blue Label,BLO 005 - R,Sonheuwel Central,Nelspruit,Mpumalanga,South Africa,-25.473655,30.975686,outdoor.billboards.highway
+Blue Label,BLO 006,White River,Nelspruit,Mpumalanga,South Africa,-25.430309,30.964651,outdoor.billboards.highway
+Blue Label,BLO 007,Ballito,Durban,Kwa-Zulu Natal,South Africa,-29.527381,31.204362,outdoor.billboards.roadside
+Blue Label,BLO 008,South Beach,Durban,Kwa-Zulu Natal,South Africa,-29.856436,31.036118,outdoor.billboards.spectacular
+Blue Label,BLO 009,Sandton,Johannesburg,Gauteng,South Africa,-26.090692,28.084743,outdoor.billboards.highway
+Blue Label,BLO 010,Woodmead,Johannesburg,Gauteng,South Africa,-26.0618446,28.0925791,outdoor.billboards.highway
+Blue Label,BLO 011,Braamfontein,Johannesburg,Gauteng,South Africa,-26.200413,28.035978,outdoor.billboards
+Blue Label,BLO 013  -L,White River,Nelspruit,Mpumalanga,South Africa,-25.471327,30.993298,outdoor.billboards.highway
+Blue Label,BLO 013 - R,White River,Nelspruit,Mpumalanga,South Africa,-25.471327,30.993298,outdoor.billboards.highway
+Blue Label,BLO 014,Orlando West,Johannesburg,Gauteng,South Africa,-26.2379423,27.90331,outdoor.billboards.roadside
+Blue Label,BLO 015,Soweto,Johannesburg,Gauteng,South Africa,-26.238995,27.909832,outdoor.billboards.roadside
+Blue Label,BLO 016,Durban,Durban,Kwa-Zulu Natal,South Africa,-29.84476625,30.98760507,outdoor.billboards.roadside
+Brand IQ,EC-ELS-001,Selbourne,East London,Eastern Cape,South Africa,-32.99312,27.906562,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-1217,Bryanston,Johannesburg,Gauteng,South Africa,-26.067963,28.017472,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-1242,Kyalami,Johannesburg,Gauteng,South Africa,-26.000126,28.075547,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-2239,Bryanston,Johannesburg,Gauteng,South Africa,-26.044159,28.017451,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-2246 F1,Midrand,Johannesburg,Gauteng,South Africa,-25.947911,28.136957,outdoor.billboards.highway
+Brand IQ,GP-JHB-2246 F2,Midrand,Johannesburg,Gauteng,South Africa,-25.947911,28.136957,outdoor.billboards.highway
+Brand IQ,GP-JHB-2251,Randburg,Johannesburg,Gauteng,South Africa,-26.100176,28.003034,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-2253,Soweto,Johannesburg,Gauteng,South Africa,-26.2622,27.892579,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-2255,Hyde Park,Johannesburg,Gauteng,South Africa,-26.128486,28.033473,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-2346,Parktown,Johannesburg,Gauteng,South Africa,-26.183142,28.031259,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-2355,Witkoppen,Johannesburg,Gauteng,South Africa,-26.037164,28.058112,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-JHB-2363 F2,Roodepoort,Johannesburg,Gauteng,South Africa,-26.163235,27.93523,outdoor.billboards.highway
+Brand IQ,GP-TSH- 0256 F 2,Centurion,Tshwane,Gauteng,South Africa,-25.862018,28.209608,outdoor.billboards.highway
+Brand IQ,GP-TSH-0220,Pretoria Central,Tshwane,Gauteng,South Africa,-25.746167,28.195814,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-0229,Centurion,Tshwane,Gauteng,South Africa,-25.872875,28.168311,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-0244,Menlo Park,Tshwane,Gauteng,South Africa,-25.761247,28.249267,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-0245,Centurion,Tshwane,Gauteng,South Africa,-25.863303,28.187597,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-0256,Centurion,Tshwane,Gauteng,South Africa,-25.862018,28.209608,outdoor.billboards.highway
+Brand IQ,GP-TSH-0257 F1,Menlyn,Tshwane,Gauteng,South Africa,-25.781189,28.27735,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-0257 F2,Menlyn,Tshwane,Gauteng,South Africa,-25.781189,28.27735,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-1204,Hatfield,Tshwane,Gauteng,South Africa,-25.750659,28.236831,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-1239,Die Wilgens,Tshwane,Gauteng,South Africa,-25.766267,28.308702,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-1292 F1,Montana,Tshwane,Gauteng,South Africa,-25.678693,28.2418,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-1292 F3,Montana,Tshwane,Gauteng,South Africa,-25.678959,28.241791,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-2244 F1,Centurion,Tshwane,Gauteng,South Africa,-25.8979,28.1631,outdoor.billboards.highway
+Brand IQ,GP-TSH-2244 F2,Centurion,Tshwane,Gauteng,South Africa,-25.8979,28.1631,outdoor.billboards.highway
+Brand IQ,GP-TSH-2286,Hatfield,Tshwane,Gauteng,South Africa,-25.755165,28.242016,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-2301,Menlyn,Tshwane,Gauteng,South Africa,-25.787114,28.279267,outdoor.billboard.roadside.main arterial
+Brand IQ,GP-TSH-2372 F1,Menlyn,Tshwane,Gauteng,South Africa,-25.787278,28.270046,outdoor.billboards.highway
+Brand IQ,GP-TSH-2372 F2,Menlyn,Tshwane,Gauteng,South Africa,-25.787278,28.270046,outdoor.billboards.highway
+Brand IQ,MP-MID-0601,Middelburg,Mpumalanga,Mpumalanga,South Africa,-25.768931,29.458074,outdoor.billboard.roadside.main arterial
+Brand IQ,MP-WIT-0409,Witbank,Mpumalanga,Mpumalanga,South Africa,-25.8847,29.263312,outdoor.billboard.roadside.main arterial
+District Media,DMGD001,Sandton,Johannesburg,Gauteng,South Africa,-26.108867,28.056407,outdoor.billboards.roadside
+District Media,DMGD002,Sandton,Johannesburg,Gauteng,South Africa,-26.108922,28.056348,outdoor.billboards.roadside
+District Media,DMGD003,Umlazi,Durban,Kwa-Zulu Natal,South Africa,-29.957146,30.940298,outdoor.billboards.highway
+District Media,DMGD004,Soweto,Johannesburg,Gauteng,South Africa,-26.277709,27.813909,outdoor.billboards.roadside
+District Media,DMGD007,Bryanston,JHB,Gauteng,South Africa,-26.051491,28.021508,outdoor.billboards.roadside
+Electronic Billboards,GILL02,Bedfordview,Johannesburg,Gauteng,South Africa,-26.17866777,28.13236853,outdoor.billboards.highway
+Electronic Billboards,M1001,Ormonde,Johannesburg,Gauteng,South Africa,-26.24311352,28.00778294,outdoor.billboards.highway
+Electronic Billboards,MODD01,Edenvale,Johannesburg,Gauteng,South Africa,-26.12008568,28.13777319,outdoor.billboards.highway
+Epic Outdoor,EO-016,Soweto,Johannesburg,Gauteng,South Africa,-26.277095,27.813664,outdoor.billboards.roadside
+Epic Outdoor,EO-018,Linksfield,Johannesburg,Gauteng,South Africa,-26.148812,28.124519,outdoor.billboards.roadside
+Epic Outdoor,EO-030,Glen Village,Pretoria,Gauteng,South Africa,-25.789363,28.328073,outdoor.billboards.roadside
+Epic Outdoor,EO-032,Strand,Cape Town,Western Cape,South Africa,-34.105602,18.840845,outdoor.billboards.roadside
+Epic Outdoor,EO - 007,Centurion,Midrand,Gauteng,South Africa,-25.86438382,28.1893744,outdoor.billboards.roadside
+Epic Outdoor,EO - 026,Fairlands,Johannesburg,Gauteng,South Africa,-26.119631,27.957781,outdoor.billboards.roadside
+Epic Outdoor,EO - 065,Bryanston,Sandton,Gauteng,South Africa,-26.0502345,28.0243712,outdoor.billboards.roadside
+Epic Outdoor,EO-010,Rosebank,Johannesburg,Gauteng,South Africa,-26.148198,28.035037,outdoor.billboards.roadside
+Epic Outdoor,EO-042,Midrand,Midrand,Gauteng,South Africa,-25.963228,28.131657,outdoor.billboards.roadside
+Epic Outdoor,EO-043,Melrose Arch,Johannesburg,Gauteng,South Africa,-26.1310975,28.0641062,outdoor.billboards.roadside
+Epic Outdoor,EO-043,Melrose Arch,Johannesburg,Gauteng,South Africa,-26.1310975,28.0641062,outdoor.billboards.roadside
+Epic Outdoor,EO-045,Parktown,Johannesburg,Gauteng,South Africa,-26.186714,28.032944,outdoor.billboards.roadside
+Epic Outdoor,EO-071,Pretoria CBD,Pretoria,Gauteng,South Africa,-25.74758,28.193024,outdoor.billboards.roadside
+Epic Outdoor,EO-082,Olympus,Pretoria,Gauteng,South Africa,-25.795733,28.323027,outdoor.billboards.roadside
+Epic Outdoor,EO-084,Menlyn,Pretoria,Gauteng,South Africa,-25.747687,28.270487,outdoor.billboards.roadside
+Epic Outdoor,EO-116,Menlyn,Pretoria,Gauteng,South Africa,-25.860703,28.215209,outdoor.billboards.roadside
+Epic Outdoor,EO-133,Thembisa,East Rand,Gauteng,South Africa,-26.004091,28.178807,outdoor.billboards.roadside
+Face First,FFMD02,Springfield Park,Durban,Kwa-Zulu Natal,South Africa,-29.798589,30.986816,outdoor.billboards.highway
+Face First,FFMD03,Bluff,Durban,Kwa-Zulu Natal,South Africa,-29.911522,30.98081,outdoor.billboards.highway
+Face First,FFMD04,Hilton,Pietermaritzburg,Kwa-Zulu Natal,South Africa,-29.541713,30.300963,outdoor.billboards.highway
+Face First,FFMD05,Riverhorse Valley,Durban,Kwa-Zulu Natal,South Africa,-29.788641,30.995443,outdoor.billboards.highway
+Face First,FFMD101,King Shaka,Durban,Kwa-Zulu Natal,South Africa,-29.622078,31.099361,airport.exterior
+Face First,FFMD102,Pietermaritzburg,Pietermaritzburg,Kwa-Zulu Natal,South Africa,-29.586201,30.376925,outdoor.billboard.roadside.main arterial
+Face First,FFMD103,Hillcrest,Durban,Kwa-Zulu Natal,South Africa,-29.789878,30.78065,outdoor.billboard.roadside.main arterial
+Face First,FFMD104,Ballito,Durban,Kwa-Zulu Natal,South Africa,-29.522506,31.201507,outdoor.billboard.roadside.main arterial
+Guerrilla,Alpha,Sandton,Johannesburg,Gauteng,South Africa,-26.10160392,28.06722408,Roadside
+Guerrilla,EO-037,Cresta,Johannesburg,Gauteng,South Africa,-26.129623,27.971378,outdoor.billboards.roadside
+Indaba,IBD01Indaba Billboards &Media,Katlehong,Johannesburg,Gauteng,South Africa,-26.331227,28.155746,outdoor.billboards.roadside
+Indaba,IBD02 Indaba Billboards &Media,Pimville,Johannesburg,Gauteng,South Africa,-26.260145,27.907917,outdoor.billboards.roadside
+Indaba,IBD03 Indaba Billboards &Media,Alexander,Johannesburg,Gauteng,South Africa,-26.110157,28.086862,outdoor.billboards.roadside
+Insight Outdoor,ISC002,Paarden Eiland,Cape Town,Western Cape,South Africa,-33.909565,18.471795,outdoor.billboards.roadside
+Insight Outdoor,ISD003,Umhlanga,Durban,Kwa-Zulu Natal,South Africa,-29.753335,31.063981,retail.malls
+Insight Outdoor,ISEC003,Port Elizabeth,Port Elizabeth,Eastern Cape,South Africa,-33.980726,25.560745,retail.malls
+Insight Outdoor,ISJ 119,Randburg,Johannesburg,Gauteng,South Africa,-26.061525,27.945309,retail.malls
+Insight Outdoor,ISJ014,Fourways,Johannesburg,Gauteng,South Africa,-26.001902,27.985859,outdoor.billboards.roadside
+Insight Outdoor,ISJ034,Bryanston,Johannesburg,Gauteng,South Africa,-26.041902,28.025129,outdoor.billboards.roadside
+Insight Outdoor,ISJ036,Bryanston,Johannesburg,Gauteng,South Africa,-26.048502,28.020551,outdoor.billboards.roadside
+Insight Outdoor,ISJ038,Sandton,Johannesburg,Gauteng,South Africa,-26.0804,28.062639,outdoor.billboards.roadside
+Insight Outdoor,ISJ066,Kensington,Ekurhuleni,Gauteng,South Africa,-26.186404,28.113289,outdoor.billboards.roadside
+Insight Outdoor,ISJ100,Fourways,Johannesburg,Gauteng,South Africa,-26.007474,28.012765,outdoor.billboards.roadside
+Insight Outdoor,ISJ102,Paulshof,Johannesburg,Gauteng,South Africa,-26.036401,28.052272,outdoor.billboards.roadside
+Insight Outdoor,ISJ104,Bryanston,Johannesburg,Gauteng,South Africa,-26.067601,28.017861,outdoor.billboards.roadside
+Insight Outdoor,ISJ110,Randburg,Johannesburg,Gauteng,South Africa,-26.106302,28.001499,outdoor.billboards.roadside
+Insight Outdoor,ISJ112,Fourways,Johannesburg,Gauteng,South Africa,-26.016902,28.011781,outdoor.billboards.roadside
+Insight Outdoor,ISJ114,Midrand,Johannesburg,Gauteng,South Africa,-25.975778,28.106724,outdoor.billboards.roadside
+Insight Outdoor,ISJ116,Krugersdorp,Johannesburg,Gauteng,South Africa,-26.088882,27.782187,retail.malls
+Insight Outdoor,ISJ118,Kempton Park,Ekurhuleni,Gauteng,South Africa,-26.106828,28.222795,retail.malls
+Insight Outdoor,ISNW 002,Rustenburg,Rustenburg,North West,South Africa,-25.705609,27.250818,retail.malls
+Insight Outdoor,ISO 558,Midrand,Johannesburg,Gauteng,South Africa,-26.01184,28.11707,outdoor.billboards.highway
+Insight Outdoor,ISO 586,Midrand,Johannesburg,Gauteng,South Africa,-26.002935,28.121088,outdoor.billboards.highway
+Insight Outdoor,ISO110,Menlyn,Pretoria,Gauteng,South Africa,-25.790203,28.31027,outdoor.billboards.roadside
+Insight Outdoor,ISO120,Menlyn,Pretoria,Gauteng,South Africa,-25.781225,28.277277,outdoor.billboards.roadside
+Insight Outdoor,ISO180,Montana,Pretoria,Gauteng,South Africa,-25.6793,28.249371,outdoor.billboards.roadside
+Insight Outdoor,ISO186,Menlyn,Pretoria,Gauteng,South Africa,-25.788902,28.28278,outdoor.billboards.roadside
+Insight Outdoor,ISO192,Centurion,Tshwane,Gauteng,South Africa,-25.862218,28.184194,outdoor.billboards.roadside
+Insight Outdoor,ISO226,Lynwood,Pretoria,Gauteng,South Africa,-25.766401,28.278361,outdoor.billboards.roadside
+Insight Outdoor,ISO242,Menlyn,Pretoria,Gauteng,South Africa,-25.775648,28.268966,outdoor.billboards.roadside
+Insight Outdoor,ISO32,Centurion,Pretoria,Gauteng,South Africa,-25.895801,28.25424,outdoor.billboards.roadside
+Insight Outdoor,ISO43,Menlyn,Tshwane,Gauteng,South Africa,-25.786401,28.277231,outdoor.billboards.highway
+Insight Outdoor,ISO446,Centurion,Pretoria,Gauteng,South Africa,-25.887901,28.165879,outdoor.billboards.highway
+Jinja,J030-L,Weltevredenpark,Johannesburg,Gauteng,South Africa,-26.135004,27.935773,outdoor.billboards.highway
+Jinja,J062-L,Essexworld,Johannesburg,Gauteng,South Africa,-26.160133,28.133794,outdoor.billboards.highway
+Jinja,J114-L,Braamfontein,Johannesburg,Gauteng,South Africa,-26.201389,28.030526,outdoor.billboards.highway
+Jinja,J168-L,Sandton,Johannesburg,Gauteng,South Africa,-26.10027,28.079629,outdoor.billboards.highway
+Jinja,J255-L,Midrand,Johannesburg,Gauteng,South Africa,-25.934113,28.142868,outdoor.billboards.highway
+Jinja,JE240-L,Marlboro,Johannesburg,Gauteng,South Africa,-26.086293,28.115274,outdoor.billboards.highway
+Kena Media,KOD01,Soweto,Johannesburg,Gauteng,South Africa,-26.235109,27.9523,outdoor.billboards.roadside
+Kena Media,KOD02,Soweto,Johannesburg,Gauteng,South Africa,-26.239148,27.911607,outdoor.billboards.roadside
+Kena Media,KOD03,Soweto,Johannesburg,Gauteng,South Africa,-26.26850482,27.90337834,outdoor.billboards.roadside
+Kena Media,KOD04,Sandton,Johannesburg,Gauteng,South Africa,-26.107534,28.054962,retail.malls
+Kena Media,KOD05,Sandton,Johannesburg,Gauteng,South Africa,-26.104864,28.069181,outdoor.billboards.roadside
+Kena Media,KOD06,Brakpan,Johannesburg,Gauteng,South Africa,-26.259075,28.322774,outdoor.billboards.roadside
+Kena Media,KOD07,Sandton,Johannesburg,Gauteng,South Africa,-26.073977,28.06501,outdoor.billboards.roadside
+Relativ,RCM003,Centurion,Johannesburg,Gauteng,South Africa,-25.859574,28.185935,retail.malls
+Relativ,RCM021,Benmore,Johannesburg,Gauteng,South Africa,-26.10061,28.048607,outdoor.billboards.roadside
+Relativ,RCM036,Hillcrest,Durban,Kwa-Zulu Natal,South Africa,-29.750303,30.814443,retail.malls
+Relativ,REL082,Germiston,Johannesburg,Gauteng,South Africa,-26.1601985,28.1335468,outdoor.billboards.roadside
+Relativ,REL141,Hyde Park,Johannesburg,Gauteng,South Africa,-26.1269337,28.033292,outdoor.billboards.roadside
+Relativ,REL161,Benmore,Johannesburg,Gauteng,South Africa,-26.100701,28.048686,retail.malls
+Relativ,REL181,Sandton,Johannesburg,Gauteng,South Africa,-26.107004,28.051461,outdoor.billboards.roadside
+Relativ,REL182,Bryanston,Johannesburg,Gauteng,South Africa,-26.062589,28.023994,outdoor.billboards.roadside
+Relativ,REL183,Midrand,Johannesburg,Gauteng,South Africa,-25.9829645,28.0722317,outdoor.billboards.roadside
+Relativ,REL184,Sandton,Johannesburg,Gauteng,South Africa,-26.093804,28.056252,outdoor.billboards.roadside
+Relativ,REL218,Sandton,Johannesburg,Gauteng,South Africa,-26.1306351,28.0492218,outdoor.billboards.roadside
+Relativ,REL278,East London,East London,Eastern Cape,South Africa,-32.9841153,27.8976306,outdoor.billboards.roadside
+Relativ,REL282,Braamfontein,Johannesburg,Gauteng,South Africa,-26.199467,28.046846,outdoor.billboards.roadside
+Relativ,REL290,Sandton,Johannesburg,Gauteng,South Africa,-26.1028202,28.0418114,outdoor.billboards.roadside
+Relativ,REL351,Fourways,Johannesburg,Gauteng,South Africa,-26.0273846,28.0096059,outdoor.billboards.roadside
+Relativ,REL359,Sandton,Johannesburg,Gauteng,South Africa,-26.108661,28.05905,outdoor.billboards.roadside
+Relativ,REL381,Midrand,Johannesburg,Gauteng,South Africa,-26.020874,28.003103,outdoor.billboards.roadside
+Relativ,REL382,Fourways,Johannesburg,Gauteng,South Africa,-26.020773,28.003517,outdoor.billboards.roadside
+Relativ,REL383,Fourways,Johannesburg,Gauteng,South Africa,-26.016831,28.007588,outdoor.billboards.roadside
+Relativ,REL437,La Mercy,Durban,Kwa-Zulu Natal,South Africa,-29.625918,31.12007,outdoor.billboards.roadside
+Relativ,REL438,La Mercy,Durban,Kwa-Zulu Natal,South Africa,-29.62709,31.110982,outdoor.billboards.roadside
+Relativ,REL439,La Mercy,Durban,Kwa-Zulu Natal,South Africa,-29.627521,31.103429,outdoor.billboards.roadside
+Relativ,REL480,Germiston,Johannesburg,Gauteng,South Africa,-26.180887,28.119508,outdoor.billboards.roadside
+Relativ,REL559,Bloemfontein,Bloemfontein,Free State,South Africa,-29.1128252,26.2016765,outdoor.billboards.roadside
+Relativ,REL563,Dainfern,Johannesburg,Gauteng,South Africa,-25.9873343,27.9846546,outdoor.billboards.roadside
+Relativ,REL601,Thembisa,Johannesburg,Gauteng,South Africa,-26.034831,28.191866,retail.malls
+Relativ,REL602,Sandton,Johannesburg,Gauteng,South Africa,-26.109338,28.076083,outdoor.billboards.roadside
+Relativ,RRD001,Fairland,Johannesburg,Gauteng,South Africa,-26.129281,27.939877,outdoor.billboards.highway
+Relativ,RRD002,Fairland,Johannesburg,Gauteng,South Africa,-26.128187,27.940543,outdoor.billboards.highway
+Relativ,RRD003,Brackenfell,Cape Town,Western Cape,South Africa,-33.8748808,18.6882029,outdoor.billboards.roadside
+Reveel,RVD01,Sandton,Sandton,Gauteng,South Africa,-26.108345,28.057467,outdoor.billboards.roadside
+Reveel,RVD02,Sandton,Johannesburg,Gauteng,South Africa,-26.103202,28.071877,outdoor.billboards.roadside
+Reveel,RVD03,Soweto,Johannesburg,Gauteng,South Africa,-26.239002,27.909667,entertainment.bar
+Reveel,RVD05,Hyde Park,Johannesburg,Gauteng,South Africa,-26.118632,28.0265,outdoor.billboards.roadside
+Reveel,RVD07,Umhlanga,Durban,Kwa-Zulu Natal,South Africa,-29.725401,31.071831,outdoor.billboards.roadside
+Reveel,RVD08,Sandton,Johannesburg,Gauteng,South Africa,-26.108231,28.057638,outdoor.billboards.roadside
+Reveel,RVD09,Sandton,Johannesburg,Gauteng,South Africa,-26.104417,28.072305,outdoor.billboards.roadside
+Reveel,RVD10,Rivonia,Sandton,Gauteng,South Africa,-26.060551,28.05911,outdoor.billboards.roadside
+Reveel,RVD11,Soweto,Johannesburg,Gauteng,South Africa,-26.248476,27.853248,outdoor.billboards.roadside
+Reveel,RVD12,Umhlanga,Durban,Kwa-Zulu Natal,South Africa,-29.727085,31.073203,outdoor.square
+Reveel,RVD17,Sandton,Johannesburg,Gauteng,South Africa,-26.093312,28.056143,outdoor.billboards.roadside
+Reveel,RVD21,Soweto,Johannesburg,Gauteng,South Africa,-26.2585,27.90233,Mall exterior
+Reveel,RVD23,Durban North,Durban,Kwa-Zulu Natal,South Africa,-29.7842,31.04026,outdoor.billboards.roadside
+Reveel,RVD25,Braamfontein,Johannesburg,Gauteng,South Africa,-26.199139,28.035972,outdoor.billboards.roadside
+Reveel,RVD26,Ballito,Durban,Kwa-Zulu Natal,South Africa,-29.522197,31.201612,outdoor.billboards.roadside
+Reveel,RVD27,Fourways,Johannesburg,Gauteng,South Africa,-26.018339,28.002271,outdoor.billboards.roadside
+Reveel,RVD28,Summerstrand,Nelson Mandela Bay,Eastern Cape,South Africa,-33.9834,25.65836,outdoor.square
+Reveel,RVD30,Umhlanga,Durban,Kwa-Zulu Natal,South Africa,-29.725402,31.08621,retail.malls/ outdoor.billboards.roadside
+Reveel,RVD32,Cape Town,Cape Town,Western Cape,South Africa,-33.969757,18.595327,outdoor.billboards.roadside
+Reveel,RVDM01,Hout Bay,Cape Town,Western Cape,South Africa,-34.055023,18.347645,Mall interior
+Reveel,RVDM01,Sea Point,Cape Town,Western Cape,South Africa,-33.919802,18.385298,Mall interior
+Ripple Media,PIL ALEX MALL - 934835965,Soweto,Johannesburg,Gauteng,South Africa,-26.10481688,28.1211363,retail.malls
+Ripple Media,PIL BENMORE GARDENS - 934835483,Sandton,Johannesburg,Gauteng,South Africa,-26.0901462,28.04626361,retail.malls
+Ripple Media,PIL KENILWORTH MALL - 934835030,Kenilworth,Cape Town,Western Cape,South Africa,-33.988808,18.485085,retail.malls
+Ripple Media,PIL KYALAMI 1 - 917116021,Midrand,Johannesburg,Gauteng,South Africa,-25.9840242,28.07376271,retail.malls
+Ripple Media,PIL KYALAMI POD 1 - 934836363,Kyalami,Johannesburg,Gauteng,South Africa,-25.9840242,28.07376271,retail.malls
+Ripple Media,PIL KYALAMI POD 2 - 934836417,Kyalami,Johannesburg,Gauteng,South Africa,-25.9840242,28.07376271,retail.malls
+Ripple Media,PIL MOTS MALL 1 - 934835420,Alberton,Alberton,Gauteng,South Africa,-26.313032,28.0594668,retail.malls
+Ripple Media,PIL MOTS MALL 2 - 934835463,Alberton,Alberton,Gauteng,South Africa,-26.313032,28.0594668,retail.malls
+Ripple Media,PIL PINECREST MALL - 934835623,Pinetown,Durban,Kwa-Zulu Natal,South Africa,-29.811912,30.85799719,retail.malls
+Ripple Media,PIL TEMBISA MALL - 934836005,Thembisa,Thembisa,Gauteng,South Africa,-25.955016,28.2038579,retail.malls
+Ripple Media,PIL WORKSHOP CENTRE - 934835329,DURBAN CBD,Durban,Kwa-Zulu Natal,South Africa,-29.85195446,31.0293873,retail.malls
+Ripple Media,RIPPLESIBAYA,Umhlanga,Durban,Kwa-Zulu Natal,South Africa,-29.68181,31.1001,Outdoor. Billboard. Roadside. Entertainment
+SB Outdoor,SBFSD4003,Brandwag,Bloemfontein,Free State,South Africa,-29.108176,26.197729,outdoor.billboard.roadside.highway
+SB Outdoor,SBGPD3001,Wychwood,Germiston,Gauteng,South Africa,-26.199539,28.132675,outdoor.billboard.roadside.highway
+SB Outdoor,SBGPD3005,Greenside,Johannesburg,Gauteng,South Africa,-26.146082,28.009902,outdoor.billboard.roadside.secondary road
+SB Outdoor,SBGPD4001,Bedfordview,Johannesburg,Gauteng,South Africa,-26.188556,28.135761,outdoor.billboard.roadside.main arterial
+SB Outdoor,SBGPD4002,Woodmead,Johannesburg,Gauteng,South Africa,-26.056809,28.088749,outdoor.billboard.roadside.main arterial
+SB Outdoor,SBGPD4009,Greenstone,Johannesburg,Gauteng,South Africa,-26.120993,28.142024,outdoor.billboard.roadside.highway
+SB Outdoor,SBGPD4013,Morningside,Sandton,Gauteng,South Africa,-26.09093,28.061843,outdoor.billboard.roadside.secondary road
+SB Outdoor,SBKZND4008,Kloof,Durban,Kwa-Zulu Natal,South Africa,-29.793573,30.843352,outdoor.billboard.roadside.highway
+SB Outdoor,SBWCD4006,Somerset West,Cape Town,Western Cape,South Africa,-34.080759,18.821969,retail.mall.exterior
+SB Outdoor,SBWCD4016,Stellenbosch,Cape Town,Western Cape,South Africa,-33.9773,18.841566,retail.mall.exterior
+Summit Outdoor,GDP01,Soweto,Johannesburg,Gauteng,South Africa,-26.2589514,27.9304975,transit.taxi_rideshare_top
+Summit Outdoor,GDP02,Thembisa,Midrand,Gauteng,South Africa,-25.981298,28.205012,transit.taxi_rideshare_top
+Summit Outdoor,GDP03,Hammaskraal,Pretoria,Gauteng,South Africa,-25.409909,28.28207,transit.taxi_rideshare_top
+Summit Outdoor,GDP04,Boksburg,Johannesburg,Gauteng,South Africa,-26.183417,28.240248,transit.taxi_rideshare_top
+Summit Outdoor,RJB101,Little Falls,Johannesburg,Gauteng,South Africa,-26.105909,27.880898,outdoor.billboards.roadside
+Summit Outdoor,YJB101,Bryanston,Johannesburg,Gauteng,South Africa,-26.045617,28.019299,outdoor.billboards.roadside
+Summit Outdoor,YJB108,Bryanston,Johannesburg,Gauteng,South Africa,-26.034369,28.037975,outdoor.billboards.highway
+Summit Outdoor,YJB109,Illovo,Johannesburg,Gauteng,South Africa,-26.128001,28.049762,outdoor.billboards.roadside
+Summit Outdoor,YJB119,Rosebank,Johannesburg,Gauteng,South Africa,-26.14592,28.035638,outdoor.billboards.roadside
+Summit Outdoor,YJB157,Bedfordview,Johannesburg,Gauteng,South Africa,-26.187301,28.124561,outdoor.billboards.roadside
+The Media Factory,BALV/LED,Ballito,Durban,Kwa-Zulu Natal,South Africa,-29.544044,31.21452,outdoor.billboard.roadside.main arterial
+The Media Factory,BED/LED,Bedfordview,Johannesburg,Gauteng,South Africa,-26.18841651,28.12428586,retail.mall.interior
+The Media Factory,EAS/LED/FOO,Boksburg,Johannesburg,Gauteng,South Africa,-26.181744,28.240103,retail.mall.interior
+ThiniBila,8.31E+12,Roodeport,Johannesburg,Gauteng,South Africa,-26.08306,27.52101,retail.mall.exterior
+Alive Advertising,ALV 48,,,Limpopo,South Africa,-23.31161,30.69317,outdoor.billboards.roadside
+Alive Advertising,ALV 49,,,Limpopo,South Africa,-23.04341,29.91715,outdoor.billboards.roadside
+Alive Advertising,ALV 50,,,Limpopo,South Africa,-23.91916,29.43939,outdoor.billboards.roadside
+Alive Advertising,ALV 51,,,Limpopo,South Africa,-22.97428,30.45552,outdoor.billboards.roadside
+Alive Advertising,ALV 52,,,Limpopo,South Africa,-22.97719,30.46041,outdoor.billboards.roadside
+Alive Advertising,ALV 53,,,Limpopo,South Africa,-23.82449,30.15884,outdoor.billboards.roadside
+Alive Advertising,ALV 54,,,Limpopo,South Africa,-23.83483,30.17048,outdoor.billboards.roadside
+Alive Advertising,ALV 55,,,Mpumalanga,South Africa,-26.45783,29.4627,outdoor.billboards.roadside
+Alive Advertising,ALV 56,,,Mpumalanga,South Africa,-25.76797,29.45497,outdoor.billboards.roadside
+Alive Advertising,ALV 58,,,Mpumalanga,South Africa,‐25.874314,29.237764,outdoor.billboards.roadside
+Innovocean,IND004,,,Western Cape,South Africa,-33.906831,18.418006,Mall Exterior
+Innovocean,IND004,,,Western Cape,South Africa,-33.90822222,18.42269444,Mall Exterior
+Innovocean,IND007,,,Western Cape,South Africa,-33.9065,18.41958333,Mall Interior
+Innovocean,IND007,,,Western Cape,South Africa,-33.90394444,18.41944444,Mall Interior
+Innovocean,IND007,,,Western Cape,South Africa,-33.90336111,18.41955556,Mall Interior
+Innovocean,IND004,,,Western Cape,South Africa,-33.90608333,18.42147222,Mall Exterior
+Innovocean,IND007,,,Western Cape,South Africa,-33.9047868,18.4199763,Mall Interior
+Innovocean,IND007,,,Western Cape,South Africa,-33.90255556,18.42122222,Mall Interior
+Innovocean,IND004,,,Western Cape,South Africa,-33.90672222,18.42216667,Mall Exterior
+JCD,96219.D01S,,,Western Cape,South Africa,-33.9729,18.5788,outdoor.billboards.roadside
+JCD,23182.D01S,,,Western Cape,South Africa,-34.0637,18.4874,outdoor.billboards.roadside
+JCD,85012.D01S,,,Western Cape,South Africa,-33.8708,18.4961,outdoor.billboards.roadside
+JCD,75585.D01S,,,Western Cape,South Africa,-33.8737,18.577,outdoor.billboards.roadside
+JCD,JHB005.D01S,,,Gauteng,South Africa,-26.0734,27.9734,outdoor.billboards.roadside
+JCD,159.D01S,,,Gauteng,South Africa,-26.1021,28.0728,outdoor.billboards.roadside
+JCD,Z78BF006.D01S,,,Gauteng,South Africa,-25.7805,28.2767,outdoor.billboards.roadside
+JCD,Z78BF006.D02S,,,Gauteng,South Africa,-25.7805,28.2767,outdoor.billboards.roadside
+JCD,R101.D02S,,,Gauteng,South Africa,-25.7494,28.1471,outdoor.billboards.roadside
+JCD,88637.D01S,,,Gauteng,South Africa,-26.1828,28.1129,outdoor.billboards.roadside
+JCD,82700.D01S,,,Gauteng,South Africa,-26.0468,28.0199,outdoor.billboards.roadside
+JCD,00165529.D01S,,,Western Cape,South Africa,-33.968445,18.602424,Airport Digital
+JCD,00165528.D01S,,,Western Cape,South Africa,-33.968445,18.602424,Airport Digital
+JCD,JHB008.D01S,,,Gauteng,South Africa,-26.058,28.0228,outdoor.billboards.roadside
+JCD,85485.D01S,,,Gauteng,South Africa,-25.8621,28.1656,outdoor.billboards.roadside
+JCD,23304.D01S,,,Gauteng,South Africa,-25.754305,28.2404,outdoor.billboards.roadside
+JCD,130123.D02S,,,Gauteng,South Africa,-26.100952,28.032287,outdoor.billboards.roadside
+JCD,85384.D02S,,,Gauteng,South Africa,-26.1153,28.032,outdoor.billboards.roadside
+JCD,228.D01S,,,Gauteng,South Africa,-26.1199,28.0467,outdoor.billboards.roadside
+JCD,74151.D01S,,,Gauteng,South Africa,-25.7711,28.2111,outdoor.billboards.roadside
+JCD,00164301.D01S,,,Gauteng,South Africa,-25.71379,28.336044,outdoor.billboards.roadside
+JCD,118266.D01S,,,Gauteng,South Africa,-26.1967,28.1315,outdoor.billboards.roadside
+JCD,23333.D01S,,,Gauteng,South Africa,-25.78767,28.27536,outdoor.billboards.roadside
+JCD,88660.D01S,,,Gauteng,South Africa,-26.036134,28.052695,outdoor.billboards.roadside
+JCD,BD13.D01S,,,Gauteng,South Africa,-26.0232,28.0167,outdoor.billboards.roadside
+JCD,80579.D01S,,,Gauteng,South Africa,-25.7504,28.1868,outdoor.billboards.roadside
+JCD,JHB007.D01S,,,Gauteng,South Africa,-26.0935,28.0064,outdoor.billboards.roadside
+JCD,273.D02S,,,Gauteng,South Africa,-26.1002,28.002,outdoor.billboards.roadside
+JCD,24590.D01S,,,Gauteng,South Africa,-26.0418,28.0605,outdoor.billboards.roadside
+JCD,173.D01S,,,Gauteng,South Africa,-26.0992587,28.0619469,outdoor.billboards.roadside
+JCD,020.D01S,,,Gauteng,South Africa,-26.09328,28.05614,outdoor.billboards.roadside
+JCD,2022.D01S,,,Gauteng,South Africa,-25.522472,28.096019,outdoor.billboards.roadside
+JCD,160.D01S,,,Gauteng,South Africa,-26.0812,27.9768,outdoor.billboards.roadside
+JCD,BD11.D01S,,,Gauteng,South Africa,-26.0254,27.9896,outdoor.billboards.roadside
+JCD,5660.D01S,,,Gauteng,South Africa,-26.3278,28.1438,outdoor.billboards.roadside
+JCD,127.D01S,,,Gauteng,South Africa,-26.143,28.0078,outdoor.billboards.roadside
+JCD,23125.D01S,,,Gauteng,South Africa,-26.3454,28.1829,outdoor.billboards.roadside
+JCD,24665.D01S,,,Gauteng,South Africa,-26.1153,28.032,outdoor.billboards.roadside
+JCD,90240.D01S,,,Gauteng,South Africa,-26.0444,28.0901,outdoor.billboards.roadside
+JCD,24550.D01S,,,Gauteng,South Africa,-25.6794,28.2513,outdoor.billboards.roadside
+TruDigital,NWMFKLED,,,North West,South Africa,-25.85237,25.63978,outdoor.billboards.roadside
+TruDigital,NWKLDLED1,,,North West,South Africa,-26.84629,26.68788,outdoor.billboards.roadside
+TruDigital,NWPCHLED1,,,North West,South Africa,-26.71325,27.10712,outdoor.billboards.roadside
+JCD,BOTIV01,,,Free State,,-29.20253,26.71113,Mall Digital
+JCD,BOTIV01,,,Free State,,-29.20253,26.71113,Mall Digital
+JCD,BOTIV02,,,Free State,,-29.20253,26.71113,Mall Digital
+JCD,BOTIV02,,,Free State,,-29.20253,26.71113,Mall Digital
+JCD,KAGIV01,,,Gauteng,,-26.166719,27.780275,Mall Digital
+JCD,KAGIV01,,,Gauteng,,-26.166719,27.780275,Mall Digital
+JCD,PROIV01,,,Western Cape,,-34.039938,18.616246,Mall Digital
+JCD,PROIV01,,,Western Cape,,-34.039938,18.616246,Mall Digital
+JCD,PROIV02,,,Western Cape,,-34.039938,18.616246,Mall Digital
+JCD,PROIV02,,,Western Cape,,-34.039938,18.616246,Mall Digital
+JCD,PROIV03,,,Western Cape,,-34.039938,18.616246,Mall Digital
+JCD,PROIV03,,,Western Cape,,-34.039938,18.616246,Mall Digital
+JCD,PHUIV01,,,Gauteng,,-25.975607,28.229672,Mall Digital
+JCD,PHUIV01,,,Gauteng,,-25.975607,28.229672,Mall Digital
+JCD,PHUIV02,,,Gauteng,,-25.975607,28.229672,Mall Digital
+JCD,PHUIV02,,,Gauteng,,-25.975607,28.229672,Mall Digital
+JCD,RIVIV01,,,Mpumalanga,,-25.437557,30.968272,Mall Digital
+JCD,RIVIV01,,,Mpumalanga,,-25.437557,30.968272,Mall Digital
+JCD,RIVIV02,,,Mpumalanga,,-25.437557,30.968272,Mall Digital
+JCD,RIVIV02,,,Mpumalanga,,-25.437557,30.968272,Mall Digital
+JCD,RIVIV03,,,Mpumalanga,,-25.437557,30.968272,Mall Digital
+JCD,RIVIV03,,,Mpumalanga,,-25.437557,30.968272,Mall Digital
+JCD,VINIV01,,,Eastern Cape,,-32.983806,27.904116,Mall Digital
+JCD,VINIV01,,,Eastern Cape,,-32.983806,27.904116,Mall Digital
+JCD,VINIV02,,,Eastern Cape,,-32.983806,27.904116,Mall Digital
+JCD,VINIV02,,,Eastern Cape,,-32.983806,27.904116,Mall Digital
+JCD,CAVIV01,,,Western Cape,,-33.980329,18.463977,Mall Digital
+JCD,CAVIV02,,,Western Cape,,-33.980329,18.463977,Mall Digital
+JCD,CAVIV03,,,Western Cape,,-33.980329,18.463977,Mall Digital
+JCD,CAVIV04,,,Western Cape,,-33.980329,18.463977,Mall Digital
+JCD,CAVIV05,,,Western Cape,,-33.980329,18.463977,Mall Digital
+JCD,CAVIV05,,,Western Cape,,-33.980329,18.463977,Mall Digital
+JCD,CAVIV07,,,Western Cape,,-33.980329,18.463977,Mall Digital
+JCD,CAVIV07,,,Western Cape,,-33.980329,18.463977,Mall Digital
+JCD,EGIV01,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV01,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV03,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV04,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV05,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV06,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV06,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV07,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV08,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV08,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV09,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV09,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV10,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV10,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV11,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV12,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EGIV12,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,GATEIV06,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV07,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV08,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV09,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV10,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV10,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV11,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV11,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV12,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV12,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV13,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV13,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV14,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV14,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV15,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,GATEIV15,,,KwaZulu-Natal,,-29.725734,31.066438,Mall Digital
+JCD,MIDIV01,,,KwaZulu-Natal,,-29.582166,30.377081,Mall Digital
+JCD,MIDIV01,,,KwaZulu-Natal,,-29.582166,30.377081,Mall Digital
+JCD,MIDIV02,,,KwaZulu-Natal,,-29.582166,30.377081,Mall Digital
+JCD,MIDIV02,,,KwaZulu-Natal,,-29.582166,30.377081,Mall Digital
+JCD,MIDIV03,,,KwaZulu-Natal,,-29.582166,30.377081,Mall Digital
+JCD,MIDIV03,,,KwaZulu-Natal,,-29.582166,30.377081,Mall Digital
+JCD,MIDIV04,,,KwaZulu-Natal,,-29.582166,30.377081,Mall Digital
+JCD,MIDIV04,,,KwaZulu-Natal,,-29.582166,30.377081,Mall Digital
+JCD,NMSIV01,,,Gauteng,,-26.107409,28.054793,Mall Digital
+JCD,NMSIV02,,,Gauteng,,-26.107409,28.054793,Mall Digital
+JCD,NMSIV03,,,Gauteng,,-26.107409,28.054793,Mall Digital
+JCD,NMSIV04,,,Gauteng,,-26.107409,28.054793,Mall Digital
+JCD,SCIV01,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV01,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV02,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV02,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV03,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV03,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV04,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV04,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV05,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV05,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV06,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV06,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV07,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV07,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV08,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV11,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV12,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV12,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV13,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV13,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV14,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV14,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV15,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV15,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV16,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV16,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV17,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV17,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV18,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SCIV18,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,ROSEIV01,,,Gauteng,,-26.146542,28.04116,Mall Digital
+JCD,ROSEIV01,,,Gauteng,,-26.146542,28.04116,Mall Digital
+JCD,ROSEIV02,,,Gauteng,,-26.146542,28.04116,Mall Digital
+JCD,ROSEIV02,,,Gauteng,,-26.146542,28.04116,Mall Digital
+JCD,ROSEIV03,,,Gauteng,,-26.146542,28.04116,Mall Digital
+JCD,ROSEIV03,,,Gauteng,,-26.146542,28.04116,Mall Digital
+JCD,EG16,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EG75,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,EG78,,,Gauteng,,-26.180388,28.117209,Mall Digital
+JCD,SC149,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SC154,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SC31,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SC70,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SC77,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SC78,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SC83,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,SC84,,,Gauteng,,-26.108847,28.05272,Mall Digital
+JCD,MALLS SC40&SC41 SPOT 3600,,,Gauteng,,-26.108847,28.05272,Mall Digital
+Ipoint,BC-LL-MRPRICE,,,GP,,-26.188471,28.122417,
+Ipoint,BC-LL-WOOLWORTHS,,,GP,,-26.188471,28.125029,
+Ipoint,BC-UL-ENTRANCE3,,,GP,,-26.188534,28.123315,
+Ipoint,BC-UL-ENTRANCE4,,,GP,,-26.188481,28.122412,
+Ipoint,BC-UL-EXCLUSIVEBOOKS,,,GP,,-26.188113,28.123281,
+Ipoint,BC-UL-LATTELICIOUS,,,GP,,-26.188428,28.123704,
+Ipoint,BC-UL-STERKINEKOR,,,GP,,-26.189003,28.12518,
+Primedia Outdoor,"RTV008/9 - Nelspruit Plaza Taxi Rank, Cnr Andrew and Henshall Street, Nelspruit, Limpopo, South Africa",,Mbombela,Mpumalanga,South Africa,-25.466792,30.978973,transit.buses.terminal
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/MAPP/006A,,Cape Town,Western Cape,South Africa,-33.873543,18.635037,retail.malls
+Primedia Outdoor,"FDN010 - Plascon Building, Alberton, Johannesburg, Gauteng, South Africa",,Alberton,Gauteng,South Africa,-26.248612,28.140112,outdoor.billboards.highway
+Primedia Outdoor,Brooklyn Mall - BRO/MAPP/004_BRO/MAPP/004,,Pretoria,Gauteng,South Africa,-25.771809,28.234527,retail.malls
+Primedia Outdoor,"RTV023 - Mdantsane Taxi Rank, Sandile Road, Mdantsane, Eastern Cape, South Africa",,Mdantsane,Eastern Cape,South Africa,-32.9446,27.7538,transit.buses.terminal
+Primedia Outdoor,"TDN004 - Elects Apostolic Church, 18882 Tsamaya Avenue, Mamelodi , Pretoria, Gauteng, South Africa",,Pretoria,Gauteng,South Africa,-25.712356,28.378238,outdoor.billboards.roadside
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/VID/001,,Cape Town,Western Cape,South Africa,-33.873668,18.63401,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/003A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,"RTV017 - Hazyview Lowveld Mall Taxi Rank, Cnr R536 & R40 Roads, Hazyview, Bushbuckridge, South Africa",,Hazyview,Mpumalanga,South Africa,-25.043942,31.130878,transit.buses.terminal
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/004-B_MEN/MAPP/004-B Fullscreen Frame,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/006B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"RTV024 - Newcastle Taxi Rank, Terminus Street, Newcastle, KZN, South Africa",,Newcastle,KwaZulu-Natal,South Africa,-27.752135,29.92928,transit.buses.terminal
+Primedia Outdoor,Fourways Mall - FOU/MAPP/014A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/012,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,"FDN013 - Hennops Park, Centurion, Gauteng, South Africa",,Centurion,Gauteng,South Africa,-25.865381,28.1663,outdoor.billboards.highway
+Primedia Outdoor,"UDN002 - Cnr William Nicol Drive & Sandton Drive, Sandton, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.100247,28.032535,outdoor.billboards.roadside
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/007-B,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/MAPP/003A,,Cape Town,Western Cape,South Africa,-33.873543,18.635037,retail.malls
+Primedia Outdoor,"RTV027 - Bree Taxi Rank, Cnr. Bree str & Sauer St.,Johannesburg, Gauteng, South Africa",,Johannesburg,Gauteng,South Africa,-26.201768,28.036876,transit.buses.terminal
+Primedia Outdoor,"UDN022 - Craighavon, Fourways, Sandton",,Sandton,Gauteng,South Africa,-26.024135,27.995213,outdoor.billboards
+Primedia Outdoor,Brooklyn Mall - BRO/MAPP/008_BRO/MAPP/008,,Pretoria,Gauteng,South Africa,-25.771809,28.234527,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/001A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/002,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/017,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Brooklyn Mall - BRO/MAPP/005_BRO/MAPP/005,,Pretoria,Gauteng,South Africa,-25.771809,28.234527,retail.malls
+Primedia Outdoor,"FDN007 - Hennops Park, Centurion, Gauteng, South Africa",,Centurion,Gauteng,South Africa,-25.8686,28.1707,outdoor.billboards.highway
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/016-A,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/VID/003,,Sandton,Gauteng,South Africa,-26.019907,28.007577,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/VID/007_Cape Union Mart,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,"UDN006 - Cnr van Buuren rd & Van der Linde rd., Johannesburg, Gauteng, South Africa",,Germiston,Gauteng,South Africa,-26.19436,28.130317,outdoor.billboards.roadside
+Primedia Outdoor,"UDN003 - Rivonia Bridge, Cnr Rivonia rd & 11th Avenue, Rivonia, Sandton, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.051745,28.058878,outdoor.billboards.roadside
+Primedia Outdoor,Fourways Mall - FOU/MAPP/002A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/008A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/003,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/VID/005_Earthchild,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,"UDN016 - Woodhill Estate, Woodhill Country Club, Pretoria East, Gauteng, South Africa",,Pretoria,Gauteng,South Africa,-25.811547,28.303092,outdoor.billboards.roadside
+Primedia Outdoor,"UDN012 - Menlyn Park Shopping Centre, Garsfontein Road, Pretoria, Gauteng, South Africa",,Pretoria,Gauteng,South Africa,-25.785268,28.272296,outdoor.billboards.roadside
+Primedia Outdoor,"TDN005 - Mdantsane, East London, Eastern Cape, South Africa",,Mdantsane,Eastern Cape,South Africa,-32.945965,27.725608,outdoor.billboards.roadside
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/VID/004_Avairy Court,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,"FDN011 - Dave Morris, Johannesburg, Gauteng, South Africa",,Midrand,Gauteng,South Africa,-26.002859,28.121363,outdoor.billboards.highway
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/VID/005_Bottom,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,"RTV016 - Daveyton Taxi Rank, Cnr Eiselen and Embusweni Street, Daveyton, Benoni, Gauteng, South Africa",,Benoni,Gauteng,South Africa,-26.153242,28.418317,transit.buses.terminal
+Primedia Outdoor,"UDN013 - King Shaka International Airport, Kwa-zulu Natal, Gauteng, South Africa",,La Mercy,KwaZulu-Natal,South Africa,-29.6227,31.1024,outdoor.billboards.roadside
+Primedia Outdoor,"TDN007 - Kwa Mashu, Durban, 300 Malandela Road",,KwaMashu,KwaZulu-Natal,South Africa,-29.746972,30.975521,outdoor.billboards.roadside
+Primedia Outdoor,"RTV025 - Noord Taxi Rank, 68 Plein St, Johannesburg, Gauteng, South Africa",,Johannesburg,Gauteng,South Africa,-26.199735,28.046608,transit.buses.terminal
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/MAPP/005,,Cape Town,Western Cape,South Africa,-33.873543,18.635037,retail.malls
+Primedia Outdoor,"TDN003 - Bulumko Secondary School, Khayelitsha, Western Cape, South Africa",,Cape Town,Western Cape,South Africa,-34.03881,18.67273,outdoor.billboards.roadside
+Primedia Outdoor,Fourways Mall - FOU/MAPP/012B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/008,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,"RTV001 - Alexandra, 3rd Str and Watt Ave Wynberg, Alexandra, Sandton, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.109964,28.087019,transit.buses.terminal
+Primedia Outdoor,Fourways Mall - FOU/MAPP/011A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/007-A,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/010A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/009A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/013A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Brooklyn Mall - BRO/MAPP/007_BRO/MAPP/007,,Pretoria,Gauteng,South Africa,-25.771809,28.234527,retail.malls
+Primedia Outdoor,"RTV020 - Bloed Street Taxi Rank, Cnr Bloed & Lillian Ngoyi Street, Pretoria, Gauteng",,Pretoria,Gauteng,South Africa,-25.73921,28.190356,transit.buses.terminal
+Primedia Outdoor,Brooklyn Mall - BRO/MAPP/002_BRO/MAPP/002,,Pretoria,Gauteng,South Africa,-25.771809,28.234527,retail.malls
+Primedia Outdoor,"FDN006 - Cnr N14 Freeway & Hendrik Potgieter Rd, Muldersdrift, Gauteng, South Africa",,Krugersdorp,Gauteng,South Africa,-26.061817,27.83268,outdoor.billboards.highway
+Primedia Outdoor,Fourways Mall - FOU/MAPP/006A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/018-A_MEN/MAPP/018-A Fullscreen Frame,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,"UDN008 - 230 Stalwart Simelane Street, Standford Hill, Durban, Kwa-zulu Natal, South Africa",,Durban,KwaZulu-Natal,South Africa,-29.849711,31.030544,outdoor.billboards.roadside
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/019-B,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/007A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"UDN017 - Main Road, between Homestead Avenue & Curzon Road, Bryanston, Sandton",,Sandton,Gauteng,South Africa,-26.07643,28.011478,outdoor.billboards
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/013-B,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/006,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/VID/001_Food_Court,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/012A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/008B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Golden Acre Shopping Centre - GOL/MAPP/004_GOL/MAPP/004,,Cape Town,Western Cape,South Africa,-33.922758,18.423315,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/015A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Golden Acre Shopping Centre - GOL/MAPP/002_GOL/MAPP/002,,Cape Town,Western Cape,South Africa,-33.922758,18.423315,retail.malls
+Primedia Outdoor,"UDN014 - Winnie Mandela Drive c/o Wedgewood Link Rd, opp. Nicolway Bryanston, Sandton",,Sandton,Gauteng,South Africa,-26.052281,28.021531,outdoor.billboards
+Primedia Outdoor,Randburg Shopping Centre - RAN/MAPP/001_RAN/MAPP/001 Fullscreen Frame,,Randburg,Gauteng,South Africa,-26.09151,28.003046,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/011B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"RTV015 - Rankburg Taxi Rank, 527 Jan Smuts Avenue, Johannesburg, Gauteng, South Africa",,Randburg,Gauteng,South Africa,-26.095223,28.007428,transit.buses.terminal
+Primedia Outdoor,"UDN021 - Cnr Grayston drive and Stan rd., Sandton, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.099567,28.053462,outdoor.billboards.roadside
+Primedia Outdoor,"UDN023 - Milnerton CPT 48 Pienaar Rd Milnerton Cape Town, Western Cape, South Africa",,Cape Town,Western Cape,South Africa,-33.872955,18.497169,outdoor.billboards.roadside
+Primedia Outdoor,RTV032 - Bara,,Diepkloof,Gauteng,South Africa,-26.259428,27.942337,transit.buses.terminal
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/018-B,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/001,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,"TDN002 - St Gemmas School, Tembisa, Kempton Park, Gauteng, South Africa",,Tembisa,Gauteng,South Africa,-26.020881,28.199206,outdoor.billboards.roadside
+Primedia Outdoor,"RTV003 - Botshabelo, Cnr Jazzman Mokgothu & Re A Hola str, Botshabelo, Free State, South Africa",,Botshabelo,Free State,South Africa,-29.260526,26.712904,transit.buses.terminal
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/011,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/VID/006_Yuppie chef,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/MAPP/008,,Cape Town,Western Cape,South Africa,-33.873543,18.635037,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,"FDN003 - N1 Freeway Centurion, Centurion, Pretoria, Gauteng, South Africa",,Centurion,Gauteng,South Africa,-25.885,28.1669,outdoor.billboards.highway
+Primedia Outdoor,"RTV004 - Germiston Taxi Rank, Gauteng, South Africa",,Germiston,Gauteng,South Africa,-26.21145,28.16981,transit.buses.terminal
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/002B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"UDN009 - Jan Shoba (Duncan Street), Brooklyn, Pretoria, Gauteng, South Africa",,Pretoria,Gauteng,South Africa,-25.747414,28.240055,outdoor.billboards.roadside
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,"RTV028_004_005 - Central Park Bloemfontein, Central Park, Bloemfontein, Free State, South Africa",,Bloemfontein,Free State,South Africa,-29.11554,26.225535,transit.buses.terminal
+Primedia Outdoor,"UDN011 - Kildrummy office park, Witkoppen Rd & Umhlanga Ave, Witkoppen, Sandton, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.035268,28.04746,outdoor.billboards.roadside
+Primedia Outdoor,"UDN018 - Selborne College, East London, Eastern Cape, South Africa",,East London,Eastern Cape,South Africa,-32.99433,27.899941,outdoor.billboards.roadside
+Primedia Outdoor,"UDN026 - Jip De Jager Avenue in Welgemoed, Bellville",,Cape Town,Western Cape,South Africa,-33.873153,18.617588,outdoor.billboards.highway
+Primedia Outdoor,"RTV019 - Kimberley Taxi Rank, Northern Cape, South Africa",,Kimberley,Northern Cape,South Africa,-28.728238,24.749911,transit.buses.terminal
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/VID/002_Cavendish_Court,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,Randburg Shopping Centre - RAN/MAPP/002_RAN/MAPP/002 Fullscreen Frame,,Randburg,Gauteng,South Africa,-26.09151,28.003046,retail.malls
+Primedia Outdoor,"M1 Freeway, after Marlboro Drive, towards Sandton",,Sandton,Gauteng,South Africa,-26.095656,28.084605,outdoor.billboards.highway
+Primedia Outdoor,"RTV028_002_003 - Central Park Bloemfontein, Central Park, Bloemfontein, Free State, South Africa",,Bloemfontein,Free State,South Africa,-29.11554,26.225535,transit.buses.terminal
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/004-A,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Brooklyn Mall - BRO/MAPP/006_BRO/MAPP/006,,Pretoria,Gauteng,South Africa,-25.771809,28.234527,retail.malls
+Primedia Outdoor,"RTV029 - Upperdeck Taxi Rank, Foreshore, Cape Town Central, Western Cape, South Africa",,Cape Town,Western Cape,South Africa,-33.922181,18.440958,transit.buses.terminal
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/013B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"FDN004 - The Firs Office Park, Woodmead, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.058379,28.084668,outdoor.billboards.highway
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/MAPP/004,,Cape Town,Western Cape,South Africa,-33.873543,18.635037,retail.malls
+Primedia Outdoor,"FDN001 - N1 Freeway, Strijdom park, Randburg, Gauteng, South Africa",,Randburg,Gauteng,South Africa,-26.084343,27.969947,outdoor.billboards.highway
+Primedia Outdoor,Randburg Shopping Centre - RAN/MAPP/004_RAN/MAPP/004 Fullscreen Frame,,Randburg,Gauteng,South Africa,-26.09151,28.003046,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/014B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/001B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,UDN025 - Rivonia Road Sandton from Morningside,,Sandton,Gauteng,South Africa,-26.09688,28.05722,outdoor.billboards.highway
+Primedia Outdoor,"RTV011 - Polokwane Taxi Rank, Limpopo, South Africa",,Polokwane,Limpopo,South Africa,-23.9039,29.4478,transit.buses.terminal
+Primedia Outdoor,Fourways Mall - FOU/MAPP/004B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"UDN020 - Cnr Republic road & William Nicol drive, Sandton, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.089181,28.026365,outdoor.billboards.roadside
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/VID/003_Sky,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/015,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/VID/004_Top,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/003B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"UDN007 - Good Hope Girls High School, cnr Freeway & De Waal Drive, Cape Town, Western Cape, South Africa",,Cape Town,Western Cape,South Africa,-33.933321,18.417233,outdoor.billboards.roadside
+Primedia Outdoor,"FDN009 - M4 Southern Freeway, Mobeni East, Durban, Kwa-zulu Natal, South Africa",,Durban,KwaZulu-Natal,South Africa,-29.933352,30.97482,outdoor.billboards.highway
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,"FDN015 - N1 Highway, New Life Church, Douglasdale",,Randburg,Gauteng,South Africa,-26.0684,27.965618,outdoor.billboards.roadside
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/009,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Golden Acre Shopping Centre - GOL/MAPP/003_GOL/MAPP/003,,Cape Town,Western Cape,South Africa,-33.922758,18.423315,retail.malls
+Primedia Outdoor,"FDN005 - Booysens Rd., Framton, Johannesburg, Gauteng, South Africa",,Johannesburg South,Gauteng,South Africa,-26.228621,28.018738,outdoor.billboards.highway
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/005-A,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,UDN024 - Ballito Drive from M4 towards Ballito Beach Front,,Dolphin Coast,KwaZulu-Natal,South Africa,-29.528071,31.204495,outdoor.billboards.highway
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/005-B,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/010B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,RTV013 - Vryheid,,Vryheid,KwaZulu-Natal,South Africa,-27.765064,30.801141,transit.buses.terminal
+Primedia Outdoor,"RTV028_001ABC - Central Park Bloemfontein, Central Park, Bloemfontein, Free State, South Africa",,Bloemfontein,Free State,South Africa,-29.120117,26.223813,transit.buses.terminal
+Primedia Outdoor,Fourways Mall - FOU/MAPP/005A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Randburg Shopping Centre - RAN/MAPP/004_RAN/MAPP/004 Halfscreen Frame,,Randburg,Gauteng,South Africa,-26.09151,28.003046,retail.malls
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/MAPP/001A,,Cape Town,Western Cape,South Africa,-33.873543,18.635037,retail.malls
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/MAPP/009A,,Cape Town,Western Cape,South Africa,-33.873543,18.635037,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/014,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Randburg Shopping Centre - RAN/MAPP/003_RAN/MAPP/003 Fullscreen Frame,,Randburg,Gauteng,South Africa,-26.09151,28.003046,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Randburg Shopping Centre - RAN/MAPP/002_RAN/MAPP/002 Halfscreen Frame,,Randburg,Gauteng,South Africa,-26.09151,28.003046,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/013-A,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/009B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"UDN004 - Cnr William Nicol Drive, Ballyclare Drive, Sandton, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.075643,28.026307,outdoor.billboards.roadside
+Primedia Outdoor,Brooklyn Mall - BRO/MAPP/003_BRO/MAPP/003,,Pretoria,Gauteng,South Africa,-25.771809,28.234527,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Tyger Valley Shopping Centre TYG/MAPP/007A,,Cape Town,Western Cape,South Africa,-33.873543,18.635037,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,"RTV012 - Rustenburg Taxi Rank, North-West, South Africa",,Rustenburg,North West,South Africa,-25.6619,27.2351,transit.buses.terminal
+Primedia Outdoor,RTV031 - Setsing,,Phuthaditjhaba,Free State,South Africa,-28.53326,28.804712,transit.buses.terminal
+Primedia Outdoor,Fourways Mall - FOU/MAPP/004A,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"UDN005 - Cnr Sandton Drive and Alice st, Sandton, Gauteng, South Africa",,Sandton,Gauteng,South Africa,-26.109309,28.049454,outdoor.billboards.roadside
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/010,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre,,Pretoria,Gauteng,South Africa,-25.782823,28.274907,retail.malls
+Primedia Outdoor,Brooklyn Mall - BRO/MAPP/001_BRO/MAPP/001,,Pretoria,Gauteng,South Africa,-25.771809,28.234527,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/005B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,"N2 Freeway, Somerset West",,Cape Town,Western Cape,South Africa,-34.10918,18.864534,outdoor.billboards.highway
+Primedia Outdoor,"TDN001 - St. Johns Eye Hospital Portion 45, Farm Diepkloof 319-IQ, Diepkloof, Soweto, Gauteng, South Africa",,Soweto,Gauteng,South Africa,-26.259729,27.933204,outdoor.billboards.roadside
+Primedia Outdoor,"RTV030 - Isipingo Rail, Isipingo, Kwa-zulu Natal, South Africa",,Isipingo,KwaZulu-Natal,South Africa,-29.975847,30.927391,transit.buses.terminal
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/019-A,,Pretoria,Gauteng,South Africa,-25.782844,28.274768,retail.malls
+Primedia Outdoor,Fourways Mall - FOU/MAPP/007B,,Sandton,Gauteng,South Africa,-26.02,28.0075,retail.malls
+Primedia Outdoor,Menlyn Park Shopping Centre - MEN/MAPP/016-B,,Pretoria,Gauteng,South Africa,-25.783282,28.274954,retail.malls
+NetworkX,M1 Melrose Digital,,Johannesburg,Gauteng,South Africa,-26.133056,28.070203,outdoor.billboards
+NetworkX,Bryanston Mega Digital,,Sandton,Gauteng,South Africa,-26.081603,28.024576,outdoor.billboards
+NetworkX,14th Ave Mega Digital,,Roodepoort,Gauteng,South Africa,-26.151083,27.92265,outdoor.billboards
+NetworkX,Jan Smuts Craighall,,Sandton,Gauteng,South Africa,-26.11566152,28.02252729,outdoor.billboards
+NetworkX,Kyalami On Main Drivers Left,,Midrand,Gauteng,South Africa,-26.003353,28.076717,outdoor.billboards
+NetworkX,Kyalami On Main Drivers Right,,Midrand,Gauteng,South Africa,-26.003353,28.076717,outdoor.billboards
+NetworkX,Malibongwe Mega Digital,,Randburg,Gauteng,South Africa,-26.07840037,27.97646977,outdoor.billboards
+NetworkX,Ndlala Mall Digital,,Pretoria,Gauteng,South Africa,-25.74700838,28.20366584,outdoor.billboards
+NetworkX,TOTO'S Liquor,,Soweto,Gauteng,South Africa,-26.23614,27.95199,outdoor.billboards
+NetworkX,DA VIBE CAFÉ,,Soweto,Gauteng,South Africa,-26.25576,27.8291,outdoor.billboards
+NetworkX,GUNDI'S Tavern,,Soweto,Gauteng,South Africa,-26.24443,27.82918,outdoor.billboards
+NetworkX,HLEKO'S,,Soweto,Gauteng,South Africa,-26.2439,27.87101,outdoor.billboards
+NetworkX,HP CORNER Cornerstone Pub & Restaurant,,Roodepoort,Gauteng,South Africa,-26.15825,27.86776,outdoor.billboards
+NetworkX,T-SQUARE,,Johannesburg,Gauteng,South Africa,-26.201406,28.074064,outdoor.billboards
+NetworkX,OVERLAND BUILDING,,Johannesburg South,Gauteng,South Africa,-26.256552,28.062812,outdoor.billboards
+NetworkX,SAM'S,,Katlehong,Gauteng,South Africa,-26.3072283,28.1536395,outdoor.billboards
+NetworkX,ELANDSFONTEIN Tavern,,Johannesburg,Gauteng,South Africa,-26.16611,28.20401,outdoor.billboards
+NetworkX,EBONY SPORTS,,Midrand,Gauteng,South Africa,-26.0005556,28.1827809,outdoor.billboards
+NetworkX,MUSIQ AND NIGHT,,Pretoria,Gauteng,South Africa,-25.765556,28.06914,outdoor.billboards
+NetworkX,TSHEPO,,Pretoria,Gauteng,South Africa,-25.776615,28.0799542,outdoor.billboards
+NetworkX,THULANI,,Pretoria,Gauteng,South Africa,-25.65356,28.19018,outdoor.billboards
+NetworkX,MODISE,,Mabopane,Gauteng,South Africa,-25.51539025,28.07821892,outdoor.billboards
+NetworkX,LEBONENG,,Kudube,Gauteng,South Africa,-25.3653616,28.26767441,outdoor.billboards
+NetworkX,HIGHWAY LIQUOR,,Ramotse,Gauteng,South Africa,-25.3592473,28.2831052,outdoor.billboards
+NetworkX,BLU BIN,,Pretoria,Gauteng,South Africa,-25.70308131,28.33538175,outdoor.billboards
+NetworkX,THE VILLAGE,,Pretoria,Gauteng,South Africa,-25.70534585,28.35355438,outdoor.billboards
+NetworkX,SOL'S,,Pretoria,Gauteng,South Africa,-25.711093,28.3610735,outdoor.billboards
+NetworkX,MK Club Inn,,Pretoria,Gauteng,South Africa,-25.71941514,28.43250889,outdoor.billboards
+NetworkX,WHY NOT,,Durban,KwaZulu-Natal,South Africa,-29.84902332,30.95020194,outdoor.billboards
+NetworkX,PARADISE,,Durban,KwaZulu-Natal,South Africa,-29.8139327,31.0066612,outdoor.billboards
+NetworkX,CITY LATE,,KwaMashu,KwaZulu-Natal,South Africa,-29.7398582,30.9898614,outdoor.billboards
+NetworkX,SKOTI'S,,Pinetown,KwaZulu-Natal,South Africa,-29.7954754,30.8955861,outdoor.billboards
+NetworkX,SPRYTZ,,Pietermaritzburg,KwaZulu-Natal,South Africa,-29.61423,30.39287,outdoor.billboards
+NetworkX,BUSA,,Pietermaritzburg,KwaZulu-Natal,South Africa,-29.647739,30.29381,outdoor.billboards
+NetworkX,TC Tavern,,Pinetown,KwaZulu-Natal,South Africa,-29.871116,30.79114,outdoor.billboards
+NetworkX,777,,Pietermaritzburg,KwaZulu-Natal,South Africa,-29.64593,30.35089,outdoor.billboards
+NetworkX,INKANYEZI,,Umlazi,KwaZulu-Natal,South Africa,-29.96802959,30.90503,outdoor.billboards
+NetworkX,NTUMENI,,Umlazi,KwaZulu-Natal,South Africa,-29.958915,30.896703,outdoor.billboards
+NetworkX,KWANZOLO Tavern,,Cape Town,Western Cape,South Africa,-33.83984,18.74862,outdoor.billboards
+NetworkX,MBEKWENI,,Paarl,Western Cape,South Africa,-33.67317,18.99257,outdoor.billboards
+NetworkX,SOLLY'S,,Cape Town,Western Cape,South Africa,-34.0533918,18.6796912,outdoor.billboards
+NetworkX,SABU'S Tavern,,Cape Town,Western Cape,South Africa,-33.9895884,18.565414,outdoor.billboards
+NetworkX,FRANKIES CORNER,,Stellenbosch,Western Cape,South Africa,-33.829374,18.7970958,outdoor.billboards
+NetworkX,LEFAS Place,,Cape Town,Western Cape,South Africa,-33.9758982,18.5706683,outdoor.billboards
+NetworkX,MAPHINDI'S Butchery,,Cape Town,Western Cape,South Africa,-33.996749,18.582365,outdoor.billboards
+NetworkX,ITALIAN Lounge,,Worcester,Western Cape,South Africa,-33.645782,19.491868,outdoor.billboards
+NetworkX,PHOENIX (in Granite Works Property),,Cape Town,Western Cape,South Africa,-33.87173,18.50652,outdoor.billboards
+NetworkX,CHIPPAS,,Cape Town,Western Cape,South Africa,-34.110661,18.854604,outdoor.billboards
+NetworkX,Bree Taxi Rank,,Johannesburg,Gauteng,South Africa,-26.20016,28.03603,outdoor.billboards
+NetworkX,Esangweni Tembisa Taxi Rank,,Thembisa,Gauteng,South Africa,-26.020227,28.201168,outdoor.billboards
+NetworkX,Isipingo Taxi Rank,,Isipingo,KwaZulu-Natal,South Africa,-29.98096,30.92718,outdoor.billboards
+NetworkX,Ivorypark Ridge Tembisa,,Midrand,Gauteng,South Africa,-26.006616,28.181926,outdoor.billboards
+NetworkX,Mabopane transport exchange,,Soshanguve,Gauteng,South Africa,-25.49783,28.09046,outdoor.billboards
+NetworkX,Mbombela Taxi Rank,,Mbombela,Mpumalanga,South Africa,-25.46617,30.97936,outdoor.billboards
+NetworkX,MdantsaneTaxi Rank,,Mdantsane,Eastern Cape,South Africa,-32.94476,27.75367,outdoor.billboards
+NetworkX,Midrand Taxi Rank,,Midrand,Gauteng,South Africa,-25.99842,28.12837,outdoor.billboards
+NetworkX,Noord Taxi Rank,,Johannesburg,Gauteng,South Africa,-26.19949,28.04656,outdoor.billboards
+NetworkX,Belle Ombre Taxi Rank,,Pretoria,Gauteng,South Africa,-25.738259,28.18049,outdoor.billboards
+NetworkX,Pan Africa Taxi Rank,,Sandton,Gauteng,South Africa,-26.10999,28.08765,outdoor.billboards
+NetworkX,Northam Taxi Rank,,Northam,Limpopo,South Africa,-24.959234,27.262482,outdoor.billboards
+NetworkX,Rustenburg Taxi Rank,,Rustenburg,North West,South Africa,-25.66268,27.23571,outdoor.billboards
+NetworkX,Warwick Tax Taxi Rank,,Durban,KwaZulu-Natal,South Africa,-29.853068,31.010635,outdoor.billboards
+NetworkX,Verulam Taxi Rank,,Verulam,KwaZulu-Natal,South Africa,-29.64007221,31.04600093,outdoor.billboards
+RVA01,,Hazeldean,Pretoria,Gauteng,South Africa,-25.784264,28.35465,Gym.Lifestyle
+RVA02,,Edenglen,Edenvale,Gauteng,South Africa,-26.136117,28.180528,Gym.Lifestyle
+RVA03,,Rosebank,Johannesburg,Gauteng,South Africa,-26.143003,28.042556,Gym.Lifestyle
+RVA04,,Centurion,Centurion,Gauteng,South Africa,-25.866575,28.200086,Gym.Lifestyle
+RVA05,,Loftus,Pretoria,Gauteng,South Africa,-25.750856,28.222872,Gym.Lifestyle
+RVA06,,Bedfordview,Germiston,Gauteng,South Africa,-26.169389,28.146986,Gym.Lifestyle
+RVA07,,Lonehill,Sandton,Gauteng,South Africa,-26.013689,28.026064,Gym.Lifestyle
+RVA08,,Glenvista,Johannesburg,Gauteng,South Africa,-26.2791,28.034942,Gym.Lifestyle
+RVA09,,Randburg,Randburg,Gauteng,South Africa,-26.094136,27.983386,Gym.Lifestyle
+RVA10,,Victory Park,Randburg,Gauteng,South Africa,-26.138211,28.009108,Gym.Lifestyle
+RVA11,,Waterfall,Midrand,Gauteng,South Africa,-26.021017,28.087881,Gym.Lifestyle
+RVA12,,Menlyn,Pretoria,Gauteng,South Africa,-25.789681,28.283744,Gym.Lifestyle
+RVA13,,Bryanston,Sandton,Gauteng,South Africa,-26.057583,28.023494,Gym.Lifestyle
+RVA14,,Cradlestone,Krugersdorp,Gauteng,South Africa,-26.062286,27.838378,Gym.Lifestyle
+RVA15,,Kyalami Corner,Kyalami,Gauteng,South Africa,-25.984403,28.075897,Gym.Lifestyle
+RVA16,,Sandton CBD,Sandton,Gauteng,South Africa,-26.105375,28.053661,Gym.Lifestyle
+RVA17,,Old Eds,Johannesburg,Gauteng,South Africa,-26.157631,28.063369,Gym.Lifestyle
+RVA18,,Dainfern,Sandton,Gauteng,South Africa,-25.993439,28.014278,Gym.Lifestyle
+RVA19,,Roodepoort,Roodepoort,Gauteng,South Africa,-26.149217,27.927158,Gym.Lifestyle
+RVA20,,Broadacres,Johannesburg,Gauteng,South Africa,-26.002219,27.984108,Gym.Lifestyle
+RVA21,,Morningside (JHB),Johannesburg,Gauteng,South Africa,-26.088889,28.060378,Gym.Lifestyle
+RVA22,,Claremont,Cape Town,Western Cape,South Africa,-33.977456,18.465183,Gym.Lifestyle
+RVA23,,Stellenbosch,Cape Town,Western Cape,South Africa,-33.936339,18.860481,Gym.Lifestyle
+RVA24,,Durbanville,Cape Town,Western Cape,South Africa,-33.831492,18.647419,Gym.Lifestyle
+RVA25,,Steenberg,Cape Town,Western Cape,South Africa,-34.079614,18.440869,Gym.Lifestyle
+RVA26,,Constantia,Cape Town,Western Cape,South Africa,-34.018631,18.451219,Gym.Lifestyle
+RVA27,,Point,Cape Town,Western Cape,South Africa,-33.906297,18.402847,Gym.Lifestyle
+RVA28,,Table View,Cape Town,Western Cape,South Africa,-33.828094,18.488214,Gym.Lifestyle
+RVA29,,Tygervalley,Cape Town,Western Cape,South Africa,-33.877314,18.633378,Gym.Lifestyle
+RVA30,,Century City,Cape Town,Western Cape,South Africa,-33.894869,18.505875,Gym.Lifestyle
+RVA31,,Wembley Square,Cape Town,Western Cape,South Africa,-33.932706,18.421906,Gym.Lifestyle
+RVA32,,Cresta,Paarl,Western Cape,South Africa,-26.1284,27.971183,Gym.Lifestyle
+RVA33,,Gateway,Umhlanga,Kwa-Zulu Natal,South Africa,-29.723139,31.066022,Gym.Lifestyle
+RVA34,,Pavillion,Westville,Kwa-Zulu Natal,South Africa,-29.847964,30.937417,Gym.Lifestyle
+RVA35,,The Atrium,Durban,Kwa-Zulu Natal,South Africa,-29.837497,30.999136,Gym.Lifestyle
+RVA36,,Hillcrest,Durban,Kwa-Zulu Natal,South Africa,-29.782308,30.763692,Gym.Lifestyle
+RVA37,,Waterstone,Westville,Kwa-Zulu Natal,South Africa,-34.069242,18.823056,Gym.Lifestyle
+RVA38,,La Lucia,Umhlanga,Kwa-Zulu Natal,South Africa,-29.754817,31.063425,Gym.Lifestyle
+RVA39,,Northridge,Bloemfontein,Free State,South Africa,-29.072244,26.235236,Gym.Lifestyle
+RVA40,,Lorraine,Lorraine,Eastern Cape,South Africa,-33.969106,25.526964,Gym.Lifestyle
+Aero Motors,DBPW020,,Cape Town,Western Cape,,-34.00111,18.49834,Digilites
+Airport,DBPW001,,Cape Town,Western Cape,,-33.969322,18.59164,Digilites
+Atterbury Value Mart,DBPG032,,Pretoria,Gauteng,,-25.788844,28.30878,Digilites
+Bara,DBPG001,,Soweto,Gauteng,,-26.260498,27.946843,Digilites
+Bergbron,DBPG005,,Randburg,Gauteng,,-26.163714,27.951821,Digilites
+Beyers Naude Oasis - North,DBPG002,,Randburg,Gauteng,,-26.114665,27.952622,Digilites
+Beyers Naude Oasis - South,DBPG003,,Randburg,Gauteng,,-26.115025,27.954861,Digilites
+Blue Route,DBPW002,,Cape Town,Western Cape,,-34.064686,18.452064,Digilites
+Boulders,DBPG004,,Halfway House,Gauteng,,-25.995221,28.128373,Digilites
+Broadacres,DBPG006,,City of Johannesburg,Gauteng,,-26.000915,27.984144,Digilites
+Bromhof,DBPG007,,Randburg,Gauteng,,-26.087383,27.958401,Digilites
+Bruma,DBPG008,,Bruma,Gauteng,,-26.182872,28.107381,Digilites
+Centurion Service Station,DBPG035,,Centurion,Gauteng,,-25.868069,28.194591,Digilites
+Chatsworth Circle,DBPD010,,Chatsworth,Kwazulu-Natal,,-29.911931,30.878152,Digilites
+Dorp Street,DBPW004,,Stellenbosch,Western Cape,,-33.940041,18.856073,Digilites
+Drive-In Motors,DBPD001,,Ballito Bay,Kwazulu-Natal,,-29.52846,31.205315,Digilites
+Dube Village,DBPD002,,Ethekwini,Kwazulu-Natal,,-29.708189,30.970185,Digilites
+Durham Avenue,DBPW006,,Salt River,Western Cape,,-33.929183,18.459412,Digilites
+Edenvale North,DBPG009,,Johannesburg,Gauteng,,-26.122143,28.139039,Digilites
+Empire,DBPG010,,Johannesburg,Gauteng,,-26.185741,28.040205,Digilites
+Fourways,DBPG011,,Sandton,Gauteng,,-26.016824,28.010531,Digilites
+Glenfair Service Station,DBPG034,,Lynnwood,Gauteng,,-25.766687,28.281497,Digilites
+Glynnwood,DBPG012,,Benoni,Gauteng,,-26.195831,28.308785,Digilites
+Gordons Bay,DBPW005,,Cordon's Bay,Western Cape,,-34.154384,18.867048,Digilites
+Grayston,DBPG013,,Sandton,Gauteng,,-26.097755,28.059738,Digilites
+Green Acres,DBPE001,,Port Elizabeth,Eastern Cape,,-33.952468,25.576651,Digilites
+Grosvenor,DBPG033,,Bryanston,Gauteng,,-26.059845,28.0223,Digilites
+Heritage Square,DBPW008,,City of Cape Town,Western Cape,,-34.107538,18.861016,Digilites
+Hout Bay,DBPW018,,City of Cape Town,Western Cape,,-34.034274,18.356593,Digilites
+Jean Avenue,DBPG036,,Centurion,Gauteng,,-25.841193,28.187936,Digilites
+Kensington,DBPG014,,Kensington,Gauteng,,-26.185168,28.102924,Digilites
+Kiasha Park,DBPG045,,Eldoradopark,Gauteng,,-26.294126,27.906747,Digilites
+La Lucia,DBPD003,,La Lucia,Kwazulu-Natal,,-29.752372,31.046926,Digilites
+Letchworth,DBPW007,,Edgemead,Western Cape,,-33.870027,18.546702,Digilites
+Linden Park,DBPG015,,Randburg,Gauteng,,-26.126095,27.996237,Digilites
+Louis Botha,DBPG044,,Orange Grove,Gauteng,,-26.161032,28.084749,Digilites
+M1 Oasis (BP Ormonde View),DBPG016,,Johannesburg,Gauteng,,-26.241386,28.010322,Digilites
+Makhaza,DBPW009,,Khayelitsha,Western Cape,,-34.047012,18.700887,Digilites
+Mamelodi Gardens,DBPG037,,City of Tshwane,Gauteng,,-25.721751,28.389375,Digilites
+Melrose Arch,DBPG017,,Johannesburg,Gauteng,,-26.129584,28.069841,Digilites
+Merriman,DBPW010,,Stellenbosch,Western Cape,,-33.931734,18.860545,Digilites
+Montecasino,DBPG018,,Bryanston,Gauteng,,-26.035336,28.011547,Digilites
+Moore Road,DBPD004,,Bulwer (Ethekwini),Kwazulu-Natal,,-29.858109,31.002649,Digilites
+New Germany,DBPD005,,Pinetown,Kwazulu-Natal,,-29.801734,30.873711,Digilites
+Newlands Avenue,DBPW011,,Newlands,Western Cape,,-33.971545,18.45488,Digilites
+Newmarket,DBPG019,,Germiston,Gauteng,,-26.289446,28.139931,Digilites
+Northrand road,DBPG020,,Boksburg,Gauteng,,-26.179689,28.278185,Digilites
+O' Reilly Merry,DBPG021,,Benoni,Gauteng,,-26.145608,28.313207,Digilites
+Old Farm,DBPG038,,Pretoria,Gauteng,,-25.789674,28.326848,Digilites
+Paarl,DBPW019,,Paarl,Western Cape,,-33.732753,18.978125,Digilites
+Palm Court,DBPG022,,Weltevredenpark,Gauteng,,-26.126162,27.931265,Digilites
+Pinelands,DBPW012,,Pinelands,Western Cape,,-33.940955,18.500116,Digilites
+President Motors,DBPW013,,Cape Town,Western Cape,,-33.922171,18.380594,Digilites
+Prospecton Road,DBPD006,,Durban,Kwazulu-Natal,,-29.983836,30.936402,Digilites
+Queenswood,DBPG039,,Pretoria,Gauteng,,-25.730516,28.245551,Digilites
+Rabie Ridge,DBPG023,,City of Johannesburg,Gauteng,,-26.021235,28.171247,Digilites
+Rachel de Beer,DBPG040,,Pretoria,Gauteng,,-25.678089,28.17788,Digilites
+Radiokop,DBPG024,,Roodepoort,Gauteng,,-26.104485,27.923804,Digilites
+Randburg,DBPG025,,Randburg,Gauteng,,-26.09616,27.985976,Digilites
+Randhart,DBPG026,,Alrode,Gauteng,,-26.301574,28.116428,Digilites
+Ridge Oasis,DBPD007,,Ethekwini,Kwazulu-Natal,,-29.742754,30.633491,Digilites
+Rosmead,DBPW014,,Cape Town,Western Cape,,-34.002358,18.478892,Digilites
+Rustenberg,DBPG041,,Rustenburg,North-West,,-25.66771,27.238593,Digilites
+Salt Lake,DBPG027,,Brakpan,Gauteng,,-26.261515,28.360025,Digilites
+Sandown Service Station,DBPW015,,City of Cape Town,Western Cape,,-33.806784,18.482805,Digilites
+Sibaya,DBPD009,,Ethekwini,Kwazulu-Natal,,-29.682239,31.10428,Digilites
+Simon Vermooten,DBPG042,,Pretoria,Gauteng,,-25.755112,28.324656,Digilites
+Somerset Road,DBPW016,,Cape Town,Western Cape,,-33.915384,18.418647,Digilites
+Stanford,DBPE002,,Port Elizabeth,Eastern Cape,,-33.920049,25.564605,Digilites
+Strubensvalley Service Station,DBPG028,,Roodepoort,Gauteng,,-26.122319,27.899975,Digilites
+Sunnyrock,DBPG029,,Germiston,Gauteng,,-26.167288,28.167728,Digilites
+Tom Jones,DBPG030,,Benoni,Gauteng,,-26.180344,28.311131,Digilites
+Tygervalley,DBPW017,,Bellville,Western Cape,,-33.880737,18.636146,Digilites
+Verulam,DBPD011,,Margate,Kwazulu-Natal,,-30.856478,30.371891,Digilites
+Walmer Gardens,DBPE003,,Walmer,Eastern Cape,,-33.980852,25.579842,Digilites
+Westville Autohouse,DBPD008,,Westville,Kwazulu-Natal,,-29.835606,30.914616,Digilites
+William Nicol,DBPG031,,Bryanston,Gauteng,,-26.035879,28.010828,Digilites
+Winmore,DBPG043,,Pretoria,Gauteng,,-25.841104,28.280528,Digilites
+Sasol Allens Neck,DSAG001,,Roodepoort,Gauteng,,-26.121966,27.922498,Digilites
+Sasol Andrew Maphethu,DSAG002,,Ekurhuleni,Gauteng,,-26.017236,28.21537,Digilites
+Sasol Arkwright,DSAG003,,Wynberg,Gauteng,,-26.115902,28.081605,Digilites
+Sasol Atteridgeville,DSAG004,,City of Tshwane,Gauteng,,-25.775666,28.080264,Digilites
+Sasol Bellair,DSAD001,,Durban,Kwazulu-Natal,,-29.864019,30.964113,Digilites
+Sasol Booth Road West,DSAD002,,Durban,Kwazulu-Natal,,-29.857169,30.939291,Digilites
+Sasol Bowling Avenue,DSAG005,,Sandton,Gauteng,,-26.090219,28.078909,Digilites
+Sasol Braamfischer,DSAG006,,Soweto,Gauteng,,-26.203815,27.871159,Digilites
+Sasol Brits 1,DSAG007,,Brits,North-West,,-25.653443,27.812223,Digilites
+Sasol Broederstroom,DSAG008,,Madibeng,North-West,,-25.797639,27.891035,Digilites
+Sasol Circle Centre,DSAG009,,Centurion,Gauteng,,-25.887266,28.106004,Digilites
+Sasol Cosmo City,DSAG010,,Roodepoort,Gauteng,,-26.017281,27.939365,Digilites
+Sasol Davest,DSAG011,,Meyerton,Gauteng,,-26.557635,28.024062,Digilites
+Sasol De Bron Service Station,DSAW001,,Brackenfell,Western Cape,,-33.854923,18.691667,Digilites
+Sasol Diepsloot,DSAG012,,City of Johannesburg,Gauteng,,-25.935439,28.020528,Digilites
+Sasol Disa Road,DSAE001,,Newton Park,Eastern Cape,,-33.943718,25.55321,Digilites
+Sasol Duduza,DSAG013,,Ekurhuleni,Gauteng,,-26.380726,28.388445,Digilites
+Sasol Edenvale,DSAG014,,Edenvale,Gauteng,,-26.149608,28.150834,Digilites
+Sasol Erica Road,DSAW002,,City of Cape Town,Western Cape,,-33.941773,18.62903,Digilites
+Sasol Fairbreez,DSAD003,,Tongaat,Kwazulu-Natal,,-29.546613,31.136976,Digilites
+Sasol Fairland,DSAG015,,Randburg,Gauteng,,-26.131687,27.944221,Digilites
+Sasol Featherbrooke,DSAG016,,Krugersdorp,Gauteng,,-26.063193,27.83936,Digilites
+Sasol Ferndale,DSAG017,,Randburg,Gauteng,,-26.092734,27.98549,Digilites
+Sasol George highway,DSAW003,,George,Western Cape,,-33.99182,22.520495,Digilites
+Sasol Gold Reef,DSAG018,,Johannesburg,Gauteng,,-26.238919,28.008758,Digilites
+Sasol Hans Dettman,DSAD004,,Pinetown,Kwazulu-Natal,,-29.855201,30.873093,Digilites
+Sasol Hatfield,DSAG019,,Pretoria,Gauteng,,-25.753957,28.240749,Digilites
+Sasol Hill Street,DSAG020,,Randburg,Gauteng,,-26.092304,27.999388,Digilites
+Sasol Hindle Road,DSAW004,,City of Cape Town,Western Cape,,-33.986343,18.689247,Digilites
+Sasol Hornsnek,DSAG021,,Pretoria,Gauteng,,-25.661067,28.046404,Digilites
+Sasol Houghton,DSAG022,,Houghton Estate,Gauteng,,-26.173781,28.067207,Digilites
+Sasol Jean Avenue,DSAG023,,Centurion,Gauteng,,-25.838755,28.181187,Digilites
+Sasol King Shaka,DSAD005,,Ethekwini,Kwazulu-Natal,,-29.62159,31.100601,Digilites
+Sasol Kleinmond,DSAW005,,Kleinmond,Western Cape,,-34.340204,19.02373,Digilites
+Sasol Kommetjie,DSAW006,,Noordhoek,Western Cape,,-34.132001,18.382698,Digilites
+Sasol Krugersdorp North,DSAG024,,Krugersdorp,Gauteng,,-26.085626,27.780013,Digilites
+Sasol Labelle,DSAW007,,Stikland,Western Cape,,-33.903526,18.66815,Digilites
+Sasol Lyttelton Manor,DSAG025,,Lyttleton,Gauteng,,-25.819723,28.195248,Digilites
+Sasol Maitland,DSAW008,,Maitland,Western Cape,,-33.919617,18.504455,Digilites
+Sasol Makqelepo,DSAG026,,Ekurhuleni,Gauteng,,-26.305733,28.159773,Digilites
+Sasol Malanshof,DSAG027,,Randburg,Gauteng,,-26.099541,27.978905,Digilites
+Sasol Mamelodi,DSAG028,,City of Tshwane,Gauteng,,-25.713865,28.335209,Digilites
+Sasol Maraboe,DSAG029,,Rooihuiskraal,Gauteng,,-25.893739,28.154214,Digilites
+Sasol Margate,DSAD007,,Margate,Kwazulu-Natal,,-30.856481,30.371949,Digilites
+Sasol Marlboro Gardens,DSAG030,,Sandton,Gauteng,,-26.083149,28.105992,Digilites
+Sasol Melkbosstrand,DSAW009,,Melkbosstrand,Western Cape,,-33.731978,18.444106,Digilites
+Sasol Midrand,DSAG031,,Halfway House,Gauteng,,-26.010689,28.121274,Digilites
+Sasol Midstream,DSAG032,,Centurion,Gauteng,,-25.915636,28.194858,Digilites
+Sasol Modderdam,DSAW010,,Parow,Western Cape,,-33.940453,18.608883,Digilites
+Sasol Mozart,DSAG033,,Honeydew,Gauteng,,-26.100188,27.904917,Digilites
+Sasol N12 North,DSAG034,,Soweto,Gauteng,,-26.29646,27.823489,Digilites
+Sasol N12 South,DSAG035,,City of Johannesburg,Gauteng,,-26.297501,27.824725,Digilites
+Sasol NMR,DSAD009,,Stamford Hill,Kwazulu-Natal,,-29.844809,31.025282,Digilites
+Sasol Northriding,DSAG036,,Randburg,Gauteng,,-26.055044,27.954724,Digilites
+Sasol O'Flaherty,DSAD010,,Durban,Kwazulu-Natal,,-29.814738,30.969382,Digilites
+Sasol Oaks Service Station,DSAW011,,Bellville,Western Cape,,-33.890554,18.632066,Digilites
+Sasol Oasis,DSAW012,,George,Western Cape,,-33.97141,22.467911,Digilites
+Sasol Olivedale,DSAG037,,Randburg,Gauteng,,-26.058859,27.978654,Digilites
+Sasol Ormonde View,DSAG038,,Johannesburg,Gauteng,,-26.247293,27.985041,Digilites
+Sasol Ottery,DSAW013,,Ottery,Western Cape,,-34.018003,18.513373,Digilites
+Sasol Parklands,DSAW014,,City of Cape Town,Western Cape,,-33.819038,18.496229,Digilites
+Sasol Philip Nel Park,DSAG039,,Pretoria,Gauteng,,-25.74154,28.136108,Digilites
+Sasol Pinehaven,DSAG040,,Krugersdorp,Gauteng,,-26.061904,27.831248,Digilites
+Sasol Pitstop,DSAD011,,Pietermaritzburg,Kwazulu-Natal,,-29.612658,30.38869,Digilites
+Sasol Port Shepstone,DSAD020,,Port Shepstone,Kwazulu-Natal,,-30.740524,30.446021,Digilites
+Sasol Pulane,DSAG041,,Ekurhuleni,Gauteng,,-26.330707,28.155476,Digilites
+Sasol Raisethorpe,DSAD012,,The Msunduzi,Kwazulu-Natal,,-29.570148,30.405759,Digilites
+Sasol Randburg,DSAG042,,Randburg,Gauteng,,-26.109683,27.989308,Digilites
+Sasol Randhart,DSAG043,,Alberton,Gauteng,,-26.286773,28.105165,Digilites
+Sasol Randles,DSAD013,,Sparks (Ethekwini),Kwazulu-Natal,,-29.831706,30.984226,Digilites
+Sasol Randpark Ridge,DSAG061,,Randburg,Gauteng,,-26.103589,27.945915,Digilites
+Sasol Regina Mundi,DSAG044,,Soweto,Gauteng,,-26.262639,27.885891,Digilites
+Sasol Riley Road,DSAG045,,Bedfordview,Gauteng,,-26.166113,28.145541,Digilites
+Sasol Rooihuiskraal,DSAG046,,Rooihuiskraal,Gauteng,,-25.870658,28.139164,Digilites
+Sasol Rosehaven North,DSAG047,,City of Tshwane,Gauteng,,-25.797242,28.56821,Digilites
+Sasol Rosehaven South,DSAG048,,City of Tshwane,Gauteng,,-25.799116,28.568554,Digilites
+Sasol Ruimsig,DSAG049,,Roodepoort,Gauteng,,-26.090201,27.870746,Digilites
+Sasol Rynfield,DSAG050,,Benoni,Gauteng,,-26.13693,28.349032,Digilites
+Sasol Salt Rock,DSAD014,,KwaDukuza,Kwazulu-Natal,,-29.482465,31.227413,Digilites
+Sasol Sebenzile,DSAG051,,Soweto,Gauteng,,-26.222153,27.889436,Digilites
+Sasol Somerset West,DSAW015,,Firgrove,Western Cape,,-34.08375,18.818741,Digilites
+Sasol Stormvoel,DSAG053,,Pretoria,Gauteng,,-25.711651,28.261032,Digilites
+Sasol Summerstrand,DSAE002,,Port Elizabeth,Eastern Cape,,-33.99125,25.647291,Digilites
+Sasol Sunnyside,DSAG054,,Pretoria,Gauteng,,-25.756353,28.202401,Digilites
+Sasol Sunpark,DSAD015,,Queensburgh,Kwazulu-Natal,,-29.899607,30.878709,Digilites
+Sasol Swartgoud,DSAG055,,Johannesburg,Gauteng,,-26.272141,28.030265,Digilites
+Sasol Tembisa,DSAG056,,Ekurhuleni,Gauteng,,-26.034404,28.190939,Digilites
+Sasol Theresa Park,DSAG057,,City of Tshwane,Gauteng,,-25.676729,28.142833,Digilites
+Sasol Tunney Avenue,DSAG058,,Germiston,Gauteng,,-26.156989,28.200135,Digilites
+Sasol Umgeni,DSAD016,,Stamford Hill,Kwazulu-Natal,,-29.813747,31.02302,Digilites
+Sasol Umzinto,DSAD017,,Umzinto,Kwazulu-Natal,,-30.308527,30.668891,Digilites
+Sasol van Buuren,DSAG060,,Germiston,Gauteng,,-26.188022,28.135475,Digilites
+Sasol Verulam,DSAD018,,Ethekwini,Kwazulu-Natal,,-29.65549,31.060584,Digilites
+Sasol Viking,DSAG062,,Johannesburg,Gauteng,,-26.277782,27.945364,Digilites
+Sasol Walkerville,DSAG059,,Midvaal,Gauteng,,-26.419301,27.956667,Digilites
+Sasol Wilropark,DSAG063,,Roodepoort,Gauteng,,-26.125213,27.846942,Digilites
+Sasol Winder Road,DSAD019,,Durban,Kwazulu-Natal,,-29.860471,31.034712,Digilites
+Sasol Witkoppen,DSAG064,,Four Ways,Gauteng,,-26.025147,27.992638,Digilites
+Sasol Zebetiela North,DSAG065,,Mogalakwena,Limpopo,,-24.271486,28.99409,Digilites
+Sasol Zebetiela South,DSAG066,,Mogalakwena,Limpopo,,-24.272723,28.995586,Digilites
