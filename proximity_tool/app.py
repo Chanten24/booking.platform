@@ -1946,7 +1946,7 @@ with tab3:
             disabled=True,
         )
 
-    st.caption("Please download the IO, sign it, and share it with your Sales Contact to confirm your campaign.")
+    st.caption("Please download the Insertion Order, sign it, and share it with your Sales Contact to confirm your campaign. Be sure to include the targeted location list and the selected DOOH placements when submitting. This ensures your campaign is ready for activation.")
 
     st.subheader("Special instructions")
     special_instructions = st.text_area("Special instructions (e.g., Landing Page Actions: Drive, Map)", value="", height=90)
@@ -2065,3 +2065,4 @@ with tab3:
 
         except Exception as e:
             st.error(f"Could not generate IO: {e}")
+
