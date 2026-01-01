@@ -6,6 +6,10 @@ import base64
 from io import BytesIO
 from datetime import date
 from typing import Optional, Tuple, List, Dict
+import textwrap
+import re
+import json
+import hashlib
 
 # DOCX (python-docx)
 try:
@@ -14,6 +18,7 @@ try:
     from docx.oxml.ns import qn
 except Exception:
     Document = None
+
 
 # ------------------------------------------------------------
 # Config
@@ -24,6 +29,22 @@ BASE_DIR = Path(__file__).parent
 ASSETS_DIR = BASE_DIR / "assets"
 DATA_DIR = BASE_DIR / "data"
 DOOH_MASTER_PATH = DATA_DIR / "dooh_master.csv"
+
+
+# ------------------------------------------------------------
+# Sales contacts (dropdown)
+# ------------------------------------------------------------
+SALES_CONTACTS = [
+    ("Darren van der Schyff", "darren@vicinity-media.com"),
+    ("Dwane McCarthy", "Dwane@vicinity-media.com"),
+    ("Frankie Matianyi", "frankie@vicinity-media.com"),
+    ("Greg Sinnett", "greg@vicinity-media.com"),
+    ("Nabeel Haroon", "nabeel@vicinity-media.com"),
+    ("Ollie Westphal", "ollie@vicinity-media.com"),
+]
+SALES_EMAIL_BY_NAME = {n: e for n, e in SALES_CONTACTS}
+SALES_NAMES = [n for n, _ in SALES_CONTACTS]
+
 
 # ------------------------------------------------------------
 # Helpers: assets + styling
@@ -94,10 +115,25 @@ def inject_background(background_path: Path, white_overlay_opacity: float = 0.45
 
 
 def inject_app_css():
+    """
+    Fix logo/header clipping + KPI card styling
+    """
     st.markdown(
         """
         <style>
-          /* Brand accent colour for radio/checkbox */
+          header[data-testid="stHeader"] { height: 0px !important; }
+          header[data-testid="stHeader"] * { display: none !important; }
+          div[data-testid="stToolbar"] { display: none !important; }
+          #MainMenu { visibility: hidden !important; }
+          footer { visibility: hidden !important; }
+
+          .stApp, .main, section.main, section.main > div, div[data-testid="stAppViewContainer"] {
+            overflow: visible !important;
+          }
+          div[data-testid="stMarkdown"], div[data-testid="stMarkdownContainer"] {
+            overflow: visible !important;
+          }
+
           input[type="radio"], input[type="checkbox"] {
             accent-color: #0B2A4A !important;
           }
@@ -108,62 +144,109 @@ def inject_app_css():
           }
           .fade-in { animation: fadeInUp 520ms ease-out both; }
 
-          /* Sticky header (logo must NOT be clipped) */
+          :root { --sticky-h: 240px; }
+
           .sticky-wrap {
-            position: sticky;
-            top: 0;
-            z-index: 99999;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 999999;
             background: rgba(255,255,255,0.97);
             backdrop-filter: blur(6px);
-            padding-top: 10px;
+            overflow: visible;
+            box-sizing: border-box;
+            min-height: var(--sticky-h);
+            padding: 18px 0 14px 0;
           }
 
-          .logo-bar {
-            width: 100%;
-            padding: 12px 0 4px 0;
-            margin: 0;
-          }
+          .logo-bar { width: 100%; margin: 0; padding: 0; overflow: visible; box-sizing: border-box; }
           .logo-inner {
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: visible;
+            padding: 6px 0 0 0;
+            box-sizing: border-box;
           }
+
           .logo-inner img {
-            height: 84px;        /* ensure full visibility */
-            width: auto;
             display: block;
+            width: min(460px, 78vw);
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+            margin: 0;
+            padding: 0;
           }
+
           .logo-divider {
             height: 1px;
             width: 100%;
             background: rgba(15, 23, 42, 0.08);
+            margin-top: 12px;
+          }
+
+          .title-wrap { text-align: center; padding: 10px 0 0 0; }
+          .app-title { color: #0B2A4A; font-size: 24px; font-weight: 800; margin: 0; line-height: 1.2; }
+
+          /* Map. Budget. Book. made larger */
+          .app-caption { color: #475569; font-size: 16px; font-weight: 700; margin-top: 6px; line-height: 1.2; }
+
+          .block-container { padding-top: calc(var(--sticky-h) + 16px) !important; }
+
+          div[data-testid="stDataFrame"] { border-radius: 10px; }
+
+          .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            width: 100%;
             margin-top: 10px;
           }
 
-          .title-wrap {
-            text-align: center;
-            padding: 12px 0 16px 0;
+          @media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } :root { --sticky-h: 250px; } }
+          @media (max-width: 900px)  { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } :root { --sticky-h: 260px; } }
+          @media (max-width: 600px)  {
+            .kpi-grid { grid-template-columns: 1fr; }
+            :root { --sticky-h: 280px; }
+            .app-title { font-size: 20px; }
+            .app-caption { font-size: 15px; }
+            .logo-inner img { width: min(380px, 85vw); max-height: 110px; }
           }
-          .app-title {
+
+          .kpi-card {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(15, 23, 42, 0.10);
+            border-radius: 14px;
+            padding: 14px 14px 12px 14px;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+          }
+          .kpi-label {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            margin-bottom: 6px;
+          }
+          .kpi-value {
             color: #0B2A4A;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
-            margin: 0;
-            line-height: 1.2;
-          }
-          .app-caption {
-            color: #475569;
-            font-size: 13px;
-            margin-top: 6px;
+            line-height: 1.1;
+            word-break: break-word;
           }
 
-          /* Do NOT push content down (sticky header sits in flow) */
-          .block-container {
-            padding-top: 1rem;
+          .rec-box {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(15, 23, 42, 0.10);
+            border-radius: 14px;
+            padding: 14px 14px 12px 14px;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+            margin-top: 12px;
           }
-
-          div[data-testid="stDataFrame"] { border-radius: 10px; }
+          .rec-title { font-weight: 800; color: #0B2A4A; margin-bottom: 6px; }
+          .rec-body  { color: #334155; font-size: 13px; line-height: 1.45; }
+          .rec-bullets { margin-top: 8px; color: #334155; font-size: 13px; line-height: 1.45; }
+          .rec-bullets li { margin-bottom: 6px; }
         </style>
         """,
         unsafe_allow_html=True,
@@ -186,13 +269,47 @@ def render_header(logo_path: Optional[Path]):
           </div>
 
           <div class="title-wrap">
-            <div class="app-title">Booking Platform</div>
-            <div class="app-caption">Proximity, budgeting, and automated Insertion Order generation</div>
+            <div class="app-title">The proximity-first media planning engine</div>
+            <div class="app-caption">Map. Budget. Book.</div>
           </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
+
+
+def kpi_grid(items: List[Dict[str, str]]):
+    cards_html = []
+    for it in items:
+        label = it.get("label", "")
+        value = it.get("value", "")
+        card = textwrap.dedent(
+            f"""
+            <div class="kpi-card">
+              <div class="kpi-label">{label}</div>
+              <div class="kpi-value">{value}</div>
+            </div>
+            """
+        ).strip()
+        cards_html.append(card)
+
+    grid_html = "<div class='kpi-grid'>" + "".join(cards_html) + "</div>"
+    st.markdown(grid_html, unsafe_allow_html=True)
+
+
+def render_recommendation_box(title: str, body: str, bullets: List[str]):
+    bullets_html = "".join([f"<li>{b}</li>" for b in bullets if b])
+    st.markdown(
+        f"""
+        <div class="rec-box">
+          <div class="rec-title">{title}</div>
+          <div class="rec-body">{body}</div>
+          <ul class="rec-bullets">{bullets_html}</ul>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
 
 # ------------------------------------------------------------
 # Helpers: column detection
@@ -235,6 +352,73 @@ def pick_first_existing(df: pd.DataFrame, candidates: List[str]) -> Optional[str
             return low_map[key]
     return None
 
+
+def pick_province_col(df: pd.DataFrame) -> Optional[str]:
+    return pick_first_existing(df, ["Province", "province", "PROVINCE"])
+
+
+# ------------------------------------------------------------
+# DOOH master loading + Province normalization
+# ------------------------------------------------------------
+def normalize_province_name(x: str) -> str:
+    if x is None or (isinstance(x, float) and np.isnan(x)):
+        return ""
+    s = str(x).strip()
+    if not s:
+        return ""
+
+    s = re.sub(r"\s+", " ", s)
+    s = s.replace("–", "-").replace("—", "-")
+    s_low = s.lower()
+
+    mapping = {
+        "kwazulu natal": "KwaZulu-Natal",
+        "kwazulu-natal": "KwaZulu-Natal",
+        "kzn": "KwaZulu-Natal",
+        "north west": "North West",
+        "north-west": "North West",
+        "northwest": "North West",
+        "eastern cape": "Eastern Cape",
+        "western cape": "Western Cape",
+        "northern cape": "Northern Cape",
+        "free state": "Free State",
+        "gauteng": "Gauteng",
+        "limpopo": "Limpopo",
+        "mpumalanga": "Mpumalanga",
+    }
+    if s_low in mapping:
+        return mapping[s_low]
+
+    parts = []
+    for chunk in s.split(" "):
+        if "-" in chunk:
+            hy = "-".join([p[:1].upper() + p[1:].lower() if p else "" for p in chunk.split("-")])
+            parts.append(hy)
+        else:
+            parts.append(chunk[:1].upper() + chunk[1:].lower())
+    out = " ".join(parts)
+
+    if out.lower() in ["kwazulu-natal", "kwazulu natal"]:
+        out = "KwaZulu-Natal"
+    if out.lower() in ["north west", "north-west", "northwest"]:
+        out = "North West"
+    return out
+
+
+def load_dooh_master() -> Optional[pd.DataFrame]:
+    """Always read master fresh from disk (no caching)."""
+    if not DOOH_MASTER_PATH.exists():
+        return None
+    try:
+        df = pd.read_csv(DOOH_MASTER_PATH)
+        prov_col = pick_province_col(df)
+        if prov_col:
+            df[prov_col] = df[prov_col].apply(normalize_province_name)
+        return df
+    except Exception:
+        return None
+
+
 # ------------------------------------------------------------
 # Distance
 # ------------------------------------------------------------
@@ -249,6 +433,7 @@ def haversine_vec(lat1, lon1, lat2_arr, lon2_arr):
 
     a = np.sin(dlat / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2) ** 2
     return 2 * R * np.arcsin(np.sqrt(a))
+
 
 # ------------------------------------------------------------
 # Formatting helpers
@@ -266,15 +451,43 @@ def fmt_int(x: float) -> str:
     except Exception:
         return "0"
 
+
+# ------------------------------------------------------------
+# Templates (CSV downloads)
+# ------------------------------------------------------------
+def csv_bytes_from_df(df: pd.DataFrame) -> bytes:
+    return df.to_csv(index=False).encode("utf-8")
+
+
+def stores_template_df() -> pd.DataFrame:
+    return pd.DataFrame([{
+        "Store Name": "Example Store",
+        "Latitude": -26.2041,
+        "Longitude": 28.0473,
+        "Province": "Gauteng",
+    }])
+
+
+def dooh_selection_template_df() -> pd.DataFrame:
+    return pd.DataFrame([{
+        "Site ID/Number": "ALV 01",
+        "Selected": 1,
+    }])
+
+
+def mobile_locations_template_df() -> pd.DataFrame:
+    return pd.DataFrame([{
+        "Location Name": "Example Location",
+        "Latitude": -26.2041,
+        "Longitude": 28.0473,
+        "Province": "Gauteng",
+    }])
+
+
 # ------------------------------------------------------------
 # Selection / counting logic
 # ------------------------------------------------------------
 def load_selected_sites_from_upload(file) -> pd.DataFrame:
-    """
-    DOOH Selection format (expected):
-      - Site ID/Number (or similar)
-      - Selected (1/0 or TRUE/FALSE)
-    """
     df = pd.read_csv(file)
     site_col = pick_first_existing(df, ["Site ID/Number", "Site ID", "SiteID", "SiteID/Number", "Site_Number", "Site Number"])
     sel_col = pick_first_existing(df, ["Selected", "selected", "SELECTED"])
@@ -292,27 +505,19 @@ def load_selected_sites_from_upload(file) -> pd.DataFrame:
 
 
 def count_mobile_locations_any_format(file) -> int:
-    """
-    Supports:
-    - DOOH selection-like format (Selected column), OR
-    - ABSA-style location list: count rows with valid lat/lon
-    """
     df = pd.read_csv(file)
 
     sel_col = pick_first_existing(df, ["Selected", "selected", "SELECTED"])
     site_col = pick_first_existing(df, ["Site ID/Number", "Site ID", "SiteID", "Site Number"])
 
     if sel_col and site_col:
-        # treat like selection file
         tmp = df.copy()
         tmp[sel_col] = tmp[sel_col].astype(str).str.strip().str.lower()
         tmp["_selected_flag"] = tmp[sel_col].isin(["1", "true", "yes", "y"])
         return int(tmp["_selected_flag"].sum())
 
-    # otherwise count rows with valid lat/lon
     lat, lon = pick_lat_lon(df)
     if not lat or not lon:
-        # fallback: count all rows
         return int(len(df))
 
     df[lat] = pd.to_numeric(df[lat], errors="coerce")
@@ -334,14 +539,254 @@ def impressions_from_budget_and_cpm(budget: float, cpm: float) -> float:
         return 0
     return (budget / cpm) * 1000.0
 
+
 # ------------------------------------------------------------
-# DOCX generation helpers
+# Savings message helper
+# ------------------------------------------------------------
+def savings_message(product: str, n_locs: int, budget: float) -> str:
+    product = (product or "").strip()
+
+    if budget <= 0 or n_locs >= 50:
+        return ""
+
+    if product == "DOOH":
+        high_cpm, low_cpm = 260, 240
+        unit_word = "DOOH placements"
+    else:
+        high_cpm, low_cpm = 160, 140
+        unit_word = "locations"
+
+    current_imps = impressions_from_budget_and_cpm(budget, high_cpm)
+    budget_at_low = (current_imps / 1000.0) * low_cpm
+
+    savings_r = budget - budget_at_low
+    savings_pct = (savings_r / budget) * 100 if budget > 0 else 0
+
+    imps_at_low = impressions_from_budget_and_cpm(budget, low_cpm)
+    extra_imps = imps_at_low - current_imps
+
+    needed = max(0, 50 - int(n_locs))
+
+    return (
+        f"**Potential saving:** If you increased your {unit_word} by **{needed}** (to reach **50+**), "
+        f"your CPM would drop from **R {high_cpm}** to **R {low_cpm}**. "
+        f"For the *same estimated delivery*, you could save about **{fmt_currency_rands(savings_r)}** "
+        f"(**{savings_pct:.1f}%**). Alternatively, keeping the same budget could add roughly **{fmt_int(extra_imps)}** impressions."
+    )
+
+
+# ------------------------------------------------------------
+# Proximity insights (rule-based, no AI)
+# ------------------------------------------------------------
+def compute_insight_stats(summary_df: pd.DataFrame, pairwise_df: Optional[pd.DataFrame], mode: str, radius_km: int):
+    if summary_df is None or summary_df.empty:
+        return None
+
+    cov_col = f"{'DOOH' if mode == 'Store to DOOH' else 'Store'} sites within {radius_km}km"
+    if cov_col not in summary_df.columns:
+        return None
+
+    total_locations = int(len(summary_df))
+    covered_mask = (pd.to_numeric(summary_df[cov_col], errors="coerce").fillna(0) > 0)
+    covered_locations = int(covered_mask.sum())
+    coverage_pct = int(round((covered_locations / total_locations) * 100, 0)) if total_locations else 0
+    uncovered_locations = int(total_locations - covered_locations)
+
+    nearest_col = f"Nearest {'DOOH' if mode == 'Store to DOOH' else 'Store'} distance (km)"
+    nearest_vals_all = pd.to_numeric(summary_df[nearest_col], errors="coerce").dropna()
+    nearest_vals_cov = pd.to_numeric(summary_df.loc[covered_mask, nearest_col], errors="coerce").dropna()
+
+    median_nearest_cov = float(nearest_vals_cov.median()) if len(nearest_vals_cov) else None
+    p90_nearest_cov = float(np.percentile(nearest_vals_cov.to_numpy(), 90)) if len(nearest_vals_cov) else None
+
+    overall_min_dist = float(nearest_vals_all.min()) if len(nearest_vals_all) else None
+    overall_min_row = None
+    if overall_min_dist is not None and np.isfinite(overall_min_dist):
+        try:
+            overall_min_row = summary_df.loc[pd.to_numeric(summary_df[nearest_col], errors="coerce").idxmin()]
+        except Exception:
+            overall_min_row = None
+
+    avg_sites = float(pd.to_numeric(summary_df[cov_col], errors="coerce").fillna(0).mean()) if total_locations else 0.0
+
+    opp_locs = summary_df.loc[~covered_mask, "Location"].astype(str).tolist()
+    opp_preview = opp_locs[:100]
+
+    isolated_detail = []
+    if mode == "Store to Store":
+        near_name_col = "Nearest Store"
+        if near_name_col in summary_df.columns:
+            tmp_iso = summary_df.loc[~covered_mask, ["Location", nearest_col, near_name_col]].copy()
+            tmp_iso[nearest_col] = pd.to_numeric(tmp_iso[nearest_col], errors="coerce")
+            tmp_iso = tmp_iso.sort_values(nearest_col, ascending=True)
+            for _, r in tmp_iso.head(50).iterrows():
+                isolated_detail.append({
+                    "Location": str(r.get("Location", "")),
+                    "Nearest Store": str(r.get(near_name_col, "")),
+                    "Distance (km)": float(r.get(nearest_col, np.nan)) if pd.notna(r.get(nearest_col)) else None,
+                })
+
+    top_networks = None
+    if mode == "Store to DOOH" and isinstance(pairwise_df, pd.DataFrame) and not pairwise_df.empty:
+        if ("Network" in pairwise_df.columns) and ("Site ID/Number" in pairwise_df.columns):
+            tmp = pairwise_df.copy()
+            tmp["Network"] = tmp["Network"].astype(str).str.strip()
+            tmp["Site ID/Number"] = tmp["Site ID/Number"].astype(str).str.strip()
+            agg = (
+                tmp.dropna(subset=["Network", "Site ID/Number"])
+                   .drop_duplicates(subset=["Network", "Site ID/Number"])
+                   .groupby("Network", dropna=False)["Site ID/Number"]
+                   .nunique()
+                   .reset_index(name="Unique sites (within radius)")
+                   .sort_values("Unique sites (within radius)", ascending=False)
+                   .head(10)
+                   .rename(columns={"Network": "DOOH Network"})
+            )
+            top_networks = agg
+
+    return {
+        "mode": mode,
+        "radius_km": int(radius_km),
+        "locations_analysed": total_locations,
+        "coverage_pct": int(coverage_pct),
+        "covered_locations": covered_locations,
+        "opportunity_windows": uncovered_locations,
+        "median_nearest_km": median_nearest_cov,
+        "p90_nearest_km": p90_nearest_cov,
+        "avg_sites_per_location": avg_sites,
+        "opportunity_locations_preview": opp_preview,
+        "isolated_detail": isolated_detail,
+        "overall_min_row": overall_min_row.to_dict() if hasattr(overall_min_row, "to_dict") else None,
+        "top_networks": top_networks,
+    }
+
+
+def build_vicinity_recommendation_dooh(stats: Dict) -> Tuple[str, str, List[str]]:
+    coverage_pct = int(stats["coverage_pct"])
+    radius_km = int(stats["radius_km"])
+    total_locations = int(stats["locations_analysed"])
+    covered_locations = int(stats["covered_locations"])
+    opp = int(stats["opportunity_windows"])
+    median_nearest = stats.get("median_nearest_km")
+    p90_nearest = stats.get("p90_nearest_km")
+    avg_sites = float(stats.get("avg_sites_per_location", 0.0))
+
+    if coverage_pct < 40:
+        label = "Low coverage"
+        meaning = "DOOH availability is limited at this radius, which will constrain reach and frequency if you rely on DOOH alone."
+    elif coverage_pct <= 50:
+        label = "Fair coverage"
+        meaning = "Coverage is uneven: you have meaningful DOOH in some areas, but clear gaps that will weaken consistent delivery."
+    elif coverage_pct <= 59:
+        label = "Moderate coverage"
+        meaning = "Coverage is workable, but you’ll still have pockets where DOOH won’t consistently support delivery at this radius."
+    elif coverage_pct <= 75:
+        label = "High coverage"
+        meaning = "DOOH availability is strong across most locations, which supports efficient reach planning at this radius."
+    else:
+        label = "Very high coverage"
+        meaning = "Coverage is excellent and highly consistent, giving you strong DOOH density around most locations."
+
+    title = "Vicinity recommendation"
+    body = (
+        f"At {radius_km}km, {coverage_pct}% of your locations have nearby DOOH coverage "
+        f"({covered_locations} out of {total_locations}). {label}. {meaning}"
+    )
+
+    bullets = []
+    if opp > 0:
+        bullets.append(
+            f"Gap list: {opp} locations have zero nearby DOOH sites at {radius_km}km. Treat these as priority areas for gap-cover channels (Mobile/CTV) or radius expansion."
+        )
+    else:
+        bullets.append("Gaps: No zero-coverage locations were identified at this radius.")
+
+    if median_nearest is not None:
+        if p90_nearest is not None:
+            bullets.append(
+                f"Proximity quality (covered locations only): typical nearest distance is {median_nearest:.2f}km (90% within {p90_nearest:.2f}km)."
+            )
+        else:
+            bullets.append(f"Proximity quality (covered locations only): typical nearest distance is {median_nearest:.2f}km.")
+
+    if coverage_pct < 60:
+        bullets.append("Radius planning: increase the radius to improve coverage (e.g., +3–8km) and re-check where coverage becomes stable without diluting relevance too far.")
+    else:
+        bullets.append("Radius planning: keep the radius as-is for relevance, and focus on budget efficiency in the highest-coverage areas.")
+
+    if avg_sites < 0.5:
+        bullets.append(f"Inventory density: DOOH density is light (avg {avg_sites:.2f} sites per location within radius). Use Mobile/CTV to protect frequency in areas where DOOH is sparse.")
+    else:
+        bullets.append(f"Inventory density: DOOH density is healthy (avg {avg_sites:.2f} sites per location), supporting consistent exposure in covered areas.")
+
+    top_nets = stats.get("top_networks")
+    if isinstance(top_nets, pd.DataFrame) and not top_nets.empty:
+        top_net = str(top_nets.iloc[0]["DOOH Network"])
+        bullets.append(f"Where coverage is strongest: nearby inventory is most concentrated in {top_net}.")
+
+    return title, body, bullets
+
+
+def build_vicinity_recommendation_store_to_store(stats: Dict) -> Tuple[str, str, List[str]]:
+    radius_km = int(stats["radius_km"])
+    total_locations = int(stats["locations_analysed"])
+    covered_locations = int(stats["covered_locations"])
+    isolated = int(stats["opportunity_windows"])
+    coverage_pct = int(stats["coverage_pct"])
+
+    overall_min_row = stats.get("overall_min_row") or {}
+    overall_a = str(overall_min_row.get("Location", "")).strip()
+    overall_b = str(overall_min_row.get("Nearest Store", "")).strip()
+    overall_d = overall_min_row.get("Nearest Store distance (km)", None)
+
+    title = "Vicinity recommendation"
+
+    if overall_a and overall_b and isinstance(overall_d, (int, float, np.floating)) and np.isfinite(overall_d):
+        closest_sentence = f"The closest store pairing is **{overall_a} → {overall_b}** at **{float(overall_d):.2f}km**."
+    else:
+        closest_sentence = "Closest-store pairing could not be reliably detected (check Store name/lat/lon columns)."
+
+    if isolated == 0:
+        isolation_sentence = f"At {radius_km}km, every store has at least one other store within the radius (no isolated stores)."
+    else:
+        isolation_sentence = (
+            f"At {radius_km}km, **{isolated}** stores have **no other store within the radius** "
+            f"({coverage_pct}% have at least one nearby store)."
+        )
+
+    body = f"{closest_sentence} {isolation_sentence}"
+
+    bullets = []
+    if isolated > 0:
+        bullets.append(
+            f"Isolation risk: those {isolated} stores are effectively operating in low-density catchments at {radius_km}km (nearest store exists, but sits outside the radius)."
+        )
+        iso_detail = stats.get("isolated_detail") or []
+        if iso_detail:
+            examples = iso_detail[:5]
+            ex_txt = "; ".join([f"{x['Location']} → {x['Nearest Store']} ({x['Distance (km)']:.2f}km)" for x in examples if x.get("Distance (km)") is not None])
+            if ex_txt:
+                bullets.append(f"Examples (isolated stores): {ex_txt}.")
+        bullets.append("Action idea: consider expanding radius (e.g., +5–15km) to see where these isolated stores begin to connect into clusters, or treat them as standalone coverage areas.")
+    else:
+        bullets.append("Network shape: store coverage is clustered enough that all stores connect to at least one other store within the selected radius.")
+        bullets.append("Action idea: you can keep the radius tight for relevance and focus on identifying the densest clusters (high competition / overlap) vs quieter areas.")
+
+    median_nearest = stats.get("median_nearest_km")
+    p90_nearest = stats.get("p90_nearest_km")
+    if median_nearest is not None:
+        if p90_nearest is not None:
+            bullets.append(f"Nearest-store distance (for stores with at least one nearby store): typical nearest is {median_nearest:.2f}km (90% within {p90_nearest:.2f}km).")
+        else:
+            bullets.append(f"Nearest-store distance (for stores with at least one nearby store): typical nearest is {median_nearest:.2f}km.")
+
+    return title, body, bullets
+
+
+# ------------------------------------------------------------
+# DOCX generation helpers (FONT FIX)
 # ------------------------------------------------------------
 def find_default_io_template() -> Optional[Path]:
-    """
-    Uses any file in /data matching *Template_Insertion Order*.docx
-    Else first .docx in /data.
-    """
     if not DATA_DIR.exists():
         return None
 
@@ -353,31 +798,137 @@ def find_default_io_template() -> Optional[Path]:
     return any_docx[0] if any_docx else None
 
 
-def set_run_font(run, pt_size: int = 9, font_name: Optional[str] = None):
+def set_run_font(run, pt_size: int = 9, font_name: Optional[str] = "Calibri"):
+    """
+    Force a run to a specific font/size. Also sets East Asia / HAnsi so Word doesn't flip fonts.
+    """
     try:
         run.font.size = Pt(pt_size)
         if font_name:
             run.font.name = font_name
-            # ensure font applies in Word
             rFonts = run._element.rPr.rFonts
             rFonts.set(qn("w:ascii"), font_name)
             rFonts.set(qn("w:hAnsi"), font_name)
+            rFonts.set(qn("w:cs"), font_name)
+            rFonts.set(qn("w:eastAsia"), font_name)
     except Exception:
         pass
 
 
-def write_value_in_paragraph_if_label(paragraph, label: str, value: str, pt_size: int = 9) -> bool:
+def set_paragraph_font(paragraph, pt_size: int = 9, font_name: str = "Calibri"):
+    """
+    Ensure paragraph style isn't forcing a different size.
+    - sets paragraph style font (if available)
+    - sets all runs
+    """
+    try:
+        if paragraph.style is not None and hasattr(paragraph.style, "font"):
+            paragraph.style.font.name = font_name
+            paragraph.style.font.size = Pt(pt_size)
+    except Exception:
+        pass
+
+    try:
+        for r in paragraph.runs:
+            set_run_font(r, pt_size, font_name)
+    except Exception:
+        pass
+
+
+def set_document_styles(doc: "Document", pt_size: int = 9, font_name: str = "Calibri"):
+    """
+    This is the main consistency fix:
+    - Set Normal style default font + size
+    - Also align common styles (Headings, No Spacing, Table styles) so template styles don't override.
+    """
+    if not hasattr(doc, "styles"):
+        return
+
+    try:
+        if "Normal" in doc.styles:
+            s = doc.styles["Normal"]
+            if hasattr(s, "font"):
+                s.font.name = font_name
+                s.font.size = Pt(pt_size)
+    except Exception:
+        pass
+
+    common_style_names = [
+        "No Spacing",
+        "Heading 1", "Heading 2", "Heading 3", "Heading 4",
+        "Title", "Subtitle",
+        "Table Grid", "Table Normal",
+        "List Paragraph",
+    ]
+
+    for name in common_style_names:
+        try:
+            if name in doc.styles:
+                s = doc.styles[name]
+                if hasattr(s, "font"):
+                    s.font.name = font_name
+                    s.font.size = Pt(pt_size)
+        except Exception:
+            continue
+
+    # Also harden every paragraph/table run after style defaults
+    try:
+        for p in doc.paragraphs:
+            set_paragraph_font(p, pt_size, font_name)
+        for t in doc.tables:
+            for row in t.rows:
+                for cell in row.cells:
+                    for p in cell.paragraphs:
+                        set_paragraph_font(p, pt_size, font_name)
+    except Exception:
+        pass
+
+
+def normalize_all_doc_fonts(doc: "Document", pt_size: int = 9, font_name: str = "Calibri"):
+    """
+    Backwards compatible (kept), but now calls the stronger style setter first.
+    """
+    set_document_styles(doc, pt_size=pt_size, font_name=font_name)
+
+
+def write_value_in_paragraph_if_label(paragraph, label: str, value: str, pt_size: int = 9, font_name: str = "Calibri") -> bool:
     txt = (paragraph.text or "").strip()
     if not txt.lower().startswith(label.lower()):
         return False
 
     paragraph.text = label + " "
     run = paragraph.add_run(value)
-    set_run_font(run, pt_size)
+    set_run_font(run, pt_size, font_name)
+
+    # Force paragraph style/runs too (some templates have label paragraph styled differently)
+    set_paragraph_font(paragraph, pt_size, font_name)
+
     return True
 
 
-def fill_media_buy_total_cell(doc: "Document", media_buy_total: float) -> bool:
+def table_contains_text(table, needle: str) -> bool:
+    needle = (needle or "").lower().strip()
+    if not needle:
+        return False
+    table_text = " ".join([(c.text or "") for row in table.rows for c in row.cells]).lower()
+    return needle in table_text
+
+
+def fill_block_by_table_keyword(doc: "Document", keyword: str, label_map: List[Tuple[str, str]]) -> bool:
+    for table in doc.tables:
+        if table_contains_text(table, keyword):
+            for row in table.rows:
+                for cell in row.cells:
+                    for p in cell.paragraphs:
+                        for lbl, val in label_map:
+                            if val is not None and val != "":
+                                if write_value_in_paragraph_if_label(p, lbl, val, pt_size=9, font_name="Calibri"):
+                                    break
+            return True
+    return False
+
+
+def fill_media_buy_total_cell(doc: "Document", media_buy_total: float, pt_size: int = 9, font_name: str = "Calibri") -> bool:
     target_label = "media buy total"
     amount_text = fmt_currency_rands(media_buy_total)
 
@@ -389,23 +940,21 @@ def fill_media_buy_total_cell(doc: "Document", media_buy_total: float) -> bool:
                     if i + 1 < len(row.cells):
                         row.cells[i + 1].text = amount_text
                         for p in row.cells[i + 1].paragraphs:
-                            for r in p.runs:
-                                set_run_font(r, 9)
+                            set_paragraph_font(p, pt_size, font_name)
                         return True
     return False
 
 
-def fill_top_line_numbers(doc: "Document", total_budget: float, total_impressions: int, note: str = "CPM: Mixed"):
+def fill_top_line_numbers(doc: "Document", total_budget: float, total_impressions: int, note: str = "CPM: Mixed", pt_size: int = 9, font_name: str = "Calibri"):
     for p in doc.paragraphs:
         t = (p.text or "").strip().lower()
         if "media buy total" in t and "cpm" in t and "impressions" in t:
             p.text = f"MEDIA BUY TOTAL: {fmt_currency_rands(total_budget)} | {note} | IMPRESSIONS: {fmt_int(total_impressions)}"
-            for r in p.runs:
-                set_run_font(r, 10)
+            set_paragraph_font(p, pt_size, font_name)
             break
 
 
-def fill_media_buy_rows(doc: "Document", line_items: List[Dict]) -> bool:
+def fill_media_buy_rows(doc: "Document", line_items: List[Dict], pt_size: int = 9, font_name: str = "Calibri") -> bool:
     def normalize(s: str) -> str:
         return (s or "").strip().lower()
 
@@ -413,6 +962,7 @@ def fill_media_buy_rows(doc: "Document", line_items: List[Dict]) -> bool:
         for r_idx, row in enumerate(table.rows):
             headers = [normalize(c.text) for c in row.cells]
             if ("product" in headers) and ("rate" in headers) and ("quantity" in headers):
+
                 def col_idx(name_exact: str, contains: Optional[str] = None):
                     for i, h in enumerate(headers):
                         if h == name_exact:
@@ -451,10 +1001,10 @@ def fill_media_buy_rows(doc: "Document", line_items: List[Dict]) -> bool:
                     def set_cell(ci, val):
                         if ci is None:
                             return
+                        # Setting cell.text creates a fresh run with template style -> we immediately force paragraph font
                         drow.cells[ci].text = val
                         for p in drow.cells[ci].paragraphs:
-                            for rr in p.runs:
-                                set_run_font(rr, 9)
+                            set_paragraph_font(p, pt_size, font_name)
 
                     set_cell(i_product, item.get("product", ""))
                     set_cell(i_desc, item.get("description", ""))
@@ -475,87 +1025,58 @@ def fill_media_buy_rows(doc: "Document", line_items: List[Dict]) -> bool:
 
 
 def fill_sales_contact_block(doc: "Document", sales_name: str, sales_email: str) -> None:
-    """
-    Find the Sales Contact box/table and update Name/Email inside that area.
-    This avoids clashing with Billing 'Contact Name:'.
-    """
     if not (sales_name or sales_email):
         return
 
-    for table in doc.tables:
-        table_text = " ".join([(c.text or "") for row in table.rows for c in row.cells]).lower()
-        if "sales contact" in table_text:
-            # update within this table only
-            for row in table.rows:
-                for cell in row.cells:
-                    for p in cell.paragraphs:
-                        t = (p.text or "").strip()
-                        if sales_name and t.lower().startswith("name:"):
-                            p.text = "Name: "
-                            r = p.add_run(sales_name)
-                            set_run_font(r, 9)
-                        if sales_email and t.lower().startswith("email:"):
-                            p.text = "Email: "
-                            r = p.add_run(sales_email)
-                            set_run_font(r, 9)
-            return
+    fill_block_by_table_keyword(
+        doc,
+        keyword="Sales Contact",
+        label_map=[
+            ("Name:", sales_name),
+            ("Sales Email:", sales_email),
+            ("Email:", sales_email),
+        ],
+    )
 
 
-def insert_signature_above_signature_line(doc: "Document", signer_name: str, signer_title: str) -> None:
-    """
-    Inserts typed signature ABOVE the "Customer Authorized Signature:" line,
-    using a script-like font where possible.
-    """
-    if not signer_name:
-        return
-
-    script_font = "Brush Script MT"  # fallback to whatever Word has if missing
-
-    # Search paragraphs in all table cells too
-    def process_paragraph_list(paragraphs):
-        for p in paragraphs:
-            text = (p.text or "").lower()
-            if "customer authorized signature" in text:
-                # insert BEFORE this paragraph
-                parent = p._p.getparent()
-                idx = parent.index(p._p)
-
-                # Name line
-                new_p = p._p.__class__()  # empty paragraph element
-                parent.insert(idx, new_p)
-                np = p._parent.add_paragraph()  # creates at end; we'll move content instead
-                np._p.getparent().remove(np._p)  # remove from end
-                np._p = new_p  # re-bind
-                run = np.add_run(signer_name)
-                set_run_font(run, 18, font_name=script_font)
-
-                # Title line (optional)
-                if signer_title:
-                    new_p2 = p._p.__class__()
-                    parent.insert(idx + 1, new_p2)
-                    np2 = p._parent.add_paragraph()
-                    np2._p.getparent().remove(np2._p)
-                    np2._p = new_p2
-                    run2 = np2.add_run(signer_title)
-                    set_run_font(run2, 9)
-                return True
+def fill_special_instructions(doc: "Document", special_instructions: str, pt_size: int = 9, font_name: str = "Calibri") -> bool:
+    if not special_instructions or not special_instructions.strip():
         return False
 
-    # Try doc paragraphs first
-    if process_paragraph_list(doc.paragraphs):
-        return
+    si = special_instructions.strip()
 
-    # Then tables
+    for p in doc.paragraphs:
+        t = (p.text or "").strip()
+        if t.lower().startswith("special instructions"):
+            if ":" in t:
+                p.text = "Special Instructions: " + si
+            else:
+                p.text = "Special Instructions"
+                p2 = p._parent.add_paragraph(si)
+                set_paragraph_font(p2, pt_size, font_name)
+            set_paragraph_font(p, pt_size, font_name)
+            return True
+
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
-                if process_paragraph_list(cell.paragraphs):
-                    return
+                cell_txt = (cell.text or "").strip().lower()
+                if "special instructions" in cell_txt:
+                    if len(row.cells) >= 2 and cell is row.cells[0]:
+                        row.cells[1].text = si
+                        for p in row.cells[1].paragraphs:
+                            set_paragraph_font(p, pt_size, font_name)
+                        return True
+                    else:
+                        cell.paragraphs[-1].add_run("\n" + si)
+                        for p in cell.paragraphs:
+                            set_paragraph_font(p, pt_size, font_name)
+                        return True
+    return False
 
 
 def generate_io_docx_bytes(
     template_path: Path,
-    # customer/campaign blocks
     advertiser_name: str,
     advertiser_contact: str,
     agency_name: str,
@@ -563,85 +1084,187 @@ def generate_io_docx_bytes(
     campaign_name: str,
     customer_ref: str,
     campaign_date: str,
-    # billing block
     billing_customer_name: str,
     billing_contact_name: str,
     billing_address: str,
     billing_phone: str,
     billing_email: str,
-    # sales contact
     sales_contact_name: str,
     sales_contact_email: str,
-    # signature (typed)
-    signer_name: str,
-    signer_title: str,
-    # line items + totals
+    special_instructions: str,
     line_items: List[Dict],
     total_budget: float,
     total_impressions: int,
 ) -> bytes:
     doc = Document(str(template_path))
 
-    # 1) Fill labels (Customer / Campaign / Billing)
-    label_map = [
-        ("Advertiser Name:", advertiser_name),
-        ("Advertiser Contact:", advertiser_contact),
-        ("Agency Name:", agency_name),
-        ("Agency Contact:", agency_contact),
+    # 1) Force document style defaults FIRST (prevents template styles overriding our inserted text)
+    set_document_styles(doc, pt_size=9, font_name="Calibri")
 
-        ("Campaign Name:", campaign_name),
-        ("Customer Reference Number:", customer_ref),
+    # 2) Fill blocks
+    fill_block_by_table_keyword(
+        doc,
+        keyword="Customer Information",
+        label_map=[
+            ("Advertiser Name:", advertiser_name),
+            ("Advertiser Contact:", advertiser_contact),
+            ("Agency Name:", agency_name),
+            ("Agency Contact:", agency_contact),
+        ],
+    )
 
-        # Customer Job Number should be BLANK by design (do not fill)
-        ("Customer Job Number:", ""),  # ensures template doesn't keep old value if present
+    fill_block_by_table_keyword(
+        doc,
+        keyword="Campaign Information",
+        label_map=[
+            ("Campaign Name:", campaign_name),
+            ("Customer Reference Number:", customer_ref),
+            ("Customer Job Number:", ""),
+            ("Date:", campaign_date),
+        ],
+    )
 
-        ("Date:", campaign_date),
+    fill_block_by_table_keyword(
+        doc,
+        keyword="Billing Contact",
+        label_map=[
+            ("Customer Name:", billing_customer_name),
+            ("Contact Name:", billing_contact_name),
+            ("Address:", billing_address),
+            ("Phone:", billing_phone),
+            ("Billing Email:", billing_email),
+            ("Email:", billing_email),
+        ],
+    )
 
-        # Billing
-        ("Customer Name:", billing_customer_name),
-        ("Contact Name:", billing_contact_name),
-        ("Address:", billing_address),
-        ("Phone:", billing_phone),
-        ("Email:", billing_email),
-    ]
-
-    def apply_to_paragraphs(paragraphs):
-        for p in paragraphs:
-            for lbl, val in label_map:
-                # allow blanking "Customer Job Number:"
-                if lbl.lower().startswith("customer job number"):
-                    if write_value_in_paragraph_if_label(p, lbl, "", pt_size=9):
-                        break
-                    continue
-
-                if val:
-                    if write_value_in_paragraph_if_label(p, lbl, val, pt_size=9):
-                        break
-
-    apply_to_paragraphs(doc.paragraphs)
-    for table in doc.tables:
-        for row in table.rows:
-            for cell in row.cells:
-                apply_to_paragraphs(cell.paragraphs)
-
-    # 2) Fill Sales contact block precisely
     fill_sales_contact_block(doc, sales_contact_name, sales_contact_email)
+    fill_special_instructions(doc, special_instructions, pt_size=9, font_name="Calibri")
 
-    # 3) Insert signature ABOVE signature line
-    insert_signature_above_signature_line(doc, signer_name, signer_title)
+    fill_media_buy_total_cell(doc, total_budget, pt_size=9, font_name="Calibri")
+    fill_media_buy_rows(doc, line_items, pt_size=9, font_name="Calibri")
+    fill_top_line_numbers(doc, total_budget, total_impressions, note="CPM: Mixed", pt_size=9, font_name="Calibri")
 
-    # 4) Fill Media Buy Total summary cell
-    fill_media_buy_total_cell(doc, total_budget)
-
-    # 5) Fill Media Buy Specifications rows
-    fill_media_buy_rows(doc, line_items)
-
-    # 6) Top line (Mixed CPM for combo)
-    fill_top_line_numbers(doc, total_budget, total_impressions, note="CPM: Mixed")
+    # 3) FINAL HARDEN PASS (this is what fixes “inconsistent font sizes” across template areas)
+    set_document_styles(doc, pt_size=9, font_name="Calibri")
 
     out = BytesIO()
     doc.save(out)
     return out.getvalue()
+
+
+# ------------------------------------------------------------
+# Budget extras helpers (Tab 2 -> Tab 3)
+# ------------------------------------------------------------
+def build_extras_calc(extra_df: pd.DataFrame) -> pd.DataFrame:
+    if extra_df is None or extra_df.empty:
+        return pd.DataFrame(columns=["Product", "Locations", "Rate (CPM)", "Quantity (Impressions)", "Gross Rate"])
+
+    rows = []
+    for _, r in extra_df.fillna(0).iterrows():
+        prod = str(r.get("Product", "DOOH")).strip() or "DOOH"
+        locs = int(r.get("Locations", 0) or 0)
+        bud = float(r.get("Budget (R)", 0.0) or 0.0)
+
+        cpm = dooh_cpm_from_count(locs) if prod == "DOOH" else mobile_cpm_from_count(locs)
+        imps = impressions_from_budget_and_cpm(bud, cpm)
+
+        rows.append({
+            "Product": prod,
+            "Locations": locs,
+            "Rate (CPM)": f"R {cpm}",
+            "Quantity (Impressions)": int(round(imps, 0)),
+            "Gross Rate": float(bud),
+        })
+
+    return pd.DataFrame(rows)
+
+
+def extras_fingerprint(extra_df: pd.DataFrame) -> str:
+    try:
+        payload = extra_df.fillna("").to_dict(orient="records") if isinstance(extra_df, pd.DataFrame) else []
+        s = json.dumps(payload, sort_keys=True)
+    except Exception:
+        s = ""
+    return hashlib.md5(s.encode("utf-8")).hexdigest()
+
+
+def build_default_io_rows(
+    campaign_type: str,
+    dooh_budget: float,
+    mobile_budget: float,
+    dooh_count: int,
+    mobile_count: int,
+    start_date: str,
+    end_date: str,
+    extra_calc: Optional[pd.DataFrame],
+) -> List[Dict]:
+    rows = []
+
+    base_idx = 0
+    if campaign_type in ["DOOH", "DOOH + Mobile"]:
+        dooh_cpm = dooh_cpm_from_count(dooh_count)
+        dooh_imps = int(round(impressions_from_budget_and_cpm(dooh_budget, dooh_cpm), 0))
+        rows.append({
+            "_row_id": f"base_{base_idx}",
+            "Product": "DOOH",
+            "Description": "",
+            "Start Date": start_date.strip(),
+            "End Date": end_date.strip(),
+            "Publisher": "",
+            "Targeting": "",
+            "Rate": f"R {dooh_cpm}",
+            "Metric": "Impressions",
+            "Quantity": fmt_int(dooh_imps),
+            "Gross Rate": fmt_currency_rands(dooh_budget),
+            "Net Rate (optional)": "",
+            "_row_source": "base",
+        })
+        base_idx += 1
+
+    if campaign_type in ["Mobile", "DOOH + Mobile"]:
+        mob_cpm = mobile_cpm_from_count(mobile_count)
+        mob_imps = int(round(impressions_from_budget_and_cpm(mobile_budget, mob_cpm), 0))
+        rows.append({
+            "_row_id": f"base_{base_idx}",
+            "Product": "Mobile",
+            "Description": "",
+            "Start Date": start_date.strip(),
+            "End Date": end_date.strip(),
+            "Publisher": "",
+            "Targeting": "",
+            "Rate": f"R {mob_cpm}",
+            "Metric": "Impressions",
+            "Quantity": fmt_int(mob_imps),
+            "Gross Rate": fmt_currency_rands(mobile_budget),
+            "Net Rate (optional)": "",
+            "_row_source": "base",
+        })
+        base_idx += 1
+
+    if isinstance(extra_calc, pd.DataFrame) and not extra_calc.empty:
+        for j, (_, r) in enumerate(extra_calc.iterrows()):
+            prod = str(r.get("Product", "")).strip() or "DOOH"
+            rate = str(r.get("Rate (CPM)", "")).strip()
+            qty = fmt_int(r.get("Quantity (Impressions)", 0))
+            gross = fmt_currency_rands(float(r.get("Gross Rate", 0.0)))
+            rows.append({
+                "_row_id": f"extra_{j}",
+                "Product": prod,
+                "Description": "",
+                "Start Date": start_date.strip(),
+                "End Date": end_date.strip(),
+                "Publisher": "",
+                "Targeting": "",
+                "Rate": rate,
+                "Metric": "Impressions",
+                "Quantity": qty,
+                "Gross Rate": gross,
+                "Net Rate (optional)": "",
+                "_row_source": "extra",
+            })
+
+    return rows
+
 
 # ------------------------------------------------------------
 # Background + header
@@ -652,14 +1275,15 @@ if bg_path:
 
 inject_app_css()
 
-# IMPORTANT: logo file should be assets/logo.png
 logo_path = find_asset("logo")
 render_header(logo_path)
+
 
 # ------------------------------------------------------------
 # Tabs
 # ------------------------------------------------------------
 tab1, tab2, tab3 = st.tabs(["Proximity", "Budget & Selection", "Insertion Order (DOCX)"])
+
 
 # ============================================================
 # TAB 1: Proximity
@@ -673,32 +1297,69 @@ with tab1:
         key="mode_radio"
     )
 
+    st.subheader("CSV template (download)")
+    st.download_button(
+        "Download Stores template (CSV)",
+        data=csv_bytes_from_df(stores_template_df()),
+        file_name="stores_template.csv",
+        mime="text/csv",
+        key="dl_stores_template_proximity_onlyone",
+    )
+
     st.subheader("Upload files")
 
+    dooh_df = None
     if mode == "Store to DOOH":
         stores_file = st.file_uploader("Upload Stores (CSV)", type="csv", key="stores_dooh")
 
-        dooh_df = None
-        if DOOH_MASTER_PATH.exists():
-            try:
-                dooh_df = pd.read_csv(DOOH_MASTER_PATH)
-                st.caption(f"Using DOOH master: {DOOH_MASTER_PATH}")
-            except Exception as e:
-                st.warning(f"Found {DOOH_MASTER_PATH} but couldn't read it: {e}")
-                dooh_df = None
-
+        dooh_df = load_dooh_master()
         if dooh_df is None:
             st.info("DOOH master not found. Temporary option: upload a DOOH CSV for this run.")
             dooh_file = st.file_uploader("Upload DOOH (CSV) [temporary]", type="csv", key="dooh_temp")
             if dooh_file:
                 dooh_df = pd.read_csv(dooh_file)
-
+                prov_col_tmp = pick_province_col(dooh_df)
+                if prov_col_tmp:
+                    dooh_df[prov_col_tmp] = dooh_df[prov_col_tmp].apply(normalize_province_name)
+        else:
+            prov_col = pick_province_col(dooh_df)
+            if prov_col:
+                provinces_live = sorted([p for p in dooh_df[prov_col].dropna().unique().tolist() if str(p).strip() != ""])
+                st.caption(f"Loaded DOOH master: {DOOH_MASTER_PATH.name} | Provinces: {len(provinces_live)}")
     else:
         colA, colB = st.columns(2)
         with colA:
             stores_a_file = st.file_uploader("Upload Store List A (CSV)", type="csv", key="stores_a")
         with colB:
             stores_b_file = st.file_uploader("Upload Store List B (CSV)", type="csv", key="stores_b")
+
+    selected_provinces = None
+    if mode == "Store to DOOH" and isinstance(dooh_df, pd.DataFrame) and not dooh_df.empty:
+        prov_col = pick_province_col(dooh_df)
+        if prov_col:
+            all_provinces = sorted([p for p in dooh_df[prov_col].dropna().unique().tolist() if str(p).strip() != ""])
+
+            st.subheader("DOOH filters")
+
+            SELECT_ALL = "Select all provinces"
+            province_options = [SELECT_ALL] + all_provinces
+
+            chosen = st.multiselect(
+                "Provinces",
+                options=province_options,
+                default=[SELECT_ALL],
+                key="dooh_province_filter_ui",
+            )
+
+            if SELECT_ALL in chosen:
+                selected_provinces = all_provinces
+            else:
+                selected_provinces = chosen
+
+            if selected_provinces is not None and len(selected_provinces) > 0:
+                dooh_df = dooh_df[dooh_df[prov_col].isin(selected_provinces)].copy()
+        else:
+            st.warning("DOOH master does not have a Province column, so the Province filter cannot be shown.")
 
     st.subheader("Settings")
     radius = st.slider("Radius (km)", 1, 50, 10, key="radius_slider")
@@ -732,19 +1393,23 @@ with tab1:
 
         store_lat, store_lon = pick_lat_lon(stores)
         store_name_col = pick_name_col(stores)
+        store_prov_col = pick_province_col(stores)
+
         if store_lat is None or store_lon is None:
             st.error("Could not detect latitude/longitude in Stores. Ensure columns include 'lat' and 'lon' (or 'lng').")
             st.stop()
 
         tgt_lat, tgt_lon = pick_lat_lon(targets)
         tgt_name_col = pick_name_col(targets)
+        tgt_prov_col = pick_province_col(targets)
+
         if tgt_lat is None or tgt_lon is None:
             st.error(f"Could not detect latitude/longitude in {target_label} dataset.")
             st.stop()
 
-        # DOOH identifiers (optional)
         dooh_site_id_col = None
         dooh_network_col = None
+        dooh_prov_col = None
         if mode == "Store to DOOH":
             dooh_site_id_col = pick_first_existing(
                 targets,
@@ -754,8 +1419,8 @@ with tab1:
                 targets,
                 ["Network:", "Network", "Network Type", "Network_Type", "NetworkType"]
             )
+            dooh_prov_col = pick_province_col(targets)
 
-        # Clean coords
         stores[store_lat] = pd.to_numeric(stores[store_lat], errors="coerce")
         stores[store_lon] = pd.to_numeric(stores[store_lon], errors="coerce")
         targets[tgt_lat] = pd.to_numeric(targets[tgt_lat], errors="coerce")
@@ -763,6 +1428,13 @@ with tab1:
 
         stores = stores.dropna(subset=[store_lat, store_lon]).reset_index(drop=True)
         targets = targets.dropna(subset=[tgt_lat, tgt_lon]).reset_index(drop=True)
+
+        if store_prov_col:
+            stores[store_prov_col] = stores[store_prov_col].apply(normalize_province_name)
+        if tgt_prov_col:
+            targets[tgt_prov_col] = targets[tgt_prov_col].apply(normalize_province_name)
+        if dooh_prov_col:
+            targets[dooh_prov_col] = targets[dooh_prov_col].apply(normalize_province_name)
 
         if stores.empty or targets.empty:
             st.error("After cleaning coordinates, one of the datasets has no valid lat/lon rows.")
@@ -776,6 +1448,9 @@ with tab1:
 
         for i, s in stores.iterrows():
             s_name = str(s[store_name_col]) if (store_name_col and store_name_col in stores.columns and pd.notna(s[store_name_col])) else f"Location {i}"
+            s_prov = ""
+            if store_prov_col and store_prov_col in stores.columns and pd.notna(s.get(store_prov_col)):
+                s_prov = str(s.get(store_prov_col))
 
             dists = haversine_vec(s[store_lat], s[store_lon], tgt_lats, tgt_lons)
             within_mask = dists <= radius
@@ -787,6 +1462,7 @@ with tab1:
             if show_summary:
                 row = {
                     "Location": s_name,
+                    "Province": s_prov if s_prov else "",
                     f"{target_label} sites within {radius}km": int(len(idxs)),
                     f"Nearest {target_label} distance (km)": round(nearest_dist, 3) if np.isfinite(nearest_dist) else None,
                 }
@@ -802,18 +1478,32 @@ with tab1:
                         if (nearest_idx is not None and dooh_network_col and pd.notna(targets.iloc[nearest_idx][dooh_network_col]))
                         else ""
                     )
+                    if dooh_prov_col:
+                        row["Nearest DOOH Province"] = (
+                            str(targets.iloc[nearest_idx][dooh_prov_col])
+                            if (nearest_idx is not None and pd.notna(targets.iloc[nearest_idx].get(dooh_prov_col)))
+                            else ""
+                        )
                 else:
                     row["Nearest Store"] = (
                         str(targets.iloc[nearest_idx][tgt_name_col])
                         if (nearest_idx is not None and tgt_name_col and tgt_name_col in targets.columns and pd.notna(targets.iloc[nearest_idx][tgt_name_col]))
                         else ""
                     )
+                    if tgt_prov_col:
+                        row["Nearest Store Province"] = (
+                            str(targets.iloc[nearest_idx][tgt_prov_col])
+                            if (nearest_idx is not None and pd.notna(targets.iloc[nearest_idx].get(tgt_prov_col)))
+                            else ""
+                        )
+
                 summary_rows.append(row)
 
             if include_pairwise:
                 for j in idxs:
                     pr = {
                         "Location": s_name,
+                        "Province": s_prov if s_prov else "",
                         "Distance (km)": round(float(dists[j]), 3),
                     }
 
@@ -828,41 +1518,84 @@ with tab1:
                             if (dooh_network_col and pd.notna(targets.iloc[j][dooh_network_col]))
                             else ""
                         )
+                        if dooh_prov_col:
+                            pr["DOOH Province"] = (
+                                str(targets.iloc[j][dooh_prov_col])
+                                if pd.notna(targets.iloc[j].get(dooh_prov_col))
+                                else ""
+                            )
                     else:
                         pr["Store"] = (
                             str(targets.iloc[j][tgt_name_col])
                             if (tgt_name_col and tgt_name_col in targets.columns and pd.notna(targets.iloc[j][tgt_name_col]))
                             else f"Store {j}"
                         )
+                        if tgt_prov_col:
+                            pr["Store Province"] = (
+                                str(targets.iloc[j][tgt_prov_col])
+                                if pd.notna(targets.iloc[j].get(tgt_prov_col))
+                                else ""
+                            )
 
                     pairwise_rows.append(pr)
 
+        summary_df = pd.DataFrame(summary_rows) if show_summary else None
+        pairwise_df = pd.DataFrame(pairwise_rows) if include_pairwise else None
+
+        st.session_state["prox_results"] = {
+            "mode": mode,
+            "radius": radius,
+            "summary_df": summary_df,
+            "pairwise_df": pairwise_df,
+        }
+
+        if isinstance(summary_df, pd.DataFrame) and not summary_df.empty:
+            st.subheader("Planning insights")
+            stats = compute_insight_stats(summary_df, pairwise_df, mode, radius)
+            if stats:
+                if mode == "Store to DOOH":
+                    title, body, bullets = build_vicinity_recommendation_dooh(stats)
+                else:
+                    title, body, bullets = build_vicinity_recommendation_store_to_store(stats)
+
+                render_recommendation_box(title, body, bullets)
+
+                with st.expander("Opportunity windows (locations with zero nearby sites)", expanded=False):
+                    st.write(stats["opportunity_locations_preview"])
+
+                if mode == "Store to Store" and stats.get("isolated_detail"):
+                    with st.expander("Isolated stores: nearest store and distance (even if outside radius)", expanded=False):
+                        st.dataframe(pd.DataFrame(stats["isolated_detail"]), use_container_width=True, hide_index=True)
+
+                if mode == "Store to DOOH" and isinstance(stats.get("top_networks"), pd.DataFrame):
+                    with st.expander("Top DOOH networks near your locations (unique sites)", expanded=False):
+                        st.dataframe(stats["top_networks"], use_container_width=True)
+
         if show_summary:
-            summary_df = pd.DataFrame(summary_rows)
             st.subheader("Results (summary)")
             st.dataframe(summary_df, use_container_width=True, hide_index=True)
-
             st.download_button(
                 "Download summary (CSV)",
                 summary_df.to_csv(index=False).encode("utf-8"),
                 file_name="proximity_summary.csv",
                 mime="text/csv",
+                key="dl_prox_summary_csv",
             )
 
         if include_pairwise:
-            pairwise_df = pd.DataFrame(pairwise_rows)
             st.subheader("Results (pairwise within radius)")
             st.dataframe(pairwise_df, use_container_width=True, hide_index=True)
-
             st.download_button(
                 "Download pairwise (CSV)",
                 pairwise_df.to_csv(index=False).encode("utf-8"),
                 file_name="location_proximity_results.csv",
                 mime="text/csv",
+                key="dl_prox_pairwise_csv",
             )
 
         if (not show_summary) and (not include_pairwise):
             st.info("Select at least one output option (summary and/or pairwise).")
+
 
 # ============================================================
 # TAB 2: Budget & Selection
@@ -877,16 +1610,33 @@ with tab2:
         key="campaign_type"
     )
 
-    # Defaults
     dooh_selected_count = int(st.session_state.get("selected_sites_count_dooh", 0))
     mobile_selected_count = int(st.session_state.get("selected_sites_count_mobile", 0))
 
     dooh_budget = float(st.session_state.get("budget_dooh", 200000.0))
     mobile_budget = float(st.session_state.get("budget_mobile", 150000.0))
 
+    base_total_budget = 0.0
+    base_total_imps = 0.0
+
+    # Flags: savings only shows when a list is uploaded AND below threshold
+    dooh_uploaded = False
+    mobile_uploaded = False
+
     if campaign_type == "DOOH":
         st.caption("DOOH selection upload must include: 'Site ID/Number' and 'Selected' (1/0).")
+
+        st.download_button(
+            "Download DOOH selection template (CSV)",
+            data=csv_bytes_from_df(dooh_selection_template_df()),
+            file_name="dooh_selection_template.csv",
+            mime="text/csv",
+            key="dl_dooh_selection_template_tab2",
+        )
+
         selection_file_dooh = st.file_uploader("Upload DOOH selected sites (CSV)", type="csv", key="selection_upload_dooh")
+        dooh_uploaded = selection_file_dooh is not None
+
         dooh_budget = st.number_input("DOOH budget (R)", min_value=0.0, value=float(dooh_budget), step=1000.0, key="budget_dooh_input")
 
         if selection_file_dooh:
@@ -901,20 +1651,39 @@ with tab2:
         dooh_cpm = dooh_cpm_from_count(dooh_selected_count)
         dooh_imps = impressions_from_budget_and_cpm(dooh_budget, dooh_cpm)
 
+        if dooh_uploaded and dooh_selected_count < 50:
+            msg = savings_message("DOOH", dooh_selected_count, float(dooh_budget))
+            if msg:
+                st.info(msg)
+
         st.session_state["selected_sites_count_dooh"] = dooh_selected_count
         st.session_state["budget_dooh"] = float(dooh_budget)
 
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            st.metric("Selected DOOH sites", dooh_selected_count)
-        with c2:
-            st.metric("DOOH CPM (R)", dooh_cpm)
-        with c3:
-            st.metric("Estimated DOOH impressions", fmt_int(dooh_imps))
+        base_total_budget = float(dooh_budget)
+        base_total_imps = float(dooh_imps)
+
+        st.subheader("Summary")
+        kpi_grid([
+            {"label": "Selected DOOH sites", "value": str(dooh_selected_count)},
+            {"label": "DOOH CPM", "value": f"R {dooh_cpm}"},
+            {"label": "Estimated DOOH impressions", "value": fmt_int(dooh_imps)},
+            {"label": "DOOH budget", "value": fmt_currency_rands(dooh_budget)},
+        ])
 
     elif campaign_type == "Mobile":
-        st.caption("Mobile upload supports ABSA-style location list OR selection format.")
+        st.caption("Mobile upload supports a location list with lat/lon (Province optional).")
+
+        st.download_button(
+            "Download Mobile/Locations template (CSV)",
+            data=csv_bytes_from_df(mobile_locations_template_df()),
+            file_name="mobile_locations_template.csv",
+            mime="text/csv",
+            key="dl_mobile_locations_template_tab2",
+        )
+
         selection_file_mobile = st.file_uploader("Upload Mobile locations (CSV)", type="csv", key="selection_upload_mobile")
+        mobile_uploaded = selection_file_mobile is not None
+
         mobile_budget = st.number_input("Mobile budget (R)", min_value=0.0, value=float(mobile_budget), step=1000.0, key="budget_mobile_input")
 
         if selection_file_mobile:
@@ -928,26 +1697,53 @@ with tab2:
         mob_cpm = mobile_cpm_from_count(mobile_selected_count)
         mob_imps = impressions_from_budget_and_cpm(mobile_budget, mob_cpm)
 
+        if mobile_uploaded and mobile_selected_count < 50:
+            msg = savings_message("Mobile", mobile_selected_count, float(mobile_budget))
+            if msg:
+                st.info(msg)
+
         st.session_state["selected_sites_count_mobile"] = mobile_selected_count
         st.session_state["budget_mobile"] = float(mobile_budget)
 
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            st.metric("Mobile locations", mobile_selected_count)
-        with c2:
-            st.metric("Mobile CPM (R)", mob_cpm)
-        with c3:
-            st.metric("Estimated Mobile impressions", fmt_int(mob_imps))
+        base_total_budget = float(mobile_budget)
+        base_total_imps = float(mob_imps)
+
+        st.subheader("Summary")
+        kpi_grid([
+            {"label": "Mobile locations", "value": str(mobile_selected_count)},
+            {"label": "Mobile CPM", "value": f"R {mob_cpm}"},
+            {"label": "Estimated Mobile impressions", "value": fmt_int(mob_imps)},
+            {"label": "Mobile budget", "value": fmt_currency_rands(mobile_budget)},
+        ])
 
     else:
         colA, colB = st.columns(2)
         with colA:
             st.caption("DOOH selection upload: 'Site ID/Number' + 'Selected'")
+            st.download_button(
+                "Download DOOH selection template (CSV)",
+                data=csv_bytes_from_df(dooh_selection_template_df()),
+                file_name="dooh_selection_template.csv",
+                mime="text/csv",
+                key="dl_dooh_selection_template_tab2_combo",
+            )
             selection_file_dooh = st.file_uploader("Upload DOOH selected sites (CSV)", type="csv", key="selection_upload_dooh_combo")
+            dooh_uploaded = selection_file_dooh is not None
+
             dooh_budget = st.number_input("DOOH budget (R)", min_value=0.0, value=float(dooh_budget), step=1000.0, key="budget_dooh_input_combo")
+
         with colB:
-            st.caption("Mobile upload supports ABSA-style list OR selection format.")
+            st.caption("Mobile upload: location list with lat/lon (Province optional).")
+            st.download_button(
+                "Download Mobile/Locations template (CSV)",
+                data=csv_bytes_from_df(mobile_locations_template_df()),
+                file_name="mobile_locations_template.csv",
+                mime="text/csv",
+                key="dl_mobile_locations_template_tab2_combo",
+            )
             selection_file_mobile = st.file_uploader("Upload Mobile locations (CSV)", type="csv", key="selection_upload_mobile_combo")
+            mobile_uploaded = selection_file_mobile is not None
+
             mobile_budget = st.number_input("Mobile budget (R)", min_value=0.0, value=float(mobile_budget), step=1000.0, key="budget_mobile_input_combo")
 
         if selection_file_dooh:
@@ -973,46 +1769,114 @@ with tab2:
         dooh_imps = impressions_from_budget_and_cpm(dooh_budget, dooh_cpm)
         mob_imps = impressions_from_budget_and_cpm(mobile_budget, mob_cpm)
 
+        if dooh_uploaded and dooh_selected_count < 50:
+            msg_d = savings_message("DOOH", dooh_selected_count, float(dooh_budget))
+            if msg_d:
+                st.info(msg_d)
+
+        if mobile_uploaded and mobile_selected_count < 50:
+            msg_m = savings_message("Mobile", mobile_selected_count, float(mobile_budget))
+            if msg_m:
+                st.info(msg_m)
+
         total_budget = float(dooh_budget) + float(mobile_budget)
-        total_imps = int(round(dooh_imps + mob_imps, 0))
+        total_imps = float(dooh_imps + mob_imps)
 
         st.session_state["selected_sites_count_dooh"] = dooh_selected_count
         st.session_state["selected_sites_count_mobile"] = mobile_selected_count
         st.session_state["budget_dooh"] = float(dooh_budget)
         st.session_state["budget_mobile"] = float(mobile_budget)
 
+        base_total_budget = float(total_budget)
+        base_total_imps = float(total_imps)
+
         st.subheader("Summary")
-        r1, r2, r3 = st.columns(3)
-        with r1:
-            st.metric("Total budget", fmt_currency_rands(total_budget))
-        with r2:
-            st.metric("Total impressions", fmt_int(total_imps))
-        with r3:
-            st.metric("CPM", "Mixed")
+        kpi_grid([
+            {"label": "DOOH sites", "value": str(dooh_selected_count)},
+            {"label": "DOOH CPM", "value": f"R {dooh_cpm}"},
+            {"label": "DOOH impressions", "value": fmt_int(dooh_imps)},
+            {"label": "DOOH budget", "value": fmt_currency_rands(dooh_budget)},
+            {"label": "Mobile locations", "value": str(mobile_selected_count)},
+            {"label": "Mobile CPM", "value": f"R {mob_cpm}"},
+            {"label": "Mobile impressions", "value": fmt_int(mob_imps)},
+            {"label": "Mobile budget", "value": fmt_currency_rands(mobile_budget)},
+            {"label": "Total impressions", "value": fmt_int(total_imps)},
+            {"label": "Media Buy Total", "value": fmt_currency_rands(total_budget)},
+            {"label": "Campaign type", "value": "DOOH + Mobile"},
+            {"label": "CPM", "value": "Mixed"},
+        ])
 
-        st.divider()
+    st.divider()
+    st.subheader("Additional line items (optional)")
+    st.caption("Add extra DOOH/Mobile line items on top of the campaign budgets above. These will be included in the IO line items on Tab 3.")
 
-        c1, c2, c3, c4, c5 = st.columns(5)
-        with c1:
-            st.metric("DOOH sites", dooh_selected_count)
-        with c2:
-            st.metric("DOOH CPM", f"R {dooh_cpm}")
-        with c3:
-            st.metric("DOOH imps", fmt_int(dooh_imps))
-        with c4:
-            st.metric("DOOH budget", fmt_currency_rands(dooh_budget))
-        with c5:
-            st.metric("Mobile CPM", f"R {mob_cpm}")
+    if "extra_lineitems_df" not in st.session_state:
+        st.session_state["extra_lineitems_df"] = pd.DataFrame([
+            {"Product": "DOOH", "Locations": 0, "Budget (R)": 0.0},
+        ])
 
-        c1, c2, c3, c4 = st.columns(4)
-        with c1:
-            st.metric("Mobile locations", mobile_selected_count)
-        with c2:
-            st.metric("Mobile imps", fmt_int(mob_imps))
-        with c3:
-            st.metric("Mobile budget", fmt_currency_rands(mobile_budget))
-        with c4:
-            st.metric("Mobile CPM (repeat)", f"R {mob_cpm}")
+    btnA, btnB, _sp = st.columns([1, 1, 3])
+    with btnA:
+        if st.button("Add extra row", key="add_extra_row"):
+            df = st.session_state["extra_lineitems_df"].copy()
+            df.loc[len(df)] = {"Product": "DOOH", "Locations": 0, "Budget (R)": 0.0}
+            st.session_state["extra_lineitems_df"] = df
+    with btnB:
+        if st.button("Remove last extra row", key="remove_extra_row"):
+            df = st.session_state["extra_lineitems_df"].copy()
+            if len(df) > 1:
+                st.session_state["extra_lineitems_df"] = df.iloc[:-1].reset_index(drop=True)
+
+    extra_df = st.data_editor(
+        st.session_state["extra_lineitems_df"],
+        num_rows="fixed",
+        use_container_width=True,
+        key="extra_lineitems_editor",
+        column_config={
+            "Product": st.column_config.SelectboxColumn("Product", options=["DOOH", "Mobile"]),
+            "Locations": st.column_config.NumberColumn("Number of locations/DOOH placements", min_value=0, step=1),
+            "Budget (R)": st.column_config.NumberColumn("Budget (R)", min_value=0.0, step=1000.0),
+        },
+    )
+    st.session_state["extra_lineitems_df"] = extra_df
+
+    # Extra line item nudges: show only if user actually entered a meaningful row
+    for _, r in extra_df.fillna(0).iterrows():
+        prod = str(r.get("Product", "")).strip() or "DOOH"
+        locs = int(r.get("Locations", 0) or 0)
+        bud = float(r.get("Budget (R)", 0.0) or 0.0)
+        if locs > 0 and bud > 0 and locs < 50:
+            msg = savings_message(prod, locs, bud)
+            if msg:
+                st.warning(msg)
+
+    extra_calc = build_extras_calc(extra_df)
+    st.session_state["extra_lineitems_calc"] = extra_calc
+    st.session_state["extra_lineitems_fingerprint"] = extras_fingerprint(extra_df)
+
+    extra_total_budget = float(extra_calc["Gross Rate"].sum()) if not extra_calc.empty else 0.0
+    extra_total_imps = float(extra_calc["Quantity (Impressions)"].sum()) if not extra_calc.empty else 0.0
+
+    if not extra_calc.empty:
+        st.subheader("Additional line items summary")
+        view_df = extra_calc.copy()
+        view_df["Gross Rate"] = view_df["Gross Rate"].apply(fmt_currency_rands)
+        view_df["Quantity (Impressions)"] = view_df["Quantity (Impressions)"].apply(fmt_int)
+        st.dataframe(view_df, use_container_width=True, hide_index=True)
+
+        combined_budget = float(base_total_budget) + float(extra_total_budget)
+        combined_imps = float(base_total_imps) + float(extra_total_imps)
+
+        st.subheader("Combined totals (campaign + additional)")
+        kpi_grid([
+            {"label": "Base media buy total", "value": fmt_currency_rands(base_total_budget)},
+            {"label": "Extra media buy total", "value": fmt_currency_rands(extra_total_budget)},
+            {"label": "Combined media buy total", "value": fmt_currency_rands(combined_budget)},
+            {"label": "Combined impressions", "value": fmt_int(combined_imps)},
+        ])
+    else:
+        st.info("Add at least 1 additional row if you want extra line items included in the IO.")
+
 
 # ============================================================
 # TAB 3: Insertion Order (DOCX)
@@ -1040,11 +1904,10 @@ with tab3:
         advertiser_name = st.text_input("Advertiser Name", value="")
         advertiser_contact = st.text_input("Advertiser Contact", value="")
         agency_name = st.text_input("Agency Name", value="")
-        agency_contact = st.text_input("Agency Contact", value="")
+        agency_contact = st.text_input("Agency Contact (email / contact)", value="")
     with col2:
         campaign_name = st.text_input("Campaign Name", value="")
         customer_ref = st.text_input("Customer Reference Number", value="")
-        # Customer Job Number must be blank by design -> do not show input
         campaign_date = st.text_input("Date (DD/MM/YYYY)", value=date.today().strftime("%d/%m/%Y"))
 
     st.subheader("Billing details")
@@ -1058,132 +1921,114 @@ with tab3:
         billing_address = st.text_area("Billing - Address", value="", height=80)
 
     st.subheader("Sales contact")
+
+    if "sales_contact_email_val" not in st.session_state:
+        st.session_state["sales_contact_name_sel"] = SALES_NAMES[0] if SALES_NAMES else ""
+        st.session_state["sales_contact_email_val"] = SALES_EMAIL_BY_NAME.get(st.session_state["sales_contact_name_sel"], "")
+
+    def _sync_sales_email():
+        nm = st.session_state.get("sales_contact_name_sel", "")
+        st.session_state["sales_contact_email_val"] = SALES_EMAIL_BY_NAME.get(nm, "")
+
     s1, s2 = st.columns(2)
     with s1:
-        sales_contact_name = st.text_input("Sales Contact - Name", value="")
+        sales_contact_name = st.selectbox(
+            "Sales Contact",
+            options=SALES_NAMES,
+            key="sales_contact_name_sel",
+            on_change=_sync_sales_email,
+        )
     with s2:
-        sales_contact_email = st.text_input("Sales Contact - Email", value="")
+        sales_contact_email = st.text_input(
+            "Sales Contact - Email",
+            value=st.session_state.get("sales_contact_email_val", ""),
+            key="sales_contact_email_val",
+            disabled=True,
+        )
 
-    st.subheader("Campaign start and end date")
-    d1, d2 = st.columns(2)
-    with d1:
-        start_date = st.text_input("Start Date (DD/MM/YYYY)", value="")
-    with d2:
-        end_date = st.text_input("End Date (DD/MM/YYYY)", value="")
+    st.caption("Please download the IO, sign it, and share it with your Sales Contact to confirm your campaign.")
 
-    st.subheader("Customer signature (typed)")
-    sig1, sig2 = st.columns(2)
-    with sig1:
-        signer_name = st.text_input("Signed by (name)", value="")
-    with sig2:
-        signer_title = st.text_input("Title (optional)", value="")
+    st.subheader("Special instructions")
+    special_instructions = st.text_area("Special instructions (e.g., Landing Page Actions: Drive, Map)", value="", height=90)
 
-    st.caption("Signature will be inserted above the 'Customer Authorized Signature' line in the template.")
-
-    # Pull campaign type & budgets/counts from Tab 2
     campaign_type = st.session_state.get("campaign_type", "DOOH")
     dooh_budget = float(st.session_state.get("budget_dooh", 0.0))
     mobile_budget = float(st.session_state.get("budget_mobile", 0.0))
     dooh_count = int(st.session_state.get("selected_sites_count_dooh", 0))
     mobile_count = int(st.session_state.get("selected_sites_count_mobile", 0))
 
-    # Build line items
-    line_items = []
-    total_budget = 0.0
-    total_impressions = 0
-    dooh_cpm = 0
-    mob_cpm = 0
+    dooh_cpm = dooh_cpm_from_count(dooh_count) if campaign_type in ["DOOH", "DOOH + Mobile"] else 0
+    mob_cpm = mobile_cpm_from_count(mobile_count) if campaign_type in ["Mobile", "DOOH + Mobile"] else 0
 
-    if campaign_type == "DOOH":
-        dooh_cpm = dooh_cpm_from_count(dooh_count)
-        imps = int(round(impressions_from_budget_and_cpm(dooh_budget, dooh_cpm), 0))
-        total_budget = dooh_budget
-        total_impressions = imps
+    extra_calc = st.session_state.get("extra_lineitems_calc")
 
-        line_items.append({
-            "product": "DOOH",
-            "description": "",
-            "start_date": start_date.strip(),
-            "end_date": end_date.strip(),
-            "publisher": "",
-            "targeting": "",
-            "rate": f"R {dooh_cpm}",
-            "metric": "Impressions",
-            "quantity": fmt_int(imps),
-            "gross_rate": fmt_currency_rands(dooh_budget),
-        })
+    start_date = ""
+    end_date = ""
 
-    elif campaign_type == "Mobile":
-        mob_cpm = mobile_cpm_from_count(mobile_count)
-        imps = int(round(impressions_from_budget_and_cpm(mobile_budget, mob_cpm), 0))
-        total_budget = mobile_budget
-        total_impressions = imps
+    desired_rows = build_default_io_rows(
+        campaign_type=campaign_type,
+        dooh_budget=dooh_budget,
+        mobile_budget=mobile_budget,
+        dooh_count=dooh_count,
+        mobile_count=mobile_count,
+        start_date=start_date,
+        end_date=end_date,
+        extra_calc=extra_calc,
+    )
 
-        line_items.append({
-            "product": "Mobile",
-            "description": "",
-            "start_date": start_date.strip(),
-            "end_date": end_date.strip(),
-            "publisher": "",
-            "targeting": "",
-            "rate": f"R {mob_cpm}",
-            "metric": "Impressions",
-            "quantity": fmt_int(imps),
-            "gross_rate": fmt_currency_rands(mobile_budget),
-        })
+    st.subheader("Line items (auto-generated from Budget & Selection)")
+    lineitems_df = pd.DataFrame(desired_rows)
+    st.session_state["io_lineitems_df"] = lineitems_df
 
-    else:
-        dooh_cpm = dooh_cpm_from_count(dooh_count)
-        mob_cpm = mobile_cpm_from_count(mobile_count)
+    show_df = lineitems_df.drop(columns=["_row_source", "_row_id"], errors="ignore")
+    st.dataframe(show_df, use_container_width=True, hide_index=True)
 
-        dooh_imps = int(round(impressions_from_budget_and_cpm(dooh_budget, dooh_cpm), 0))
-        mob_imps = int(round(impressions_from_budget_and_cpm(mobile_budget, mob_cpm), 0))
+    def parse_currency(s):
+        try:
+            s = str(s).replace("R", "").replace(",", "").strip()
+            return float(s)
+        except Exception:
+            return 0.0
 
-        total_budget = dooh_budget + mobile_budget
-        total_impressions = dooh_imps + mob_imps
+    def parse_intish(s):
+        try:
+            s = str(s).replace(",", "").strip()
+            return int(float(s))
+        except Exception:
+            return 0
 
-        line_items.append({
-            "product": "DOOH",
-            "description": "",
-            "start_date": start_date.strip(),
-            "end_date": end_date.strip(),
-            "publisher": "",
-            "targeting": "",
-            "rate": f"R {dooh_cpm}",
-            "metric": "Impressions",
-            "quantity": fmt_int(dooh_imps),
-            "gross_rate": fmt_currency_rands(dooh_budget),
-        })
-        line_items.append({
-            "product": "Mobile",
-            "description": "",
-            "start_date": start_date.strip(),
-            "end_date": end_date.strip(),
-            "publisher": "",
-            "targeting": "",
-            "rate": f"R {mob_cpm}",
-            "metric": "Impressions",
-            "quantity": fmt_int(mob_imps),
-            "gross_rate": fmt_currency_rands(mobile_budget),
-        })
+    total_budget = float(lineitems_df.get("Gross Rate", pd.Series(dtype=str)).apply(parse_currency).sum()) if not lineitems_df.empty else 0.0
+    total_impressions = int(lineitems_df.get("Quantity", pd.Series(dtype=str)).apply(parse_intish).sum()) if not lineitems_df.empty else 0
 
-    st.subheader("Auto-calculated (from Budget & Selection)")
-    c1, c2, c3, c4, c5 = st.columns(5)
-    with c1:
-        st.metric("Media Buy Total", fmt_currency_rands(total_budget))
-    with c2:
-        st.metric("Campaign type", campaign_type)
-    with c3:
-        st.metric("Total impressions", fmt_int(total_impressions))
-    with c4:
-        st.metric("DOOH CPM", f"R {dooh_cpm}" if dooh_cpm else "—")
-    with c5:
-        st.metric("Mobile CPM", f"R {mob_cpm}" if mob_cpm else "—")
+    st.subheader("Auto-calculated totals")
+    kpi_grid([
+        {"label": "Media Buy Total", "value": fmt_currency_rands(total_budget)},
+        {"label": "Campaign type", "value": str(campaign_type)},
+        {"label": "Total impressions", "value": fmt_int(total_impressions)},
+        {"label": "DOOH CPM", "value": (f"R {dooh_cpm}" if dooh_cpm else "—")},
+        {"label": "Mobile CPM", "value": (f"R {mob_cpm}" if mob_cpm else "—")},
+    ])
 
-    gen = st.button("Generate IO (pre-populated DOCX)")
+    gen = st.button("Generate IO (pre-populated DOCX)", key="btn_generate_io")
 
     if gen:
         try:
+            line_items = []
+            for _, r in lineitems_df.fillna("").iterrows():
+                line_items.append({
+                    "product": str(r.get("Product", "")).strip(),
+                    "description": str(r.get("Description", "")).strip(),
+                    "start_date": str(r.get("Start Date", "")).strip(),
+                    "end_date": str(r.get("End Date", "")).strip(),
+                    "publisher": str(r.get("Publisher", "")).strip(),
+                    "targeting": str(r.get("Targeting", "")).strip(),
+                    "rate": str(r.get("Rate", "")).strip(),
+                    "metric": str(r.get("Metric", "Impressions")).strip() or "Impressions",
+                    "quantity": str(r.get("Quantity", "")).strip(),
+                    "gross_rate": str(r.get("Gross Rate", "")).strip(),
+                    "net_rate": str(r.get("Net Rate (optional)", "")).strip(),
+                })
+
             doc_bytes = generate_io_docx_bytes(
                 template_path=default_template,
                 advertiser_name=advertiser_name.strip(),
@@ -1203,11 +2048,9 @@ with tab3:
                 sales_contact_name=sales_contact_name.strip(),
                 sales_contact_email=sales_contact_email.strip(),
 
-                signer_name=signer_name.strip(),
-                signer_title=signer_title.strip(),
-
+                special_instructions=special_instructions.strip(),
                 line_items=line_items,
-                total_budget=total_budget,
+                total_budget=float(total_budget),
                 total_impressions=int(total_impressions),
             )
 
@@ -1217,28 +2060,8 @@ with tab3:
                 data=doc_bytes,
                 file_name="Insertion_Order_Prepopulated.docx",
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                key="dl_io_docx",
             )
-
-            # Open Gmail compose (can’t auto-attach from Streamlit)
-            subject = "Insertion Order – Pre-populated"
-            body = (
-                "Hi Sales Team,\n\n"
-                "Please find the pre-populated Insertion Order attached.\n\n"
-                f"Campaign type: {campaign_type}\n"
-                f"Media Buy Total: {fmt_currency_rands(total_budget)}\n"
-                f"Total Impressions: {fmt_int(total_impressions)}\n"
-                f"DOOH CPM: {('R ' + str(dooh_cpm)) if dooh_cpm else '—'}\n"
-                f"Mobile CPM: {('R ' + str(mob_cpm)) if mob_cpm else '—'}\n\n"
-                "Regards,\n"
-                f"{signer_name or ''}"
-            )
-            mailto = (
-                "mailto:?"
-                f"subject={subject.replace(' ', '%20')}"
-                f"&body={body.replace(' ', '%20').replace('\\n', '%0A')}"
-            )
-            st.markdown(f"**Send to Sales (Gmail draft):** [Open email draft]({mailto})")
-            st.caption("Tip: Download the IO first, then attach it to the Gmail draft.")
 
         except Exception as e:
             st.error(f"Could not generate IO: {e}")
