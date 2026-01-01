@@ -730,7 +730,6 @@ def build_vicinity_recommendation_dooh(stats: Dict) -> Tuple[str, str, List[str]
 def build_vicinity_recommendation_store_to_store(stats: Dict) -> Tuple[str, str, List[str]]:
     radius_km = int(stats["radius_km"])
     total_locations = int(stats["locations_analysed"])
-    covered_locations = int(stats["covered_locations"])
     isolated = int(stats["opportunity_windows"])
     coverage_pct = int(stats["coverage_pct"])
 
@@ -742,7 +741,7 @@ def build_vicinity_recommendation_store_to_store(stats: Dict) -> Tuple[str, str,
     title = "Vicinity recommendation"
 
     if overall_a and overall_b and isinstance(overall_d, (int, float, np.floating)) and np.isfinite(overall_d):
-        closest_sentence = f"The closest store pairing is **{overall_a} → {overall_b}** at **{float(overall_d):.2f}km**."
+        closest_sentence = f"The closest store pairing is {overall_a} → {overall_b} at {float(overall_d):.2f}km."
     else:
         closest_sentence = "Closest-store pairing could not be reliably detected (check Store name/lat/lon columns)."
 
@@ -750,7 +749,7 @@ def build_vicinity_recommendation_store_to_store(stats: Dict) -> Tuple[str, str,
         isolation_sentence = f"At {radius_km}km, every store has at least one other store within the radius (no isolated stores)."
     else:
         isolation_sentence = (
-            f"At {radius_km}km, **{isolated}** stores have **no other store within the radius** "
+            f"At {radius_km}km, {isolated} stores have no other store within the radius "
             f"({coverage_pct}% have at least one nearby store)."
         )
 
@@ -764,7 +763,13 @@ def build_vicinity_recommendation_store_to_store(stats: Dict) -> Tuple[str, str,
         iso_detail = stats.get("isolated_detail") or []
         if iso_detail:
             examples = iso_detail[:5]
-            ex_txt = "; ".join([f"{x['Location']} → {x['Nearest Store']} ({x['Distance (km)']:.2f}km)" for x in examples if x.get("Distance (km)") is not None])
+            ex_txt = "; ".join(
+                [
+                    f"{x['Location']} → {x['Nearest Store']} ({x['Distance (km)']:.2f}km)"
+                    for x in examples
+                    if x.get("Distance (km)") is not None
+                ]
+            )
             if ex_txt:
                 bullets.append(f"Examples (isolated stores): {ex_txt}.")
         bullets.append("Action idea: consider expanding radius (e.g., +5–15km) to see where these isolated stores begin to connect into clusters, or treat them as standalone coverage areas.")
@@ -1001,7 +1006,6 @@ def fill_media_buy_rows(doc: "Document", line_items: List[Dict], pt_size: int = 
                     def set_cell(ci, val):
                         if ci is None:
                             return
-                        # Setting cell.text creates a fresh run with template style -> we immediately force paragraph font
                         drow.cells[ci].text = val
                         for p in drow.cells[ci].paragraphs:
                             set_paragraph_font(p, pt_size, font_name)
@@ -1098,10 +1102,8 @@ def generate_io_docx_bytes(
 ) -> bytes:
     doc = Document(str(template_path))
 
-    # 1) Force document style defaults FIRST (prevents template styles overriding our inserted text)
     set_document_styles(doc, pt_size=9, font_name="Calibri")
 
-    # 2) Fill blocks
     fill_block_by_table_keyword(
         doc,
         keyword="Customer Information",
@@ -1144,7 +1146,6 @@ def generate_io_docx_bytes(
     fill_media_buy_rows(doc, line_items, pt_size=9, font_name="Calibri")
     fill_top_line_numbers(doc, total_budget, total_impressions, note="CPM: Mixed", pt_size=9, font_name="Calibri")
 
-    # 3) FINAL HARDEN PASS (this is what fixes “inconsistent font sizes” across template areas)
     set_document_styles(doc, pt_size=9, font_name="Calibri")
 
     out = BytesIO()
@@ -1619,7 +1620,6 @@ with tab2:
     base_total_budget = 0.0
     base_total_imps = 0.0
 
-    # Flags: savings only shows when a list is uploaded AND below threshold
     dooh_uploaded = False
     mobile_uploaded = False
 
@@ -1840,7 +1840,6 @@ with tab2:
     )
     st.session_state["extra_lineitems_df"] = extra_df
 
-    # Extra line item nudges: show only if user actually entered a meaningful row
     for _, r in extra_df.fillna(0).iterrows():
         prod = str(r.get("Product", "")).strip() or "DOOH"
         locs = int(r.get("Locations", 0) or 0)
@@ -1946,7 +1945,11 @@ with tab3:
             disabled=True,
         )
 
-    st.caption("Please download the Insertion Order, sign it, and share it with your Sales Contact to confirm your campaign. Be sure to include the targeted location list and the selected DOOH placements when submitting. This ensures your campaign is ready for activation.")
+    st.markdown(
+        "**Please download the Insertion Order, sign it, and share it with your Sales Contact to confirm your campaign. "
+        "Be sure to include the targeted location list and the selected DOOH placements, should you have it, when submitting. "
+        "This ensures your campaign is ready for activation.**"
+    )
 
     st.subheader("Special instructions")
     special_instructions = st.text_area("Special instructions (e.g., Landing Page Actions: Drive, Map)", value="", height=90)
@@ -1962,27 +1965,74 @@ with tab3:
 
     extra_calc = st.session_state.get("extra_lineitems_calc")
 
-    start_date = ""
-    end_date = ""
+    # ------------------------------------------------------------
+    # UPDATED: editable line items that persist + only rebuild when upstream changes
+    # ------------------------------------------------------------
+    st.subheader("Line items (auto-generated from Budget & Selection)")
 
-    desired_rows = build_default_io_rows(
-        campaign_type=campaign_type,
-        dooh_budget=dooh_budget,
-        mobile_budget=mobile_budget,
-        dooh_count=dooh_count,
-        mobile_count=mobile_count,
-        start_date=start_date,
-        end_date=end_date,
-        extra_calc=extra_calc,
+    upstream_sig = {
+        "campaign_type": str(campaign_type),
+        "dooh_budget": float(dooh_budget),
+        "mobile_budget": float(mobile_budget),
+        "dooh_count": int(dooh_count),
+        "mobile_count": int(mobile_count),
+        "extra_fp": str(st.session_state.get("extra_lineitems_fingerprint", "")),
+    }
+    upstream_fp = hashlib.md5(json.dumps(upstream_sig, sort_keys=True).encode("utf-8")).hexdigest()
+
+    # Build defaults ONLY if not present or upstream changed
+    if ("io_lineitems_df" not in st.session_state) or (st.session_state.get("io_upstream_fp") != upstream_fp):
+        desired_rows = build_default_io_rows(
+            campaign_type=campaign_type,
+            dooh_budget=dooh_budget,
+            mobile_budget=mobile_budget,
+            dooh_count=dooh_count,
+            mobile_count=mobile_count,
+            start_date="",
+            end_date="",
+            extra_calc=extra_calc,
+        )
+        st.session_state["io_lineitems_df"] = pd.DataFrame(desired_rows)
+        st.session_state["io_upstream_fp"] = upstream_fp
+
+    # Keep hidden columns in the stored df, only edit visible df
+    stored_df = st.session_state["io_lineitems_df"].copy()
+    hidden_cols = [c for c in ["_row_source", "_row_id"] if c in stored_df.columns]
+
+    visible_df = stored_df.drop(columns=hidden_cols, errors="ignore")
+
+    edited_visible = st.data_editor(
+        visible_df,
+        use_container_width=True,
+        hide_index=True,
+        num_rows="fixed",
+        key="io_lineitems_editor",
+        column_config={
+            "Start Date": st.column_config.TextColumn("Start Date", help="Type e.g. 01/02/2026"),
+            "End Date": st.column_config.TextColumn("End Date", help="Type e.g. 28/02/2026"),
+        },
+        disabled=[
+            "Product", "Rate", "Metric", "Quantity", "Gross Rate"
+        ],
     )
 
-    st.subheader("Line items (auto-generated from Budget & Selection)")
-    lineitems_df = pd.DataFrame(desired_rows)
-    st.session_state["io_lineitems_df"] = lineitems_df
+    # Ensure edited values "stick" (avoid NaN resets on rerun)
+    for c in ["Start Date", "End Date", "Description", "Publisher", "Targeting", "Net Rate (optional)"]:
+        if c in edited_visible.columns:
+            edited_visible[c] = edited_visible[c].where(edited_visible[c].notna(), "")
 
-    show_df = lineitems_df.drop(columns=["_row_source", "_row_id"], errors="ignore")
-    st.dataframe(show_df, use_container_width=True, hide_index=True)
+    # Re-attach hidden cols (same row order)
+    for c in hidden_cols:
+        edited_visible[c] = stored_df[c].values
 
+    # Save back
+    st.session_state["io_lineitems_df"] = edited_visible
+    st.session_state["io_upstream_fp"] = upstream_fp  # keep aligned so it doesn't rebuild on the next rerun
+    lineitems_df = edited_visible
+
+    # ------------------------------------------------------------
+    # Totals
+    # ------------------------------------------------------------
     def parse_currency(s):
         try:
             s = str(s).replace("R", "").replace(",", "").strip()
@@ -2065,4 +2115,5 @@ with tab3:
 
         except Exception as e:
             st.error(f"Could not generate IO: {e}")
+
 
