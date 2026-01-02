@@ -47,6 +47,24 @@ SALES_NAMES = [n for n, _ in SALES_CONTACTS]
 
 
 # ------------------------------------------------------------
+# Helpers: safe CSV read from UploadedFile (fixes “works local, not on Cloud” seek quirks)
+# ------------------------------------------------------------
+def read_csv_uploaded(file, **kwargs) -> pd.DataFrame:
+    if file is None:
+        return pd.DataFrame()
+    try:
+        b = file.getvalue()
+        return pd.read_csv(BytesIO(b), **kwargs)
+    except Exception:
+        # fallback (if getvalue not available for some reason)
+        try:
+            file.seek(0)
+            return pd.read_csv(file, **kwargs)
+        except Exception:
+            return pd.DataFrame()
+
+
+# ------------------------------------------------------------
 # Helpers: assets + styling
 # ------------------------------------------------------------
 def find_asset(stem: str) -> Optional[Path]:
@@ -247,6 +265,19 @@ def inject_app_css():
           .rec-body  { color: #334155; font-size: 13px; line-height: 1.45; }
           .rec-bullets { margin-top: 8px; color: #334155; font-size: 13px; line-height: 1.45; }
           .rec-bullets li { margin-bottom: 6px; }
+
+          /* NEW: bold callout for IO instruction on Tab 3 (ensures it renders clearly on Streamlit Cloud) */
+          .io-callout {
+            background: rgba(11, 42, 74, 0.06);
+            border: 1px solid rgba(11, 42, 74, 0.14);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 10px 0 14px 0;
+            color: #0B2A4A;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 800;
+          }
         </style>
         """,
         unsafe_allow_html=True,
@@ -410,6 +441,18 @@ def load_dooh_master() -> Optional[pd.DataFrame]:
     if not DOOH_MASTER_PATH.exists():
         return None
     try:
+        df = pd.read_csv(DOOOH_MASTER_PATH)  # intentionally incorrect? (NO) -> fix below
+        return df
+    except Exception:
+        return None
+
+
+# Fix: keep original function name/behavior (no unintended changes)
+def load_dooh_master() -> Optional[pd.DataFrame]:
+    """Always read master fresh from disk (no caching)."""
+    if not DOOH_MASTER_PATH.exists():
+        return None
+    try:
         df = pd.read_csv(DOOH_MASTER_PATH)
         prov_col = pick_province_col(df)
         if prov_col:
@@ -488,7 +531,7 @@ def mobile_locations_template_df() -> pd.DataFrame:
 # Selection / counting logic
 # ------------------------------------------------------------
 def load_selected_sites_from_upload(file) -> pd.DataFrame:
-    df = pd.read_csv(file)
+    df = read_csv_uploaded(file)
     site_col = pick_first_existing(df, ["Site ID/Number", "Site ID", "SiteID", "SiteID/Number", "Site_Number", "Site Number"])
     sel_col = pick_first_existing(df, ["Selected", "selected", "SELECTED"])
 
@@ -505,7 +548,7 @@ def load_selected_sites_from_upload(file) -> pd.DataFrame:
 
 
 def count_mobile_locations_any_format(file) -> int:
-    df = pd.read_csv(file)
+    df = read_csv_uploaded(file)
 
     sel_col = pick_first_existing(df, ["Selected", "selected", "SELECTED"])
     site_col = pick_first_existing(df, ["Site ID/Number", "Site ID", "SiteID", "Site Number"])
@@ -644,6 +687,44 @@ def compute_insight_stats(summary_df: pd.DataFrame, pairwise_df: Optional[pd.Dat
             )
             top_networks = agg
 
+    # NEW: Province insights (only if Province exists and has values)
+    province_insights = None
+    if "Province" in summary_df.columns:
+        prov = summary_df["Province"].astype(str).fillna("").str.strip()
+        has_prov = (prov != "") & (prov.str.lower() != "nan")
+        if has_prov.any():
+            tmp = summary_df.copy()
+            tmp["_prov"] = prov.where(has_prov, "")
+            tmp = tmp[tmp["_prov"] != ""].copy()
+            tmp["_covered"] = covered_mask.loc[tmp.index].astype(int)
+
+            byp = (
+                tmp.groupby("_prov", dropna=False)
+                   .agg(
+                        locations=("Location", "count"),
+                        covered=("_covered", "sum"),
+                        avg_sites=(cov_col, lambda x: float(pd.to_numeric(x, errors="coerce").fillna(0).mean()))
+                   )
+                   .reset_index()
+                   .rename(columns={"_prov": "Province"})
+            )
+            byp["coverage_pct"] = np.where(
+                byp["locations"] > 0,
+                (byp["covered"] / byp["locations"]) * 100.0,
+                0.0
+            )
+
+            # Add isolated count for Store-to-Store
+            if mode == "Store to Store":
+                byp["isolated"] = byp["locations"] - byp["covered"]
+                byp["isolated_pct"] = np.where(
+                    byp["locations"] > 0,
+                    (byp["isolated"] / byp["locations"]) * 100.0,
+                    0.0
+                )
+
+            province_insights = byp.sort_values(["locations", "coverage_pct"], ascending=[False, False]).reset_index(drop=True)
+
     return {
         "mode": mode,
         "radius_km": int(radius_km),
@@ -658,6 +739,7 @@ def compute_insight_stats(summary_df: pd.DataFrame, pairwise_df: Optional[pd.Dat
         "isolated_detail": isolated_detail,
         "overall_min_row": overall_min_row.to_dict() if hasattr(overall_min_row, "to_dict") else None,
         "top_networks": top_networks,
+        "province_insights": province_insights,
     }
 
 
@@ -724,6 +806,35 @@ def build_vicinity_recommendation_dooh(stats: Dict) -> Tuple[str, str, List[str]
         top_net = str(top_nets.iloc[0]["DOOH Network"])
         bullets.append(f"Where coverage is strongest: nearby inventory is most concentrated in {top_net}.")
 
+    # NEW: Province insight (only if provinces were included)
+    prov_df = stats.get("province_insights")
+    if isinstance(prov_df, pd.DataFrame) and not prov_df.empty:
+        tmp = prov_df.copy()
+        tmp["coverage_pct"] = pd.to_numeric(tmp["coverage_pct"], errors="coerce").fillna(0.0)
+        tmp["locations"] = pd.to_numeric(tmp["locations"], errors="coerce").fillna(0).astype(int)
+
+        # pick strongest + weakest among provinces with meaningful volume
+        meaningful = tmp[tmp["locations"] >= 2].copy()
+        if meaningful.empty:
+            meaningful = tmp.copy()
+
+        best = meaningful.sort_values(["coverage_pct", "locations"], ascending=[False, False]).head(1)
+        worst = meaningful.sort_values(["coverage_pct", "locations"], ascending=[True, False]).head(1)
+
+        best_txt = ""
+        worst_txt = ""
+        if not best.empty:
+            r = best.iloc[0]
+            best_txt = f"{r['Province']} ({r['coverage_pct']:.0f}% coverage across {int(r['locations'])} locations)"
+        if not worst.empty:
+            r = worst.iloc[0]
+            worst_txt = f"{r['Province']} ({r['coverage_pct']:.0f}% coverage across {int(r['locations'])} locations)"
+
+        if best_txt and worst_txt and best_txt != worst_txt:
+            bullets.append(f"Province view (where provided): strongest coverage in {best_txt}; weakest coverage in {worst_txt}.")
+        elif best_txt:
+            bullets.append(f"Province view (where provided): strongest coverage in {best_txt}.")
+
     return title, body, bullets
 
 
@@ -784,6 +895,21 @@ def build_vicinity_recommendation_store_to_store(stats: Dict) -> Tuple[str, str,
             bullets.append(f"Nearest-store distance (for stores with at least one nearby store): typical nearest is {median_nearest:.2f}km (90% within {p90_nearest:.2f}km).")
         else:
             bullets.append(f"Nearest-store distance (for stores with at least one nearby store): typical nearest is {median_nearest:.2f}km.")
+
+    # NEW: Province insight (only if provinces were included)
+    prov_df = stats.get("province_insights")
+    if isinstance(prov_df, pd.DataFrame) and not prov_df.empty and "isolated" in prov_df.columns:
+        tmp = prov_df.copy()
+        tmp["isolated"] = pd.to_numeric(tmp["isolated"], errors="coerce").fillna(0).astype(int)
+        tmp["locations"] = pd.to_numeric(tmp["locations"], errors="coerce").fillna(0).astype(int)
+
+        top_iso = tmp.sort_values(["isolated", "locations"], ascending=[False, False]).head(1)
+        if not top_iso.empty and int(top_iso.iloc[0]["isolated"]) > 0:
+            r = top_iso.iloc[0]
+            bullets.append(
+                f"Province view (where provided): most isolated stores are in {r['Province']} "
+                f"({int(r['isolated'])} isolated out of {int(r['locations'])})."
+            )
 
     return title, body, bullets
 
@@ -1314,7 +1440,7 @@ with tab1:
     stores_a_file = None
     stores_b_file = None
 
-    # Store-to-store Province filter (NEW)
+    # Store-to-store Province filter
     store_store_selected_provinces = None
 
     if mode == "Store to DOOH":
@@ -1325,7 +1451,7 @@ with tab1:
             st.info("DOOH master not found. Temporary option: upload a DOOH CSV for this run.")
             dooh_file = st.file_uploader("Upload DOOH (CSV) [temporary]", type="csv", key="dooh_temp")
             if dooh_file:
-                dooh_df = pd.read_csv(dooh_file)
+                dooh_df = read_csv_uploaded(dooh_file)
                 prov_col_tmp = pick_province_col(dooh_df)
                 if prov_col_tmp:
                     dooh_df[prov_col_tmp] = dooh_df[prov_col_tmp].apply(normalize_province_name)
@@ -1341,12 +1467,10 @@ with tab1:
         with colB:
             stores_b_file = st.file_uploader("Upload Store List B (CSV)", type="csv", key="stores_b")
 
-        # Province selector for Store-to-Store (NEW)
+        # FIX (Cloud): preview from bytes (no seek dependency) so the Province selector reliably shows
         if stores_a_file is not None:
             try:
-                stores_a_file.seek(0)
-                preview_a = pd.read_csv(stores_a_file, nrows=250)
-                stores_a_file.seek(0)
+                preview_a = read_csv_uploaded(stores_a_file, nrows=250)
                 prov_a = pick_province_col(preview_a)
             except Exception:
                 prov_a = None
@@ -1420,7 +1544,7 @@ with tab1:
                 st.error("DOOH data not available. Add data/dooh_master.csv or upload a temporary DOOH CSV above.")
                 st.stop()
 
-            stores = pd.read_csv(stores_file)
+            stores = read_csv_uploaded(stores_file)
             targets = dooh_df.copy()
             target_label = "DOOH"
 
@@ -1429,8 +1553,8 @@ with tab1:
                 st.error("Please upload BOTH Store List A and Store List B.")
                 st.stop()
 
-            stores = pd.read_csv(stores_a_file)
-            targets = pd.read_csv(stores_b_file)
+            stores = read_csv_uploaded(stores_a_file)
+            targets = read_csv_uploaded(stores_b_file)
             target_label = "Store"
 
         store_lat, store_lon = pick_lat_lon(stores)
@@ -1478,7 +1602,7 @@ with tab1:
         if dooh_prov_col:
             targets[dooh_prov_col] = targets[dooh_prov_col].apply(normalize_province_name)
 
-        # Apply Store-to-Store Province filter (NEW)
+        # Apply Store-to-Store Province filter
         if mode == "Store to Store" and store_prov_col and store_store_selected_provinces:
             stores = stores[stores[store_prov_col].isin(store_store_selected_provinces)].copy().reset_index(drop=True)
 
@@ -1990,23 +2114,10 @@ with tab3:
             disabled=True,
         )
 
-    # -----------------------------------------------------------------
-    # FIX: This sentence sometimes doesn't render on Streamlit Cloud
-    # (your sticky header can overlap normal markdown). Render as HTML box.
-    # -----------------------------------------------------------------
+    # FIX: ensure the sentence renders on Streamlit Cloud (HTML callout)
     st.markdown(
         """
-        <div style="
-            font-weight: 750;
-            font-size: 14px;
-            line-height: 1.4;
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(15,23,42,0.10);
-            background: rgba(255,255,255,0.92);
-            margin-top: 6px;
-            margin-bottom: 10px;
-        ">
+        <div class="io-callout">
           Please download the Insertion Order, sign it, and share it with your Sales Contact to confirm your campaign.
           Be sure to include the targeted location list and the selected DOOH placements, should you have it, when submitting.
           This ensures your campaign is ready for activation.
@@ -2030,8 +2141,8 @@ with tab3:
     extra_calc = st.session_state.get("extra_lineitems_calc")
 
     # ------------------------------------------------------------
-    # UPDATED: editable line items that persist + only rebuild when upstream changes
-    # + FIX: force Start/End Date columns to string (prevents "typing but nothing shows" on Streamlit Cloud)
+    # Editable line items that persist + only rebuild when upstream changes
+    # + FIX: force Start/End Date columns to string
     # ------------------------------------------------------------
     st.subheader("Line items (auto-generated from Budget & Selection)")
 
@@ -2065,13 +2176,11 @@ with tab3:
     hidden_cols = [c for c in ["_row_source", "_row_id"] if c in stored_df.columns]
     visible_df = stored_df.drop(columns=hidden_cols, errors="ignore").copy()
 
-    # FIX: Make sure these columns exist and are true strings (Cloud sometimes renders empty/NaN as "not editable")
     must_be_text_cols = ["Start Date", "End Date", "Description", "Publisher", "Targeting", "Net Rate (optional)"]
     for c in must_be_text_cols:
         if c not in visible_df.columns:
             visible_df[c] = ""
         visible_df[c] = visible_df[c].astype("string").fillna("")
-        # guard against literal <NA> / nan strings showing or eating input
         visible_df[c] = visible_df[c].replace(["<NA>", "nan", "NaN", "None"], "")
 
     edited_visible = st.data_editor(
@@ -2089,18 +2198,15 @@ with tab3:
         ],
     )
 
-    # Ensure edited values "stick" (avoid NaN resets on rerun)
     for c in must_be_text_cols:
         if c in edited_visible.columns:
             edited_visible[c] = edited_visible[c].astype("string").fillna("").replace(["<NA>", "nan", "NaN", "None"], "")
 
-    # Re-attach hidden cols (same row order)
     for c in hidden_cols:
         edited_visible[c] = stored_df[c].values
 
-    # Save back
     st.session_state["io_lineitems_df"] = edited_visible
-    st.session_state["io_upstream_fp"] = upstream_fp  # keep aligned so it doesn't rebuild on the next rerun
+    st.session_state["io_upstream_fp"] = upstream_fp
     lineitems_df = edited_visible
 
     # ------------------------------------------------------------
