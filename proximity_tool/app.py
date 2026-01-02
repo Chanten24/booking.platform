@@ -1310,6 +1310,13 @@ with tab1:
     st.subheader("Upload files")
 
     dooh_df = None
+    stores_file = None
+    stores_a_file = None
+    stores_b_file = None
+
+    # Store-to-store Province filter (NEW)
+    store_store_selected_provinces = None
+
     if mode == "Store to DOOH":
         stores_file = st.file_uploader("Upload Stores (CSV)", type="csv", key="stores_dooh")
 
@@ -1333,6 +1340,40 @@ with tab1:
             stores_a_file = st.file_uploader("Upload Store List A (CSV)", type="csv", key="stores_a")
         with colB:
             stores_b_file = st.file_uploader("Upload Store List B (CSV)", type="csv", key="stores_b")
+
+        # Province selector for Store-to-Store (NEW)
+        if stores_a_file is not None:
+            try:
+                stores_a_file.seek(0)
+                preview_a = pd.read_csv(stores_a_file, nrows=250)
+                stores_a_file.seek(0)
+                prov_a = pick_province_col(preview_a)
+            except Exception:
+                prov_a = None
+                preview_a = None
+
+            if prov_a:
+                try:
+                    prov_vals = (
+                        preview_a[prov_a]
+                        .apply(normalize_province_name)
+                        .astype(str)
+                        .str.strip()
+                    )
+                    all_provs = sorted([p for p in prov_vals.unique().tolist() if p and p.lower() != "nan"])
+                    if all_provs:
+                        st.subheader("Store filters")
+                        SELECT_ALL = "Select all provinces"
+                        province_options = [SELECT_ALL] + all_provs
+                        chosen = st.multiselect(
+                            "Provinces (Store List A)",
+                            options=province_options,
+                            default=[SELECT_ALL],
+                            key="store_store_province_filter_ui",
+                        )
+                        store_store_selected_provinces = all_provs if SELECT_ALL in chosen else chosen
+                except Exception:
+                    pass
 
     selected_provinces = None
     if mode == "Store to DOOH" and isinstance(dooh_df, pd.DataFrame) and not dooh_df.empty:
@@ -1436,6 +1477,10 @@ with tab1:
             targets[tgt_prov_col] = targets[tgt_prov_col].apply(normalize_province_name)
         if dooh_prov_col:
             targets[dooh_prov_col] = targets[dooh_prov_col].apply(normalize_province_name)
+
+        # Apply Store-to-Store Province filter (NEW)
+        if mode == "Store to Store" and store_prov_col and store_store_selected_provinces:
+            stores = stores[stores[store_prov_col].isin(store_store_selected_provinces)].copy().reset_index(drop=True)
 
         if stores.empty or targets.empty:
             st.error("After cleaning coordinates, one of the datasets has no valid lat/lon rows.")
@@ -1945,10 +1990,29 @@ with tab3:
             disabled=True,
         )
 
+    # -----------------------------------------------------------------
+    # FIX: This sentence sometimes doesn't render on Streamlit Cloud
+    # (your sticky header can overlap normal markdown). Render as HTML box.
+    # -----------------------------------------------------------------
     st.markdown(
-        "**Please download the Insertion Order, sign it, and share it with your Sales Contact to confirm your campaign. "
-        "Be sure to include the targeted location list and the selected DOOH placements, should you have it, when submitting. "
-        "This ensures your campaign is ready for activation.**"
+        """
+        <div style="
+            font-weight: 750;
+            font-size: 14px;
+            line-height: 1.4;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(15,23,42,0.10);
+            background: rgba(255,255,255,0.92);
+            margin-top: 6px;
+            margin-bottom: 10px;
+        ">
+          Please download the Insertion Order, sign it, and share it with your Sales Contact to confirm your campaign.
+          Be sure to include the targeted location list and the selected DOOH placements, should you have it, when submitting.
+          This ensures your campaign is ready for activation.
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     st.subheader("Special instructions")
@@ -1967,6 +2031,7 @@ with tab3:
 
     # ------------------------------------------------------------
     # UPDATED: editable line items that persist + only rebuild when upstream changes
+    # + FIX: force Start/End Date columns to string (prevents "typing but nothing shows" on Streamlit Cloud)
     # ------------------------------------------------------------
     st.subheader("Line items (auto-generated from Budget & Selection)")
 
@@ -1998,8 +2063,16 @@ with tab3:
     # Keep hidden columns in the stored df, only edit visible df
     stored_df = st.session_state["io_lineitems_df"].copy()
     hidden_cols = [c for c in ["_row_source", "_row_id"] if c in stored_df.columns]
+    visible_df = stored_df.drop(columns=hidden_cols, errors="ignore").copy()
 
-    visible_df = stored_df.drop(columns=hidden_cols, errors="ignore")
+    # FIX: Make sure these columns exist and are true strings (Cloud sometimes renders empty/NaN as "not editable")
+    must_be_text_cols = ["Start Date", "End Date", "Description", "Publisher", "Targeting", "Net Rate (optional)"]
+    for c in must_be_text_cols:
+        if c not in visible_df.columns:
+            visible_df[c] = ""
+        visible_df[c] = visible_df[c].astype("string").fillna("")
+        # guard against literal <NA> / nan strings showing or eating input
+        visible_df[c] = visible_df[c].replace(["<NA>", "nan", "NaN", "None"], "")
 
     edited_visible = st.data_editor(
         visible_df,
@@ -2017,9 +2090,9 @@ with tab3:
     )
 
     # Ensure edited values "stick" (avoid NaN resets on rerun)
-    for c in ["Start Date", "End Date", "Description", "Publisher", "Targeting", "Net Rate (optional)"]:
+    for c in must_be_text_cols:
         if c in edited_visible.columns:
-            edited_visible[c] = edited_visible[c].where(edited_visible[c].notna(), "")
+            edited_visible[c] = edited_visible[c].astype("string").fillna("").replace(["<NA>", "nan", "NaN", "None"], "")
 
     # Re-attach hidden cols (same row order)
     for c in hidden_cols:
@@ -2115,5 +2188,4 @@ with tab3:
 
         except Exception as e:
             st.error(f"Could not generate IO: {e}")
-
 
