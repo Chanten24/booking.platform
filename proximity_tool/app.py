@@ -300,7 +300,7 @@ def render_header(logo_path: Optional[Path]):
           </div>
 
           <div class="title-wrap">
-            <div class="app-title">The proximity-first media planning engine</div>
+            <div class="app-title">The Proximity-First Media Planning Engine</div>
             <div class="app-caption">Map. Budget. Book.</div>
           </div>
         </div>
@@ -2294,4 +2294,5 @@ with tab3:
 
         except Exception as e:
             st.error(f"Could not generate IO: {e}")
+
 
