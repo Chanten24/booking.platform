@@ -994,7 +994,7 @@ def build_media_mix_recommendation(
                 suggested_dooh_share, suggested_mobile_share = 50, 50
                 reason = "Both selections are under 50; start balanced and then optimise once coverage/locations expand."
 
-        title = "Recommended DOOH + Mobile mix (rule-based)"
+        title = "Recommended DOOH + Mobile mix"
         body = f"Suggested split: {pct(suggested_dooh_share)} DOOH / {pct(suggested_mobile_share)} Mobile. {reason}"
 
         bullets = []
@@ -1337,15 +1337,15 @@ def fill_special_instructions(doc: "Document", special_instructions: str, pt_siz
 
 
 
-def apply_signature_name(doc: "Document", signature_name: str, font_name: str = "Segoe Script") -> None:
+def apply_signature_name(doc: "Document", signature_name: str, font_name: str = "Brush Script MT") -> None:
     """
-    Writes a typed signature name into the DOCX in a cursive/script font.
+    Writes a typed signature name onto the existing Signature line in the DOCX.
 
-    Looks for a placeholder token first (recommended in template):
+    Preferred approach: add a placeholder token on the signature line in the template:
       {{SIGNATURE_NAME}}
 
-    If no placeholder exists, it will try to find a 'Signature' label and place the name on the next line
-    if that line looks like a signature line (dots/underscores).
+    Fallback approach (no placeholder): finds a paragraph containing 'Signature:' and a long underscore/dot line
+    and writes the name inline on that same line (not on a new line).
     """
     if not signature_name:
         return
@@ -1356,63 +1356,117 @@ def apply_signature_name(doc: "Document", signature_name: str, font_name: str = 
 
     placeholders = ["{{SIGNATURE_NAME}}", "[SIGNATURE_NAME]", "<<SIGNATURE_NAME>>"]
 
-    def _set_paragraph_text(p, new_text: str) -> None:
-        # Remove existing runs
-        for r in list(p.runs):
+    def _clear_paragraph(p) -> None:
+        # Remove all runs (and other child elements) from a paragraph
+        p_element = p._p
+        for child in list(p_element):
+            p_element.remove(child)
+
+    def _set_run_font(run, name: str | None = None, size_pt: int | None = None, bold: bool | None = None) -> None:
+        try:
+            if name is not None:
+                run.font.name = name
+                # Ensure Word gets the font for complex scripts too
+                try:
+                    run._element.rPr.rFonts.set(qn("w:cs"), name)
+                except Exception:
+                    pass
+            if size_pt is not None:
+                run.font.size = Pt(size_pt)
+            if bold is not None:
+                run.bold = bold
+
             try:
-                p._element.remove(r._element)
+                run.font.underline = False
             except Exception:
                 pass
-        run = p.add_run(new_text)
-        try:
-            run.font.name = font_name
-        except Exception:
-            pass
-        try:
-            run.font.size = Pt(14)
+            try:
+                from docx.shared import RGBColor
+                run.font.color.rgb = RGBColor(0, 0, 0)
+            except Exception:
+                pass
         except Exception:
             pass
 
-    def _replace_in_paragraph(p) -> bool:
+    # 1) Placeholder replacement (simple and most reliable)
+    for p in doc.paragraphs:
         txt = p.text or ""
         for ph in placeholders:
             if ph in txt:
-                _set_paragraph_text(p, txt.replace(ph, signature_name))
-                return True
-        return False
-
-    def _looks_like_signature_line(txt: str) -> bool:
-        t = (txt or "").strip()
-        if not t:
-            return False
-        # common "sign here" lines
-        return ("...." in t) or ("____" in t) or ("—" in t) or ("-" * 5 in t)
-
-    # 1) Replace placeholders in paragraphs
-    for p in doc.paragraphs:
-        if _replace_in_paragraph(p):
-            return
-
-    # 2) Replace placeholders in tables
-    for table in doc.tables:
-        for row in table.rows:
-            for cell in row.cells:
-                for p in cell.paragraphs:
-                    if _replace_in_paragraph(p):
-                        return
-
-    # 3) Fallback: try to place signature_name on the line after a "Signature" label
-    paras = list(doc.paragraphs)
-    for i, p in enumerate(paras[:-1]):
-        label = (p.text or "").lower()
-        if "signature" in label:
-            nxt = paras[i + 1]
-            if _looks_like_signature_line(nxt.text):
-                # Prepend signature name to the signature line
-                new_txt = f"{signature_name}  {nxt.text or ''}"
-                _set_paragraph_text(nxt, new_txt)
+                # Keep it as plain text replacement
+                new_txt = txt.replace(ph, signature_name)
+                _clear_paragraph(p)
+                r = p.add_run(new_txt)
+                _set_run_font(r, name=font_name, size_pt=11, bold=False)
                 return
 
+    # Also check table cells (common for signature blocks)
+    for t in doc.tables:
+        for row in t.rows:
+            for cell in row.cells:
+                for p in cell.paragraphs:
+                    txt = p.text or ""
+                    for ph in placeholders:
+                        if ph in txt:
+                            new_txt = txt.replace(ph, signature_name)
+                            _clear_paragraph(p)
+                            r = p.add_run(new_txt)
+                            _set_run_font(r, name=font_name, size_pt=11, bold=False)
+                            return
+
+    # 2) Fallback: write onto the same "Signature:____" line
+    sig_paras = []
+    # Search paragraphs and table paragraphs
+    for p in doc.paragraphs:
+        if "Signature" in (p.text or ""):
+            sig_paras.append(p)
+
+    for t in doc.tables:
+        for row in t.rows:
+            for cell in row.cells:
+                for p in cell.paragraphs:
+                    if "Signature" in (p.text or ""):
+                        sig_paras.append(p)
+
+    # Choose the best candidate: contains 'Signature:' and a long underscore line
+    best = None
+    underscore_len = 0
+    underscore_re = re.compile(r"_{10,}|\.{10,}")
+    for p in sig_paras:
+        txt = (p.text or "")
+        if "Signature" not in txt:
+            continue
+        m = underscore_re.search(txt)
+        if m and len(m.group(0)) > underscore_len:
+            underscore_len = len(m.group(0))
+            best = p
+
+    if not best:
+        return
+
+    txt = best.text or ""
+    m = underscore_re.search(txt)
+    if not m:
+        return
+
+    # Rebuild line as: "Signature:" + space + name (script font) + space + remaining underscores
+    remaining = max(10, len(m.group(0)) - (len(signature_name) + 1))
+    line_fill = "_" * remaining if "_" in m.group(0) else "." * remaining
+
+    _clear_paragraph(best)
+
+    r1 = best.add_run("Signature:")
+    _set_run_font(r1, name="Calibri", size_pt=11, bold=True)
+
+    best.add_run(" ")
+
+    r2 = best.add_run(signature_name)
+    _set_run_font(r2, name=font_name, size_pt=11, bold=False)
+
+    best.add_run(" ")
+
+    r3 = best.add_run(line_fill)
+    _set_run_font(r3, name="Calibri", size_pt=11, bold=True)
 
 def generate_io_docx_bytes(
     template_path: Path,
@@ -1481,13 +1535,16 @@ def generate_io_docx_bytes(
     if not signature_name:
         signature_name = advertiser_contact
 
-    apply_signature_name(doc, signature_name)
+    # Signature applied at the end (after all content is filled) to avoid later overwrites.
 
     fill_media_buy_total_cell(doc, total_budget, pt_size=9, font_name="Calibri")
     fill_media_buy_rows(doc, line_items, pt_size=9, font_name="Calibri")
     fill_top_line_numbers(doc, total_budget, total_impressions, note="CPM: Mixed", pt_size=9, font_name="Calibri")
 
     set_document_styles(doc, pt_size=9, font_name="Calibri")
+
+    # Apply signature last so nothing else overwrites the Signature line.
+    apply_signature_name(doc, signature_name)
 
     out = BytesIO()
     doc.save(out)
@@ -1964,15 +2021,10 @@ with tab1:
                         if show_cols:
                             disp = prov_df[show_cols].copy()
                             if "coverage_pct" in disp.columns:
-                                disp["coverage_pct"] = pd.to_numeric(disp["coverage_pct"], errors="coerce").fillna(0.0)
-                            st.dataframe(
-                                disp,
-                                use_container_width=True,
-                                hide_index=True,
-                                column_config={
-                                    "coverage_pct": st.column_config.NumberColumn("coverage_pct", format="%.1f%%")
-                                } if "coverage_pct" in disp.columns else None,
-                            )
+                                disp["coverage_pct"] = pd.to_numeric(disp["coverage_pct"], errors="coerce").fillna(0.0).map(lambda x: f"{x:.1f}%")
+                            if "isolated_pct" in disp.columns:
+                                disp["isolated_pct"] = pd.to_numeric(disp["isolated_pct"], errors="coerce").fillna(0.0).map(lambda x: f"{x:.1f}%")
+                            st.dataframe(disp, use_container_width=True, hide_index=True)
                         else:
                             st.dataframe(prov_df, use_container_width=True, hide_index=True)
 
@@ -2395,7 +2447,7 @@ with tab3:
     st.markdown(
         """
         <div class="io-callout">
-          Please download the Insertion Order, sign it, and share it with your Sales Contact to confirm your campaign.
+          Please download the Insertion Order, and share it with your Sales Contact to confirm your campaign.
           Be sure to include the targeted location list and the selected DOOH placements, should you have it, when submitting.
           This ensures your campaign is ready for activation.
         </div>
