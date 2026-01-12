@@ -914,6 +914,137 @@ def build_vicinity_recommendation_store_to_store(stats: Dict) -> Tuple[str, str,
     return title, body, bullets
 
 
+
+# ------------------------------------------------------------
+# NEW: Media mix recommendation (DOOH vs Mobile) - rule based
+# ------------------------------------------------------------
+def build_media_mix_recommendation(
+    campaign_type: str,
+    dooh_selected_count: int,
+    mobile_selected_count: int,
+    dooh_budget: float,
+    mobile_budget: float,
+    prox_stats: Optional[Dict] = None,
+) -> Tuple[str, str, List[str]]:
+    """
+    Rule-based suggestion for an optimal DOOH/Mobile split.
+    - Uses proximity coverage (if available) as the primary signal.
+    - Falls back to selection volumes / CPM thresholds if proximity isn't available.
+    """
+    campaign_type = (campaign_type or "").strip()
+    dooh_selected_count = int(dooh_selected_count or 0)
+    mobile_selected_count = int(mobile_selected_count or 0)
+
+    total_budget = float(dooh_budget or 0.0) + float(mobile_budget or 0.0)
+    if total_budget <= 0:
+        total_budget = 0.0
+
+    cov = None
+    opp = None
+    if isinstance(prox_stats, dict) and prox_stats.get("mode") == "Store to DOOH":
+        try:
+            cov = int(prox_stats.get("coverage_pct"))
+        except Exception:
+            cov = None
+        try:
+            opp = int(prox_stats.get("opportunity_windows"))
+        except Exception:
+            opp = None
+
+    def pct(x: float) -> str:
+        try:
+            return f"{x:.0f}%"
+        except Exception:
+            return ""
+
+    # Suggested split (only meaningful for combo)
+    suggested_dooh_share = None
+    suggested_mobile_share = None
+
+    if campaign_type == "DOOH + Mobile":
+        # Priority: proximity coverage
+        if cov is not None:
+            if cov < 50:
+                suggested_dooh_share, suggested_mobile_share = 35, 65
+                reason = "DOOH coverage is patchy at the selected radius, so Mobile should carry delivery in the gaps."
+            elif cov < 60:
+                suggested_dooh_share, suggested_mobile_share = 45, 55
+                reason = "Coverage is workable but uneven; keep a slight Mobile bias to protect reach where DOOH drops off."
+            elif cov < 75:
+                suggested_dooh_share, suggested_mobile_share = 55, 45
+                reason = "Coverage is strong across most locations; lean into DOOH while Mobile protects the long tail."
+            else:
+                suggested_dooh_share, suggested_mobile_share = 65, 35
+                reason = "Coverage is very strong; DOOH can be the backbone, with Mobile used for reinforcement and retargeting."
+        else:
+            # Fallback: selection volume / CPM thresholds
+            dooh_good = dooh_selected_count >= 50
+            mob_good = mobile_selected_count >= 50
+
+            if dooh_good and mob_good:
+                suggested_dooh_share, suggested_mobile_share = 60, 40
+                reason = "Both channels have healthy selection volumes (50+), so you can lean into DOOH with Mobile as support."
+            elif (not dooh_good) and mob_good:
+                suggested_dooh_share, suggested_mobile_share = 40, 60
+                reason = "DOOH selection is under 50, so Mobile should carry more delivery until DOOH inventory is expanded."
+            elif dooh_good and (not mob_good):
+                suggested_dooh_share, suggested_mobile_share = 60, 40
+                reason = "DOOH selection is strong, but Mobile locations are under 50; keep DOOH heavier and expand Mobile coverage for efficiency."
+            else:
+                suggested_dooh_share, suggested_mobile_share = 50, 50
+                reason = "Both selections are under 50; start balanced and then optimise once coverage/locations expand."
+
+        title = "Recommended DOOH + Mobile mix (rule-based)"
+        body = f"Suggested split: {pct(suggested_dooh_share)} DOOH / {pct(suggested_mobile_share)} Mobile. {reason}"
+
+        bullets = []
+        # Ground the recommendation in what the user selected
+        if cov is not None:
+            bullets.append(f"DOOH proximity coverage (from Proximity tab): {cov}% of your locations have nearby DOOH at the selected radius.")
+            if opp is not None and opp > 0:
+                bullets.append(f"Gap coverage: {opp} locations have zero nearby DOOH at this radius — Mobile should cover these areas.")
+        else:
+            bullets.append(f"Selections: {dooh_selected_count} DOOH site(s) and {mobile_selected_count} Mobile location(s).")
+
+        # Efficiency nudge (CPM thresholds in your model)
+        if dooh_selected_count > 0 and dooh_selected_count < 50:
+            bullets.append("DOOH efficiency: you are below the 50-site threshold, so CPM is higher — consider expanding DOOH selections if possible.")
+        if mobile_selected_count > 0 and mobile_selected_count < 50:
+            bullets.append("Mobile efficiency: you are below the 50-location threshold, so CPM is higher — consider adding locations if possible.")
+
+        bullets.append("Practical setup: use DOOH for high-impact reach around dense areas, and Mobile for gap coverage, frequency protection, and retargeting.")
+
+        return title, body, bullets
+
+    # Single-channel campaigns: provide a “what you’re missing” suggestion
+    if campaign_type == "DOOH":
+        title = "Channel mix note"
+        if cov is not None and cov < 60:
+            body = "You’ve selected DOOH-only, but your proximity coverage suggests meaningful gaps. Consider adding Mobile to protect delivery in areas without nearby DOOH."
+        elif dooh_selected_count < 50:
+            body = "You’ve selected DOOH-only with fewer than 50 sites. Consider adding Mobile (or increasing DOOH selections) to improve delivery efficiency and fill gaps."
+        else:
+            body = "You’ve selected DOOH-only. If you need more precision or to cover locations without nearby screens, consider adding Mobile as a support layer."
+        bullets = []
+        if cov is not None:
+            bullets.append(f"DOOH coverage: {cov}% of locations have nearby DOOH at the selected radius.")
+            if opp is not None and opp > 0:
+                bullets.append(f"Gap list: {opp} locations have zero nearby DOOH — Mobile can cover these areas.")
+        return title, body, bullets
+
+    if campaign_type == "Mobile":
+        title = "Channel mix note"
+        body = "You’ve selected Mobile-only. If your strategy needs high-impact reach around key locations (and you have nearby inventory), add DOOH as the awareness backbone."
+        bullets = []
+        if cov is not None:
+            bullets.append(f"DOOH coverage (from Proximity tab): {cov}% of locations have nearby DOOH at the selected radius.")
+            bullets.append("If coverage is high, DOOH can efficiently build saliency while Mobile protects frequency and precision.")
+        else:
+            bullets.append("Tip: run 'Store to DOOH' proximity on Tab 1 to quantify DOOH coverage, then decide whether DOOH should be added as a reach layer.")
+        return title, body, bullets
+
+    # Default fallback
+    return "Channel mix note", "Select a campaign type to see a recommended mix.", []
 # ------------------------------------------------------------
 # DOCX generation helpers (FONT FIX)
 # ------------------------------------------------------------
@@ -1205,6 +1336,84 @@ def fill_special_instructions(doc: "Document", special_instructions: str, pt_siz
     return False
 
 
+
+def apply_signature_name(doc: "Document", signature_name: str, font_name: str = "Segoe Script") -> None:
+    """
+    Writes a typed signature name into the DOCX in a cursive/script font.
+
+    Looks for a placeholder token first (recommended in template):
+      {{SIGNATURE_NAME}}
+
+    If no placeholder exists, it will try to find a 'Signature' label and place the name on the next line
+    if that line looks like a signature line (dots/underscores).
+    """
+    if not signature_name:
+        return
+
+    signature_name = str(signature_name).strip()
+    if not signature_name:
+        return
+
+    placeholders = ["{{SIGNATURE_NAME}}", "[SIGNATURE_NAME]", "<<SIGNATURE_NAME>>"]
+
+    def _set_paragraph_text(p, new_text: str) -> None:
+        # Remove existing runs
+        for r in list(p.runs):
+            try:
+                p._element.remove(r._element)
+            except Exception:
+                pass
+        run = p.add_run(new_text)
+        try:
+            run.font.name = font_name
+        except Exception:
+            pass
+        try:
+            run.font.size = Pt(14)
+        except Exception:
+            pass
+
+    def _replace_in_paragraph(p) -> bool:
+        txt = p.text or ""
+        for ph in placeholders:
+            if ph in txt:
+                _set_paragraph_text(p, txt.replace(ph, signature_name))
+                return True
+        return False
+
+    def _looks_like_signature_line(txt: str) -> bool:
+        t = (txt or "").strip()
+        if not t:
+            return False
+        # common "sign here" lines
+        return ("...." in t) or ("____" in t) or ("—" in t) or ("-" * 5 in t)
+
+    # 1) Replace placeholders in paragraphs
+    for p in doc.paragraphs:
+        if _replace_in_paragraph(p):
+            return
+
+    # 2) Replace placeholders in tables
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for p in cell.paragraphs:
+                    if _replace_in_paragraph(p):
+                        return
+
+    # 3) Fallback: try to place signature_name on the line after a "Signature" label
+    paras = list(doc.paragraphs)
+    for i, p in enumerate(paras[:-1]):
+        label = (p.text or "").lower()
+        if "signature" in label:
+            nxt = paras[i + 1]
+            if _looks_like_signature_line(nxt.text):
+                # Prepend signature name to the signature line
+                new_txt = f"{signature_name}  {nxt.text or ''}"
+                _set_paragraph_text(nxt, new_txt)
+                return
+
+
 def generate_io_docx_bytes(
     template_path: Path,
     advertiser_name: str,
@@ -1221,6 +1430,7 @@ def generate_io_docx_bytes(
     billing_email: str,
     sales_contact_name: str,
     sales_contact_email: str,
+    signature_name: str,
     special_instructions: str,
     line_items: List[Dict],
     total_budget: float,
@@ -1267,6 +1477,11 @@ def generate_io_docx_bytes(
 
     fill_sales_contact_block(doc, sales_contact_name, sales_contact_email)
     fill_special_instructions(doc, special_instructions, pt_size=9, font_name="Calibri")
+    # Use Advertiser Contact as the typed signature name by default
+    if not signature_name:
+        signature_name = advertiser_contact
+
+    apply_signature_name(doc, signature_name)
 
     fill_media_buy_total_cell(doc, total_budget, pt_size=9, font_name="Calibri")
     fill_media_buy_rows(doc, line_items, pt_size=9, font_name="Calibri")
@@ -1741,6 +1956,26 @@ with tab1:
                     with st.expander("Top DOOH networks near your locations (unique sites)", expanded=False):
                         st.dataframe(stats["top_networks"], use_container_width=True)
 
+                # NEW: Province table (only if Province is available in the uploaded data)
+                prov_df = stats.get("province_insights")
+                if isinstance(prov_df, pd.DataFrame) and not prov_df.empty:
+                    with st.expander("Province breakdown (coverage by province)", expanded=False):
+                        show_cols = [c for c in prov_df.columns if c in ["Province", "locations", "covered", "coverage_pct", "avg_sites"] or c.startswith("isolated")]
+                        if show_cols:
+                            disp = prov_df[show_cols].copy()
+                            if "coverage_pct" in disp.columns:
+                                disp["coverage_pct"] = pd.to_numeric(disp["coverage_pct"], errors="coerce").fillna(0.0)
+                            st.dataframe(
+                                disp,
+                                use_container_width=True,
+                                hide_index=True,
+                                column_config={
+                                    "coverage_pct": st.column_config.NumberColumn("coverage_pct", format="%.1f%%")
+                                } if "coverage_pct" in disp.columns else None,
+                            )
+                        else:
+                            st.dataframe(prov_df, use_container_width=True, hide_index=True)
+
         if show_summary:
             st.subheader("Results (summary)")
             st.dataframe(summary_df, use_container_width=True, hide_index=True)
@@ -1785,6 +2020,33 @@ with tab2:
 
     dooh_budget = float(st.session_state.get("budget_dooh", 200000.0))
     mobile_budget = float(st.session_state.get("budget_mobile", 150000.0))
+
+    # ------------------------------------------------------------
+    # Recommended DOOH + Mobile mix (based on your selection + proximity coverage if available)
+    # ------------------------------------------------------------
+    prox = st.session_state.get("prox_results")
+    prox_stats = None
+    try:
+        if isinstance(prox, dict) and prox.get("mode") == "Store to DOOH":
+            _sum = prox.get("summary_df")
+            _pair = prox.get("pairwise_df")
+            _rad = int(prox.get("radius", 0) or 0)
+            if isinstance(_sum, pd.DataFrame) and not _sum.empty and _rad > 0:
+                prox_stats = compute_insight_stats(_sum, _pair if isinstance(_pair, pd.DataFrame) else None, "Store to DOOH", _rad)
+    except Exception:
+        prox_stats = None
+
+    mix_title, mix_body, mix_bullets = build_media_mix_recommendation(
+        campaign_type=campaign_type,
+        dooh_selected_count=dooh_selected_count,
+        mobile_selected_count=mobile_selected_count,
+        dooh_budget=float(dooh_budget or 0.0),
+        mobile_budget=float(mobile_budget or 0.0),
+        prox_stats=prox_stats,
+    )
+
+    render_recommendation_box(mix_title, mix_body, mix_bullets)
+
 
     base_total_budget = 0.0
     base_total_imps = 0.0
@@ -2046,7 +2308,11 @@ with tab2:
         st.info("Add at least 1 additional row if you want extra line items included in the IO.")
 
 
-# ============================================================
+
+    # ------------------------------------------------------------
+    # NEW: Best-practice DOOH vs Mobile mix (based on your selections + proximity coverage if available)
+    # ------------------------------------------------------------
+    # ============================================================
 # TAB 3: Insertion Order (DOCX)
 # ============================================================
 with tab3:
@@ -2114,6 +2380,17 @@ with tab3:
             disabled=True,
         )
 
+    
+    # Special instructions (optional) - used in the IO template
+    st.subheader("Special instructions (optional)")
+    special_instructions = st.text_area(
+        "Special instructions",
+        value=st.session_state.get("special_instructions", ""),
+        key="special_instructions",
+        height=100,
+        help="This will be inserted into the Special Instructions section of the Insertion Order.",
+    )
+
     # FIX: ensure the sentence renders on Streamlit Cloud (HTML callout)
     st.markdown(
         """
@@ -2126,10 +2403,15 @@ with tab3:
         unsafe_allow_html=True,
     )
 
-    st.subheader("Special instructions")
-    special_instructions = st.text_area("Special instructions (e.g., Landing Page Actions: Drive, Map)", value="", height=90)
 
-    campaign_type = st.session_state.get("campaign_type", "DOOH")
+    st.subheader("Signature")
+    # Signature name should match the "Advertiser Contact" field
+    signature_name = (advertiser_contact or "").strip()
+    if signature_name:
+        st.caption(f"Signature will use Advertiser Contact: {signature_name}")
+    else:
+        st.warning("Please enter an Advertiser Contact above — this name will be used for the signature on the IO.")
+
     dooh_budget = float(st.session_state.get("budget_dooh", 0.0))
     mobile_budget = float(st.session_state.get("budget_mobile", 0.0))
     dooh_count = int(st.session_state.get("selected_sites_count_dooh", 0))
@@ -2276,8 +2558,9 @@ with tab3:
 
                 sales_contact_name=sales_contact_name.strip(),
                 sales_contact_email=sales_contact_email.strip(),
+                signature_name=signature_name.strip(),
 
-                special_instructions=special_instructions.strip(),
+                special_instructions=str(st.session_state.get('special_instructions','')).strip(),
                 line_items=line_items,
                 total_budget=float(total_budget),
                 total_impressions=int(total_impressions),
@@ -2294,5 +2577,6 @@ with tab3:
 
         except Exception as e:
             st.error(f"Could not generate IO: {e}")
+
 
 
